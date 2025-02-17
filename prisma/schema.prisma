@@ -1,0 +1,157 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String    @id @default(uuid()) @map("_id")
+  name               String
+  email              String    @unique
+  emailLowercase     String    @unique
+  emailVerified      DateTime?
+  password           String
+  image              String?
+  imageFile          String?
+  role               Role      @default(USER)
+  resetToken         String?
+  resetTokenExpiry   DateTime?
+  twoFactorEnabled   Boolean   @default(false)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  articles           Article[]
+  activityLogs       ActivityLog[]
+  emailVerifications EmailVerification[]
+  twoFactorAuth      TwoFactorAuth[]
+  legalDrafts LegalDraft[]
+  notes       Note[]
+}
+
+model Article {
+  id                  String   @id @default(uuid()) @map("_id")
+  title               String
+  content             String
+  categoryId          String
+  category            Category @relation(fields: [categoryId], references: [id])
+  status              Status   @default(DRAFT)
+  imageUrl            String?
+  imageFile           String?
+  videoUrl            String?
+  author              User?     @relation(fields: [authorId], references: [id])
+  authorId            String?
+  scheduledPublishDate DateTime?
+  approvalComments    String?
+  views               Int      @default(0)
+  likes               Int      @default(0)
+  shares              Int      @default(0)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model Advertisement {
+  id        String   @id @default(uuid()) @map("_id")
+  image     String?
+  imageFile String?
+  link      String
+  placement AdPlacement
+  startDate DateTime
+  endDate   DateTime
+  views     Int      @default(0)
+  clicks    Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid()) @map("_id")
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  action    String
+  details   String?
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  slug        String    @unique
+  description String?
+  parentId    String?   @db.ObjectId
+  parent      Category? @relation("SubCategories", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  children    Category[] @relation("SubCategories")
+  articles    Article[]
+  notes       Note[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum Role {
+  USER
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+  MANAGER
+}
+
+enum Status {
+  DRAFT
+  PENDING
+  PUBLISHED
+  REJECTED
+  SCHEDULED
+}
+
+enum AdPlacement {
+  SIDEBAR
+  TOP_BANNER
+  // IN_ARTICLE
+  // FOOTER
+}
+
+
+model EmailVerification {
+  id        String   @id @default(uuid()) @map("_id")
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model TwoFactorAuth {
+  id        String   @id @default(uuid()) @map("_id")
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model LegalDraft {
+  id          String   @id @default(uuid()) @map("_id")
+  title       String
+  content     String
+  category    String
+  fileUrl     String?
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Note {
+  id          String   @id @default(uuid()) @map("_id")
+  title       String
+  description String?
+  fileUrl     String
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  String   @db.ObjectId
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
+  downloads   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
