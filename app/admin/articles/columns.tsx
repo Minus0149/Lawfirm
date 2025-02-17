@@ -44,6 +44,7 @@ export const createColumns = (dateType: 'created' | 'updated', sortField: 'creat
  {
    accessorKey: "category",
    header: "Category",
+   cell: ({ row }) => row.original.category?.name || "Unknown",
  },
  {
    accessorKey: "status",

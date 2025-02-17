@@ -31,7 +31,7 @@ export default async function ArticleList({
   const sortField = dateType === 'updated' ? 'updatedAt' : 'createdAt'
 
   const where: any = {}
-  if (searchParams.category) where.category = searchParams.category as string
+  if (searchParams.category) where.category = { name: searchParams.category as string }
   if (searchParams.status) where.status = searchParams.status as string
   if (searchParams.userId) where.authorId = searchParams.userId
   if (searchParams.role) where.author = { role: searchParams.role as string }

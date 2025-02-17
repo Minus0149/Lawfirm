@@ -40,9 +40,10 @@ export function ArticleFilter() {
     const fetchCategories = async () => { 
       const response = await fetch('/api/categories')
       const data = await response.json()
-      setCategories(data)
+      setCategories(data.map((category: { name: string }) => category.name))
     }
     fetchUsers()
+    fetchCategories()
   }, [])
 
   const filteredUsers = users.filter(user => 
