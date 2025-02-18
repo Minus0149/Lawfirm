@@ -116,6 +116,12 @@ export function TopHeader() {
             </Button>
           </Link>
 
+          <Link href="/experiences">
+            <Button variant="ghost" size="sm">
+              Experiences
+            </Button>
+          </Link>
+
           {session && (
             <Link href="/api/auth/signout">
               <Button variant="ghost" size="sm">

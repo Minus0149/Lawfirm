@@ -28,6 +28,7 @@ model User {
   twoFactorAuth      TwoFactorAuth[]
   legalDrafts LegalDraft[]
   notes       Note[]
+  experiences Experience[]
 }
 
 model Article {
@@ -153,6 +154,22 @@ model Note {
   author      User     @relation(fields: [authorId], references: [id])
   authorId    String
   downloads   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Experience {
+  id          String   @id @default(uuid()) @map("_id")
+  name        String
+  age         Int
+  title       String
+  company     String
+  location    String
+  description String
+  startDate   DateTime
+  endDate     DateTime?
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

@@ -16,6 +16,10 @@ interface MobileHeaderProps {
   categories: Category[]
 }
 
+interface CategoryWithChildren extends Category {
+  children: CategoryWithChildren[]
+}
+
 export function MobileHeader({ categories }: MobileHeaderProps) {
   const { data: session } = useSession()
   const { theme, setTheme } = useTheme()
@@ -38,7 +42,28 @@ export function MobileHeader({ categories }: MobileHeaderProps) {
     )
   }
 
-  const renderCategories = (categories: Category[], level = 0) => {
+  const groupCategories = (categories: Category[]): CategoryWithChildren[] => {
+    const categoryMap = new Map<string, CategoryWithChildren>()
+    const rootCategories: CategoryWithChildren[] = []
+
+    categories.forEach((category) => {
+      const categoryWithChildren = { ...category, children: [] }
+      categoryMap.set(category.id, categoryWithChildren)
+
+      if (category.parentId) {
+        const parent = categoryMap.get(category.parentId)
+        if (parent) {
+          parent.children.push(categoryWithChildren)
+        }
+      } else {
+        rootCategories.push(categoryWithChildren)
+      }
+    })
+
+    return rootCategories
+  }
+
+  const renderCategories = (categories: CategoryWithChildren[], level = 0) => {
     return categories.map((category) => (
       <div key={category.id} className="border-b border-gray-200 last:border-0">
         <div className="flex items-center justify-between py-3 px-4">
@@ -49,7 +74,7 @@ export function MobileHeader({ categories }: MobileHeaderProps) {
           >
             {category.name}
           </Link>
-          {category.children && category.children.length > 0 && (
+          {category.children.length > 0 && (
             <button
               onClick={(e) => {
                 e.preventDefault()
@@ -66,23 +91,15 @@ export function MobileHeader({ categories }: MobileHeaderProps) {
             </button>
           )}
         </div>
-        {category.children && category.children.length > 0 && expandedCategories.includes(category.id) && (
-          <div className="bg-muted/50">
-            {category.children.map((subCategory) => (
-              <Link
-                key={subCategory.id}
-                href={`/${category.slug}/${subCategory.slug}`}
-                className="block py-3 px-8 border-b border-gray-200 last:border-0 hover:bg-muted"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {subCategory.name}
-              </Link>
-            ))}
-          </div>
+        {category.children.length > 0 && expandedCategories.includes(category.id) && (
+          <div className="bg-muted/50 pl-4">{renderCategories(category.children, level + 1)}</div>
         )}
       </div>
     ))
   }
+
+  const groupedCategories = groupCategories(categories)
+
 
   return (
     <header className="bg-background text-foreground border-b">
@@ -142,7 +159,7 @@ export function MobileHeader({ categories }: MobileHeaderProps) {
             </button>
           </div>
           <div className="h-[calc(100vh-4rem)] overflow-y-auto bg-background text-foreground">
-            {renderCategories(categories.filter((c) => !c.parentId))}
+            {renderCategories(groupedCategories)}
             <div className="border-t border-muted">
               <Link
                 href="/submit-article"
@@ -164,6 +181,13 @@ export function MobileHeader({ categories }: MobileHeaderProps) {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Notes
+              </Link>
+              <Link
+                href="/experiences"
+                className="block py-3 px-4 border-b border-muted hover:bg-muted"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Experiences
               </Link>
               {isAuthorized && (
                 <Link
