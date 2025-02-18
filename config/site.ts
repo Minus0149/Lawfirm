@@ -12,11 +12,24 @@ export const siteConfig = {
       linkedin: "https://linkedin.com/company/lexinvictus",
       instagram: "https://instagram.com/lexinvictus",
     },
-    mentorship: {
-      mentor: "Ranjeet Saw",
-      topmate: "https://topmate.io/ranjeet_saw",
-    },
     termsEffectiveDate: "February 16, 2026",
+    
+    mentors: [
+    {
+      name: "Ranjeet Saw",
+      role: "Legal Expert & Mentor",
+      photo: "/mentors/ranjeet-saw.jpg",
+      description: "Expert legal mentor with over 10 years of experience in corporate law and legal education.",
+      website: "https://topmate.io/ranjeet_saw",
+    },
+    {
+      name: "Sarah Johnson",
+      role: "Constitutional Law Specialist",
+      photo: "/mentors/sarah-johnson.jpg",
+      description: "Specialized in constitutional law with extensive experience in Supreme Court cases.",
+      website: "https://topmate.io/sarah_johnson",
+    },
+  ],
   }
   
 export type SiteConfig = typeof siteConfig

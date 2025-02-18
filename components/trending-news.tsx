@@ -141,7 +141,7 @@ export default function TrendingNews() {
               <div className="relative h-48 w-full rounded-md overflow-hidden">
                 {currentArticle.imageUrl || currentArticle.imageFile ? (
                   <Image
-                    src={currentArticle.imageUrl || `data:image/jpeg;base64,${currentArticle.imageFile instanceof Uint8Array ? Buffer.from(currentArticle.imageFile).toString('base64') : currentArticle.imageFile}`}
+                    src={currentArticle.imageUrl || `data:image/jpeg;base64,${currentArticle.imageFile ? Buffer.from(new Uint8Array(currentArticle.imageFile)).toString('base64') : ''}`}
                     alt={currentArticle.title}
                     fill
                     className="object-cover"

@@ -1,20 +1,20 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Editor } from "@/components/editor"
 import { toast } from "@/components/ui/use-toast"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
 export default function EditCategoryPage({ params }: { params: { id: string } }) {
   const router = useRouter()
   const [category, setCategory] = useState<any>(null)
+  const [description, setDescription] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [parentCategories, setParentCategories] = useState<any[]>([])
 
@@ -25,6 +25,7 @@ export default function EditCategoryPage({ params }: { params: { id: string } })
         if (!response.ok) throw new Error("Failed to fetch category")
         const data = await response.json()
         setCategory(data)
+        setDescription(data.description || "")
       } catch (error) {
         console.error("Error fetching category:", error)
         toast({ title: "Error fetching category", variant: "destructive" })
@@ -52,7 +53,12 @@ export default function EditCategoryPage({ params }: { params: { id: string } })
     setIsLoading(true)
 
     const formData = new FormData(e.currentTarget)
-    const updatedCategory = Object.fromEntries(formData)
+    const updatedCategory = {
+      name: formData.get("name"),
+      slug: formData.get("slug"),
+      description: description,
+      parentId: formData.get("parentId"),
+    }
 
     try {
       const response = await fetch(`/api/categories/${params.id}`, {
@@ -89,18 +95,17 @@ export default function EditCategoryPage({ params }: { params: { id: string } })
         </div>
         <div>
           <Label htmlFor="description">Description</Label>
-          <Textarea id="description" name="description" defaultValue={category.description} />
+          <Editor value={description} onChange={setDescription} placeholder="Write category description here..." />
         </div>
         <div>
           <Label htmlFor="parentId">Parent Category</Label>
           <Select name="parentId" defaultValue={category.parentId || "0"}>
-            {" "}
-            {/* Changed default value */}
             <SelectTrigger>
               <SelectValue placeholder="Select parent category" />
             </SelectTrigger>
             <SelectContent>
               <ScrollArea className="h-[200px]">
+                <SelectItem value="0">None</SelectItem>
                 {parentCategories.map((parentCategory) => (
                   <SelectItem key={parentCategory.id} value={parentCategory.id}>
                     {parentCategory.name}

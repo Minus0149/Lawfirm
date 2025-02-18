@@ -38,14 +38,16 @@ export function Editor({ value, onChange, placeholder }: EditorProps) {
   }
 
   return (
-    <QuillEditor
-      theme="snow"
-      value={value}
-      onChange={onChange}
-      modules={modules}
-      placeholder={placeholder}
-      className="min-h-[300px]"
-    />
+    <div className="h-[400px] border rounded-md">
+      <QuillEditor
+        theme="snow"
+        value={value}
+        onChange={onChange}
+        modules={modules}
+        placeholder={placeholder}
+        className="h-[89%] rounded-md"
+      />
+    </div>
   )
 }
 

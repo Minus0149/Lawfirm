@@ -2,8 +2,8 @@ export interface Category {
     id: string
     name: string
     slug: string
-    description?: string
-    parentId?: string
+    description?: string | null
+    parentId?: string | null
     children?: Category[]
     createdAt: Date
     updatedAt: Date

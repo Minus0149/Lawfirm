@@ -21,7 +21,6 @@ export async function GET(request: Request) {
     if (!ad) {
       return NextResponse.json({ error: "No active advertisement found" }, { status: 404 })
     }
-    console.log("Advertisement found:", ad)
     return NextResponse.json(ad)
   } catch (error) {
     console.error("Error fetching advertisement:", error)

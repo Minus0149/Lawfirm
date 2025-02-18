@@ -1,83 +1,56 @@
-"use client"
-
-import type React from "react"
-
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { prisma } from "@/lib/prisma"
+import Link from "next/link"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Editor } from "@/components/editor"
+import { FileIcon } from "lucide-react"
 
-export default function LegalDraftsPage() {
-  const router = useRouter()
-  const [content, setContent] = useState("")
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-
-    try {
-      const formData = new FormData(e.currentTarget)
-      formData.append("content", content)
-
-      const response = await fetch("/api/legal-drafts", {
-        method: "POST",
-        body: formData,
-      })
-
-      if (!response.ok) throw new Error("Failed to submit legal draft")
-
-      router.push("/submission-success")
-    } catch (error) {
-      console.error("Error submitting legal draft:", error)
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
+export default async function LegalDraftsPage() {
+  const legalDrafts = await prisma.legalDraft.findMany({
+    include: {
+      author: {
+        select: { name: true },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  })
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold text-primary mb-6">Submit Legal Draft</h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
-            <Input id="title" name="title" required />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="category">Category</Label>
-            <Select name="category" required>
-              <SelectTrigger>
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="contract">Contract</SelectItem>
-                <SelectItem value="agreement">Agreement</SelectItem>
-                <SelectItem value="motion">Motion</SelectItem>
-                <SelectItem value="pleading">Pleading</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="content">Content</Label>
-            <Editor value={content} onChange={setContent} placeholder="Write your legal draft content here..." />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="file">Attachments (optional)</Label>
-            <Input id="file" name="file" type="file" accept=".pdf,.doc,.docx" />
-          </div>
-
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Submit Legal Draft"}
-          </Button>
-        </form>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Legal Drafts</h1>
+        <Link href="/legal-drafts/new">
+          <Button>Create New Draft</Button>
+        </Link>
+      </div>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {legalDrafts.map((draft) => (
+          <Card key={draft.id}>
+            <CardHeader>
+              <CardTitle>
+                <Link href={`/legal-drafts/${draft.id}`} className="hover:text-primary">
+                  {draft.title}
+                </Link>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground mb-4">{draft.content.substring(0, 150)}...</p>
+              <div className="flex justify-between items-center text-sm text-muted-foreground">
+                <span>By {draft.author?.name || "Unknown"}</span>
+                <span>{draft.category}</span>
+              </div>
+              {draft.fileUrl && (
+                <a
+                  href={draft.fileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center mt-2 text-primary hover:underline"
+                >
+                  <FileIcon className="w-4 h-4 mr-1" /> Attachment
+                </a>
+              )}
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   )

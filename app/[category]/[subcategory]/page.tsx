@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export async function generateStaticParams() {
   const categories = await prisma.category.findMany({
-    where: { parentId: null },
     include: {
       children: {
         select: { slug: true },
@@ -14,22 +13,26 @@ export async function generateStaticParams() {
     },
   })
 
-  return categories.flatMap((category) =>
-    category.children.map((subcategory) => ({
+  const params = categories.flatMap((category) => [
+    { category: category.slug },
+    ...category.children.map((subcategory) => ({
       category: category.slug,
-      subcategory: subcategory.slug,
+      subcategory: [subcategory.slug],
     })),
-  )
+  ])
+
+  return params
 }
 
-export default async function SubcategoryPage({ params }: { params: { category: string; subcategory: string } }) {
-  const subcategory = await prisma.category.findFirst({
+export default async function CategoryPage({ params }: { params: { category: string; subcategory?: string[] } }) {
+  const slug = params.subcategory ? params.subcategory[0] : params.category
+  const category = await prisma.category.findFirst({
     where: {
-      slug: params.subcategory,
-      parent: { slug: params.category },
+      OR: [{ slug: slug }, { AND: [{ parent: { slug: params.category } }, { slug: slug }] }],
     },
     include: {
       parent: true,
+      children: true,
       articles: {
         where: { status: "PUBLISHED" },
         include: {
@@ -42,20 +45,36 @@ export default async function SubcategoryPage({ params }: { params: { category: 
     },
   })
 
-  if (!subcategory) {
+  if (!category) {
     notFound()
   }
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-6">{subcategory.name}</h1>
-      <p className="mb-4">
-        <Link href={`/${subcategory.parent?.slug}`} className="text-primary hover:underline">
-          Back to {subcategory.parent?.name}
-        </Link>
-      </p>
+      <h1 className="text-3xl font-bold mb-6">{category.name}</h1>
+      {category.parent && (
+        <p className="mb-4">
+          <Link href={`/${category.parent.slug}`} className="text-primary hover:underline">
+            Back to {category.parent.name}
+          </Link>
+        </p>
+      )}
+      {category.children.length > 0 && (
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold mb-4">Subcategories</h2>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {category.children.map((subCategory) => (
+              <Link key={subCategory.id} href={`/${category.slug}/${subCategory.slug}`}>
+                <div className="p-4 border rounded-lg hover:bg-gray-100 transition-colors">
+                  <h3 className="text-lg font-medium">{subCategory.name}</h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {subcategory.articles.map((article) => (
+        {category.articles.map((article) => (
           <Card key={article.id}>
             <div className="relative w-full h-48 mb-4">
               <Image

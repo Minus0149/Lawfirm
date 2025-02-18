@@ -2,17 +2,41 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { prisma } from "@/lib/prisma"
+import { Category } from "@prisma/client"
+import { ScrollArea } from "@/components/ui/scroll-area"
+
+interface UploadNotePageProps {
+  categories: Category[];
+}
 
 export default function UploadNotePage() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [categories, setCategories] = useState<Category[]>([])
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("/api/categories")
+        const data = await response.json()
+        
+        setCategories(data.filter((category: Category) => category.name.toLocaleLowerCase().includes("note")))
+      } catch (error) {
+        console.error("Error fetching categories:", error)
+      }
+    }
+
+    fetchCategories()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -20,6 +44,7 @@ export default function UploadNotePage() {
 
     try {
       const formData = new FormData(e.currentTarget)
+      formData.append("category", selectedCategory || "")
 
       const response = await fetch("/api/notes", {
         method: "POST",
@@ -35,6 +60,7 @@ export default function UploadNotePage() {
       setIsSubmitting(false)
     }
   }
+  console.log(categories) 
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -52,15 +78,18 @@ export default function UploadNotePage() {
 
         <div className="space-y-2">
           <Label htmlFor="category">Category</Label>
-          <Select name="category" required>
+          <Select onValueChange={setSelectedCategory} required>
             <SelectTrigger>
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
-              {/* Add your categories here */}
-              <SelectItem value="law-notes">Law Notes</SelectItem>
-              <SelectItem value="case-briefs">Case Briefs</SelectItem>
-              <SelectItem value="exam-materials">Exam Materials</SelectItem>
+              <ScrollArea>
+              {categories?.map((category: Category) => (
+                <SelectItem key={category.id} value={category.id}>
+                  {category.name}
+                </SelectItem>
+              ))}
+              </ScrollArea>
             </SelectContent>
           </Select>
         </div>
@@ -77,4 +106,3 @@ export default function UploadNotePage() {
     </div>
   )
 }
-

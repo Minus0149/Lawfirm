@@ -3,33 +3,35 @@ import { prisma } from "@/lib/prisma"
 
 export async function GET() {
   try {
-    const [categories, totalCategories] = await Promise.all([
-      prisma.category.findMany({
-        include: {
-          parent: {
-            select: { name: true },
-          },
-          _count: {
-            select: { articles: true },
+    const categories = await prisma.category.findMany({
+      include: {
+        parent: {
+          select: { id: true, name: true, slug: true },
+        },
+        children: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            description: true,
           },
         },
-        orderBy: { createdAt: "desc" },
-      }),
-      prisma.category.count(),
-    ])
-    // const categories = await prisma.category.findMany({
-    //   include: {
-    //     parent: {
-    //       select: { name: true },
-    //     },
-    //     _count: {
-    //       select: { articles: true },
-    //     },
-    //   },
-    //   orderBy: { createdAt: "desc" },
-    // })
+        _count: {
+          select: { articles: true },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    })
 
-    return NextResponse.json(categories)
+    // Organize categories into a hierarchical structure
+    const organizedCategories = categories
+      .filter((category) => !category.parent)
+      .map((category) => ({
+        ...category,
+        children: categories.filter((child) => child.parent?.id === category.id),
+      }))
+
+    return NextResponse.json(organizedCategories)
   } catch (error) {
     console.error("Error fetching categories:", error)
     return NextResponse.json({ error: "Failed to fetch categories" }, { status: 500 })
@@ -41,12 +43,28 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { name, slug, description, parentId } = body
 
+    // Validate that the parent category exists if parentId is provided
+    if (parentId) {
+      const parentCategory = await prisma.category.findUnique({
+        where: { id: parentId },
+      })
+
+      if (!parentCategory) {
+        return NextResponse.json({ error: "Parent category not found" }, { status: 404 })
+      }
+    }
+
     const category = await prisma.category.create({
       data: {
         name,
         slug,
         description,
-        parentId: parentId || null,
+        parentId: parentId === "0" ? null : parentId,
+      },
+      include: {
+        parent: {
+          select: { name: true },
+        },
       },
     })
 

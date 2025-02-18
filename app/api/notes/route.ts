@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server"
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "../auth/[...nextauth]/route"
 import { prisma } from "@/lib/prisma"
 import { uploadFile } from "@/lib/upload"
 
@@ -9,7 +11,7 @@ export async function GET(request: Request) {
   const skip = (page - 1) * limit
 
   try {
-    const legalDrafts = await prisma.legalDraft.findMany({
+    const notes = await prisma.note.findMany({
       skip,
       take: limit,
       orderBy: { createdAt: "desc" },
@@ -20,10 +22,10 @@ export async function GET(request: Request) {
       },
     })
 
-    const total = await prisma.legalDraft.count()
+    const total = await prisma.note.count()
 
     return NextResponse.json({
-      legalDrafts,
+      notes,
       meta: {
         total,
         page,
@@ -32,40 +34,44 @@ export async function GET(request: Request) {
       },
     })
   } catch (error) {
-    console.error("Error fetching legal drafts:", error)
-    return NextResponse.json({ error: "Failed to fetch legal drafts" }, { status: 500 })
+    console.error("Error fetching notes:", error)
+    return NextResponse.json({ error: "Failed to fetch notes" }, { status: 500 })
   }
 }
 
-
 export async function POST(request: Request) {
   try {
+    const session = await getServerSession(authOptions)
+
+    if (!session) {
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 })
+    }
+
     const formData = await request.formData()
     const title = formData.get("title") as string
     const content = formData.get("content") as string
-    const category = formData.get("category") as string
-    const authorId = formData.get("authorId") as string
+    const categoryId = formData.get("categoryId") as string
     const file = formData.get("file") as File | null
 
-    let fileUrl = null
+    let fileUrl: string | null = null
     if (file) {
       fileUrl = await uploadFile(file)
     }
 
-    const legalDraft = await prisma.legalDraft.create({
+    const note = await prisma.note.create({
       data: {
         title,
         content,
-        category,
-        authorId,
-        fileUrl,
+        category: { connect: { id: categoryId } },
+        author: { connect: { id: session.user.id } }, // Connect author by id
+        fileUrl: fileUrl || "",
       },
     })
 
-    return NextResponse.json(legalDraft, { status: 201 })
+    return NextResponse.json(note, { status: 201 })
   } catch (error) {
-    console.error("Error creating legal draft:", error)
-    return NextResponse.json({ error: "Failed to create legal draft" }, { status: 500 })
+    console.error("Error creating note:", error)
+    return NextResponse.json({ error: "Failed to create note" }, { status: 500 })
   }
 }
 

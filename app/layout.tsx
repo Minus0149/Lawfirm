@@ -7,6 +7,7 @@ import { Suspense } from 'react'
 import { LoadingScreen } from '@/components/loading-screen'
 import { ConditionalHeader } from '@/components/conditional-header'
 import { ConditionalFooter } from '@/components/conditional-footer'
+import { prisma } from '@/lib/prisma'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -19,11 +20,13 @@ export const metadata = {
   description: 'Stay informed with the latest news and updates from TheHit.in',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
+  const categories = await prisma.category.findMany()
 
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
@@ -31,7 +34,7 @@ export default function RootLayout({
         <Providers>
           
             <Suspense fallback={<LoadingScreen />}>
-              <ConditionalHeader />
+              <ConditionalHeader categories={categories} />
             </Suspense>
           
           <main className="flex-1">

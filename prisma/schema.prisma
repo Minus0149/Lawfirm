@@ -136,8 +136,8 @@ model LegalDraft {
   content     String
   category    String
   fileUrl     String?
-  author      User     @relation(fields: [authorId], references: [id])
-  authorId    String
+  author      User?     @relation(fields: [authorId], references: [id])
+  authorId    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -145,6 +145,7 @@ model LegalDraft {
 model Note {
   id          String   @id @default(uuid()) @map("_id")
   title       String
+  content     String
   description String?
   fileUrl     String
   category    Category @relation(fields: [categoryId], references: [id])
