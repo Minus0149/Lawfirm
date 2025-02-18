@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { signIn } from 'next-auth/react'
+import { getSession, signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
@@ -28,6 +28,17 @@ export default function Login() {
       verificationInputRef.current?.focus()
     }
   }, [requiresVerification])
+
+  
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      const session = await getSession()
+      if (session) {
+        router.push('/')
+      }
+    }
+    checkAuthStatus()
+  }, [router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

@@ -116,16 +116,10 @@ export function TopHeader() {
             </Button>
           </Link>
 
-          {session ? (
+          {session && (
             <Link href="/api/auth/signout">
               <Button variant="ghost" size="sm">
                 Sign Out
-              </Button>
-            </Link>
-          ) : (
-            <Link href="/login">
-              <Button variant="ghost" size="sm">
-                Sign In
               </Button>
             </Link>
           )}

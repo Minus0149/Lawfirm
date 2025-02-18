@@ -174,23 +174,13 @@ export function MobileHeader({ categories }: MobileHeaderProps) {
                   Admin
                 </Link>
               )}
-              {session ? (
-                <Link
-                  href="/api/auth/signout"
-                  className="block py-3 px-4 border-b border-muted hover:bg-muted"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Sign Out
-                </Link>
-              ) : (
-                <Link
-                  href="/login"
-                  className="block py-3 px-4 border-b border-muted hover:bg-muted"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Sign In
-                </Link>
-              )}
+              {session && (
+            <Link href="/api/auth/signout">
+              <Button variant="ghost" size="sm">
+                Sign Out
+              </Button>
+            </Link>
+          )}
             </div>
           </div>
         </div>

@@ -116,7 +116,7 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
     const formData = new FormData()
     formData.append('title', title)
     formData.append('content', content)
-    formData.append('category', category?.id || '')
+    formData.append('categoryId', category?.id || '')
     if (imageFile) {
       formData.append('imageFile', imageFile)
       formData.set('imageLink', '')

@@ -32,7 +32,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     const formData = await req.formData()
     const title = formData.get('title') as string
     const content = formData.get('content') as string
-    const category = formData.get('category') as unknown as Category
+    const categoryId = formData.get('categoryId') as string
     const imageFile = formData.get('imageFile') as File | null
     const imageLink = formData.get('imageLink') as string | null
 
@@ -48,7 +48,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       data: { 
         title, 
         content, 
-        category: { connect: { id: category.id } },
+        categoryId,
         imageUrl: imageLink ? imageLink : '',
         imageFile: imageBuffer ? imageBuffer.toString('base64') : null,
         status: 'PENDING'  // Set all edited articles to PENDING
