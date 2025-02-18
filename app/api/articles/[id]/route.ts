@@ -11,9 +11,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   const { id } = params
   const article = await prisma.article.findUnique({
     where: { id },
-    include: { author: { select: { name: true } } }
+    include: { author: true, category: true }
   })
-
 
   if (!article) {
     return NextResponse.json({ message: "Article not found" }, { status: 404 })

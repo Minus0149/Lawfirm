@@ -9,7 +9,6 @@ import { toast } from "@/components/ui/use-toast"
 import { Article } from '@/types/article'
 import { ArticlePreview } from "@/components/article-preview"
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { incrementArticleViews } from '@/lib/article-utils'
 
 export default function ArticlePreviewPage({ params }: { params: { id: string } }) {
   const router = useRouter()
@@ -30,11 +29,6 @@ export default function ArticlePreviewPage({ params }: { params: { id: string } 
         const data = await response.json()
         setArticleData(data)
         setIsLoading(false) // Set loading to false after fetching data
-
-        // Increment article views
-        if (data) {
-          await incrementArticleViews(data.id)
-        }
       } catch (error) {
         console.error('Error fetching article data:', error)
         toast({

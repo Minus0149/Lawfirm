@@ -19,6 +19,7 @@ export const columns: ColumnDef<PendingArticle>[] = [
   {
     accessorKey: "category",
     header: "Category",
+    cell: ({ row }) => row.original.category.name ,
   },
   {
     accessorKey: "createdAt",

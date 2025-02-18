@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { useSession } from "next-auth/react"
 import { useTheme } from "next-themes"
 import { useRouter } from "next/navigation"
+import { ClientOnlyIcon } from "./client-only-icon"
 
 export function TopHeader() {
   const { data: session } = useSession()
@@ -72,7 +73,7 @@ export function TopHeader() {
                   onClick={closeSearch}
                   className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                 >
-                  <X className="h-5 w-5" />
+                  <ClientOnlyIcon icon={X} className="h-5 w-5" />
                 </button>
               </form>
             ) : (
@@ -81,7 +82,7 @@ export function TopHeader() {
                 className="hover:text-gray-300 transition-colors"
                 aria-label="Search"
               >
-                <Search className="h-5 w-5" />
+                <ClientOnlyIcon icon={Search} className="h-5 w-5 mt-1" />
               </button>
             )}
           </div>
@@ -92,7 +93,7 @@ export function TopHeader() {
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             aria-label="Toggle theme"
           >
-            {theme === "dark" ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+            <ClientOnlyIcon icon={theme === "dark" ? SunIcon : MoonIcon} className="h-5 w-5" />
           </Button>
 
           {isAuthorized && (

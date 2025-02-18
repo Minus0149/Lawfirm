@@ -8,9 +8,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "@/components/ui/use-toast"
-import { Category } from '@prisma/client'
+import { Category as PrismaCategory } from '@prisma/client'
 import Image from 'next/image'
 import { urlToBase64 } from '@/lib/imageUtils'
+
+interface Category extends PrismaCategory {
+  children?: Category[]
+}
 
 export default function EditArticlePage({ params }: { params: { id: string } }) {
   const router = useRouter()
@@ -23,6 +27,35 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+
+    const [categories, setCategories] = useState<Category[]>([])
+  
+    useEffect(() => {
+      // Helper function to flatten categories
+      function flattenCategories(categories: Category[]): Category[] {
+        return categories.reduce((acc: Category[], category: Category) => {
+          acc.push(category)
+          if (category.children && category.children.length > 0) {
+            acc.push(...flattenCategories(category.children))
+          }
+          return acc
+        }, [])
+      }
+  
+      // Fetch categories from your API or data source
+      async function fetchCategories() {
+        try {
+          const response = await fetch('/api/categories')
+          const data = await response.json()
+          const allCategories = flattenCategories(data)
+          setCategories(allCategories)
+        } catch (error) {
+          console.error('Error fetching categories:', error)
+        }
+      }
+      fetchCategories()
+    }, [])
+    
   useEffect(() => {
     const fetchArticle = async () => {
       try {
@@ -34,7 +67,7 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
         setTitle(article.title)
         setContent(article.content)
         setCategory(article.category)
-        setImagePreview(article.imageUrl || (article.imageFile ? `data:image/jpeg;base64,${Buffer.from(article.imageFile).toString('base64')}` : null))
+        setImagePreview(article.imageUrl || `data:image/jpeg;base64,${Array.isArray(article.imageFile) ? Buffer.from(article.imageFile).toString('base64') : article.imageFile}`)
       } catch (error) {
         console.error('Error fetching article:', error)
         setError('Failed to load article. Please try again.')
@@ -135,12 +168,12 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
             <SelectValue placeholder="Select a category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="LOCAL_NEWS">Local News</SelectItem>
-            <SelectItem value="INTERNATIONAL_NEWS">International News</SelectItem>
-            <SelectItem value="SPORTS">Sports</SelectItem>
-            <SelectItem value="ENTERTAINMENT">Entertainment</SelectItem>
-            <SelectItem value="TECHNOLOGY">Technology</SelectItem>
-            <SelectItem value="OPINION">Opinion</SelectItem>
+            {categories.map((category) => (
+              <SelectItem key={category.id} value={category.id}>
+              {category.name}
+              </SelectItem>
+            ))}
+
           </SelectContent>
         </Select>
       </div>
@@ -186,4 +219,3 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
     </form>
   )
 }
-

@@ -1,12 +1,18 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
-import { usePathname } from 'next/navigation'
-import { TopHeader } from './top-header'
-import { MainCategoriesHeader } from './main-categories-header'
-import { SubCategoriesHeader } from './sub-categories-header'
-import { MobileHeader } from './mobile-header'
+import { useState, useEffect } from "react"
+import { usePathname } from "next/navigation"
+import dynamic from "next/dynamic"
 import type { Category } from "@/types/category"
+
+const TopHeader = dynamic(() => import("./top-header").then((mod) => mod.TopHeader), { ssr: false })
+const MainCategoriesHeader = dynamic(() => import("./main-categories-header").then((mod) => mod.MainCategoriesHeader), {
+  ssr: false,
+})
+const SubCategoriesHeader = dynamic(() => import("./sub-categories-header").then((mod) => mod.SubCategoriesHeader), {
+  ssr: false,
+})
+const MobileHeader = dynamic(() => import("./mobile-header").then((mod) => mod.MobileHeader), { ssr: false })
 
 interface HeaderProps {
   categories: Category[]
@@ -15,43 +21,52 @@ interface HeaderProps {
 export function Header({ categories }: HeaderProps) {
   const [selectedParentSlug, setSelectedParentSlug] = useState<string | null>(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [isClient, setIsClient] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768) // Adjust this breakpoint as needed
+    setIsClient(true)
+    const checkMobile = () => {
+      const isMobileView = window.innerWidth < 768 // Adjust this breakpoint as needed
+      setIsMobile(isMobileView)
+      localStorage.setItem("isMobileView", JSON.stringify(isMobileView))
     }
 
-    handleResize() // Check initial size
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    const storedIsMobile = localStorage.getItem("isMobileView")
+    if (storedIsMobile !== null) {
+      setIsMobile(JSON.parse(storedIsMobile))
+    } else {
+      checkMobile()
+    }
+
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
   useEffect(() => {
-    const pathParts = pathname.split('/').filter(Boolean)
+    const pathParts = pathname.split("/").filter(Boolean)
     if (pathParts.length > 0) {
-      const parentCategory = categories.find(c => c.slug === pathParts[0])
+      const parentCategory = categories.find((c) => c.slug === pathParts[0])
       setSelectedParentSlug(parentCategory?.slug || null)
     } else {
       setSelectedParentSlug(null)
     }
   }, [pathname, categories])
 
-  // Organize categories into a hierarchical structure
-  const organizedCategories = categories.filter(c => !c.parentId).map(c => ({
-    ...c,
-    children: categories.filter(child => child.parentId === c.id)
-  }))
+  if (!isClient) {
+    return null // Return null on the server-side and during initial client-side render
+  }
 
   if (isMobile) {
-    return <MobileHeader categories={organizedCategories} />
+    return <MobileHeader categories={categories} />
   }
 
   return (
     <header>
       <TopHeader />
-      <MainCategoriesHeader categories={categories.filter(c => !c.parentId)} />
+      <MainCategoriesHeader categories={categories} />
       <SubCategoriesHeader categories={categories} selectedParentSlug={selectedParentSlug} />
     </header>
   )
 }
+

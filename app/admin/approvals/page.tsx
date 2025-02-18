@@ -27,7 +27,7 @@ export default async function ApprovalsPage({
    take: pageSize,
    skip: (page - 1) * pageSize,
    orderBy: { createdAt: 'desc' },
-   include: { author: { select: { name: true } }, category: true }
+   include: { author: true, category: true }
  })
 
  const totalArticles = await prisma.article.count({

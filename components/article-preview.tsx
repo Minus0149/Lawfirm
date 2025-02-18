@@ -33,7 +33,7 @@ export function ArticlePreview({ article }: ArticlePreviewProps) {
           </div>
         )}
         <p className="text-sm text-muted-foreground mb-4">
-          By {article?.author?.name} | {formatDate(new Date(article.createdAt))} | Category: {article.category.name}
+          By {article.author?.name ?? 'Unknown author'} | {formatDate(new Date(article.createdAt))} | Category: {article.category?.name ?? 'Unknown category'}
         </p>
         <div className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: article.content }} />
       </CardContent>
