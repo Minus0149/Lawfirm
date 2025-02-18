@@ -16,8 +16,8 @@ const inter = Inter({
 })
 
 export const metadata = {
-  title: 'TheHit.in - Latest News and Updates',
-  description: 'Stay informed with the latest news and updates from TheHit.in',
+  title: 'LexInvictus - the lawfirm you can trust',
+  description: 'LexInvictus is a law firm that provides legal services to clients in the areas of corporate and commercial law, real estate, intellectual property, and litigation.',
 }
 
 export default async function RootLayout({
