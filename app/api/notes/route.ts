@@ -51,6 +51,7 @@ export async function POST(request: Request) {
     const title = formData.get("title") as string
     const content = formData.get("content") as string
     const categoryId = formData.get("categoryId") as string
+    const description = formData.get("description") as string
     const file = formData.get("file") as File | null
 
     let fileUrl: string | null = null
@@ -65,6 +66,7 @@ export async function POST(request: Request) {
         category: { connect: { id: categoryId } },
         author: { connect: { id: session.user.id } }, // Connect author by id
         fileUrl: fileUrl || "",
+        description
       },
     })
 

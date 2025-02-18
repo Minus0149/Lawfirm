@@ -1,16 +1,16 @@
+import Link from "next/link"
 import { prisma } from "@/lib/prisma"
+import { Button } from "@/components/ui/button"
 import { DataTable } from "@/components/ui/data-table"
 import { columns } from "./columns"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
 
-export default async function AdminNotesPage() {
+export default async function NotesPage() {
   const notes = await prisma.note.findMany({
     include: {
-      category: {
+      author: {
         select: { name: true },
       },
-      author: {
+      category: {
         select: { name: true },
       },
     },
@@ -20,9 +20,9 @@ export default async function AdminNotesPage() {
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Manage Notes</h1>
+        <h1 className="text-3xl font-bold">Notes</h1>
         <Link href="/admin/notes/new">
-          <Button>Upload New Note</Button>
+          <Button>Create New Note</Button>
         </Link>
       </div>
       <DataTable columns={columns} data={notes} />

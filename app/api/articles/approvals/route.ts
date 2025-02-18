@@ -5,9 +5,6 @@ import { authOptions } from "../../auth/[...nextauth]/route"
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions)
-
-  console.log('User role:', session);
-
   if (!session || !session.user || !['SUPER_ADMIN', 'ADMIN', 'MANAGER'].includes(session.user.role)) {
     return NextResponse.json({ message: "Not authorized" }, { status: 403 })
   }

@@ -12,7 +12,7 @@ const navItems = [
   { href: '/admin/articles', label: 'Articles', roles: ['SUPER_ADMIN', 'ADMIN', 'EDITOR', 'MANAGER'] },
   { href: '/admin/users', label: 'Users', roles: ['SUPER_ADMIN', 'ADMIN'] },
   { href: '/admin/advertisements', label: 'Advertisements', roles: ['SUPER_ADMIN', 'ADMIN'] },
-  { href: '/admin/approvals', label: 'Approvals', roles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'EDITOR'] },
+  { href: '/admin/approvals', label: 'Approvals', roles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER'] },
   { href: '/admin/activity-log', label: 'Activity Log', roles: ['SUPER_ADMIN'] },
   { href: '/admin/analytics', label: 'Analytics', roles: ['SUPER_ADMIN', 'ADMIN'] },
   { href: '/admin/categories', label: 'Categories', roles: ['SUPER_ADMIN', 'ADMIN'] },

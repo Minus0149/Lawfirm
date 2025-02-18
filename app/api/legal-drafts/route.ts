@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { uploadFile } from "@/lib/upload"
+import { connect } from "http2"
+import { getServerSession } from "next-auth"
+import { authOptions } from "../auth/[...nextauth]/route"
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -39,6 +42,10 @@ export async function GET(request: Request) {
 
 
 export async function POST(request: Request) {
+  const session = await getServerSession(authOptions)
+  // if (!session) {
+  //   return NextResponse.json({ message: "Not authorized" }, { status: 403 })
+  // }
   try {
     const formData = await request.formData()
     const title = formData.get("title") as string
@@ -52,13 +59,31 @@ export async function POST(request: Request) {
       fileUrl = await uploadFile(file)
     }
 
+    
+
+    const user = await prisma.user.findUnique({
+      where: { email: 'user@lexinvictus.com' },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
     const legalDraft = await prisma.legalDraft.create({
       data: {
         title,
         content,
         category,
-        authorId,
+        authorId: session?.user.id? session.user.id : user.id,
         fileUrl,
+      },
+    })
+
+    await prisma.activityLog.create({
+      data: {
+      action: 'CREATE_LEGAL_DRAFT',
+      details: `Created legal draft: ${legalDraft.id}`,
+      userId: user.id,
       },
     })
 

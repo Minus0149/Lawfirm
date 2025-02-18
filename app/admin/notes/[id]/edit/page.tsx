@@ -12,28 +12,43 @@ import { Editor } from "@/components/editor"
 import { toast } from "@/components/ui/use-toast"
 import { Category } from "@prisma/client"
 
-export default function NewNotePage() {
+export default function EditNotePage({ params }: { params: { id: string } }) {
   const router = useRouter()
+  const [note, setNote] = useState<any>(null)
   const [content, setContent] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [categories, setCategories] = useState<any[]>([])
 
   useEffect(() => {
+    const fetchNote = async () => {
+      try {
+        const response = await fetch(`/api/notes/${params.id}`)
+        if (!response.ok) throw new Error("Failed to fetch note")
+        const data = await response.json()
+        setNote(data)
+        setContent(data.content)
+      } catch (error) {
+        console.error("Error fetching note:", error)
+        toast({ title: "Error fetching note", variant: "destructive" })
+      }
+    }
+
     const fetchCategories = async () => {
       try {
         const response = await fetch("/api/categories")
         if (!response.ok) throw new Error("Failed to fetch categories")
         const data = await response.json()
-      
         setCategories(data.filter((category: Category) => category.name.toLocaleLowerCase().includes("note")))
+        
       } catch (error) {
         console.error("Error fetching categories:", error)
         toast({ title: "Error fetching categories", variant: "destructive" })
       }
     }
 
+    fetchNote()
     fetchCategories()
-  }, [])
+  }, [params.id])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -42,39 +57,49 @@ export default function NewNotePage() {
     const formData = new FormData(e.currentTarget)
     formData.append("content", content)
 
+    const fileInput = e.currentTarget.querySelector('input[type="file"]') as HTMLInputElement
+      if (fileInput && fileInput.files && fileInput.files.length > 0) {
+        const file = fileInput.files[0]
+        formData.append("file", file, file.name)
+      } else {
+        formData.append("file", '')
+    }
+
     try {
-      const response = await fetch("/api/notes", {
-        method: "POST",
+      const response = await fetch(`/api/notes/${params.id}`, {
+        method: "PUT",
         body: formData,
       })
 
-      if (!response.ok) throw new Error("Failed to create note")
+      if (!response.ok) throw new Error("Failed to update note")
 
-      toast({ title: "Note created successfully" })
+      toast({ title: "Note updated successfully" })
       router.push("/admin/notes")
     } catch (error) {
-      console.error("Error creating note:", error)
-      toast({ title: "Error creating note", variant: "destructive" })
+      console.error("Error updating note:", error)
+      toast({ title: "Error updating note", variant: "destructive" })
     } finally {
       setIsLoading(false)
     }
   }
 
+  if (!note) return <div>Loading...</div>
+
   return (
     <div className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-6">Create New Note</h1>
+      <h1 className="text-3xl font-bold mb-6">Edit Note</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <Label htmlFor="title">Title</Label>
-          <Input id="title" name="title" required />
+          <Input id="title" name="title" defaultValue={note.title} required />
         </div>
         <div>
           <Label htmlFor="description">Description</Label>
-          <Textarea id="description" name="description" />
+          <Textarea id="description" name="description" defaultValue={note.description} />
         </div>
         <div>
           <Label htmlFor="categoryId">Category</Label>
-          <Select name="categoryId" required>
+          <Select name="categoryId" defaultValue={note.categoryId}>
             <SelectTrigger>
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
@@ -92,13 +117,14 @@ export default function NewNotePage() {
           <Editor value={content} onChange={setContent} placeholder="Write your note content here..." />
         </div>
         <div>
-          <Label htmlFor="file">Attachment</Label>
-          <Input id="file" name="file" type="file" accept=".pdf,.doc,.docx" required />
+          <Label htmlFor="file">Attachment (optional)</Label>
+          <Input id="file" name="file" type="file" accept=".pdf,.doc,.docx" />
         </div>
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? "Creating..." : "Create Note"}
+          {isLoading ? "Updating..." : "Update Note"}
         </Button>
       </form>
     </div>
   )
 }
+

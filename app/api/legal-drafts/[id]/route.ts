@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { deleteFile, uploadFile } from "@/lib/upload"
+import { getServerSession } from "next-auth"
+import { authOptions } from "../../auth/[...nextauth]/route"
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
@@ -23,7 +25,13 @@ export async function GET(request: Request, { params }: { params: { id: string }
     return NextResponse.json({ error: "Failed to fetch legal draft" }, { status: 500 })
   }
 }
+
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
+  
+  const session = await getServerSession(authOptions)
+    if (!session || !session.user || !['SUPER_ADMIN', 'ADMIN', 'MANAGER'].includes(session.user.role)) {
+      return NextResponse.json({ message: "Not authorized" }, { status: 403 })
+  }
   try {
     const formData = await request.formData()
     const title = formData.get("title") as string
@@ -37,26 +45,43 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     })
 
     let fileUrl = existingDraft?.fileUrl
-
     if (file) {
-      // Delete old file if it exists
+      // Delete old file if it exists and the new file is not an empty string
+      if (file.size > 0) {
       if (fileUrl) {
         await deleteFile(fileUrl)
       }
       fileUrl = await uploadFile(file)
+      } else {
+      fileUrl = existingDraft?.fileUrl
+      }
     }
 
-    const legalDraft = await prisma.legalDraft.update({
+    const legalDraft = await prisma.legalDraft.findUnique({
+      where: { id: params.id },
+    })
+
+    const updatedLegalDraft = await prisma.legalDraft.update({
       where: { id: params.id },
       data: {
         title,
         content,
         category,
         fileUrl,
+        ...(legalDraft?.authorId ? {} : { author: { connect: { id: session.user.id } } })
       },
     })
 
-    return NextResponse.json(legalDraft)
+    // Log the update action
+    await prisma.activityLog.create({
+      data: {
+        action: 'UPDATE_LEGAL_DRAFT',
+        details: `Updated legal draft: ${params.id}`,
+        userId:  session.user.id
+      }
+    })
+
+    return NextResponse.json(updatedLegalDraft)
   } catch (error) {
     console.error("Error updating legal draft:", error)
     return NextResponse.json({ error: "Failed to update legal draft" }, { status: 500 })
@@ -64,6 +89,11 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 }
 
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+  const session = await getServerSession(authOptions)
+    if (!session || !session.user || !['SUPER_ADMIN', 'ADMIN', 'MANAGER'].includes(session.user.role)) {
+      return NextResponse.json({ message: "Not authorized" }, { status: 403 })
+  }
+
   try {
     const draft = await prisma.legalDraft.findUnique({
       where: { id: params.id },
@@ -76,6 +106,15 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 
     await prisma.legalDraft.delete({
       where: { id: params.id },
+    })
+
+    // Log the delete action
+    await prisma.activityLog.create({
+      data: {
+        action: 'DELETE_LEGAL_DRAFT',
+        details: `Deleted legal draft: ${params.id}`,
+        userId:  session.user.id 
+      }
     })
 
     return NextResponse.json({ message: "Legal draft deleted successfully" })

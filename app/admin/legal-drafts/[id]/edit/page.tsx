@@ -35,29 +35,37 @@ export default function EditLegalDraftPage({ params }: { params: { id: string } 
   }, [params.id])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setIsLoading(true)
-
-    const formData = new FormData(e.currentTarget)
-    formData.append("content", content)
-
-    try {
-      const response = await fetch(`/api/legal-drafts/${params.id}`, {
-        method: "PUT",
-        body: formData,
-      })
-
-      if (!response.ok) throw new Error("Failed to update legal draft")
-
-      toast({ title: "Legal draft updated successfully" })
-      router.push("/admin/legal-drafts")
-    } catch (error) {
-      console.error("Error updating legal draft:", error)
-      toast({ title: "Error updating legal draft", variant: "destructive" })
-    } finally {
-      setIsLoading(false)
+      e.preventDefault()
+      setIsLoading(true)
+  
+      const formData = new FormData(e.currentTarget)
+      formData.append("content", content)
+  
+      const fileInput = e.currentTarget.querySelector('input[type="file"]') as HTMLInputElement
+      if (fileInput && fileInput.files && fileInput.files.length > 0) {
+        const file = fileInput.files[0]
+        formData.append("file", file, file.name)
+      } else {
+        formData.append("file", '')
+      }
+  
+      try {
+        const response = await fetch(`/api/legal-drafts/${params.id}`, {
+          method: "PUT",
+          body: formData,
+        })
+  
+        if (!response.ok) throw new Error("Failed to update legal draft")
+  
+        toast({ title: "Legal draft updated successfully" })
+        router.push("/admin/legal-drafts")
+      } catch (error) {
+        console.error("Error updating legal draft:", error)
+        toast({ title: "Error updating legal draft", variant: "destructive" })
+      } finally {
+        setIsLoading(false)
+      }
     }
-  }
 
   if (!legalDraft) return <div>Loading...</div>
 
@@ -71,7 +79,7 @@ export default function EditLegalDraftPage({ params }: { params: { id: string } 
         </div>
         <div>
           <Label htmlFor="category">Category</Label>
-          <Select name="category" defaultValue={legalDraft.category}>
+          <Select name="category" defaultValue={legalDraft.category} onValueChange={(value) => setLegalDraft({ ...legalDraft, category: value })}>
             <SelectTrigger>
               <SelectValue placeholder="Select category" />
             </SelectTrigger>

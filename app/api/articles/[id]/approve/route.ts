@@ -21,11 +21,14 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       return NextResponse.json({ message: "User not found" }, { status: 404 })
     }
 
-    const article = await prisma.article.update({
+    const article = await prisma.article.findUnique({ where: { id: params.id } })
+
+    const updatedArticle = await prisma.article.update({
       where: { id: params.id },
       data: { 
-        status: approved ? 'PUBLISHED' : 'REJECTED',
-        approvalComments: comment
+      status: approved ? 'PUBLISHED' : 'REJECTED',
+      approvalComments: comment,
+      ...(article?.authorId ? {} : { author: { connect: { id: user.id } } })
       }
     })
 
