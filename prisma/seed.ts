@@ -106,6 +106,7 @@ async function main() {
         title: faker.lorem.sentence(),
         description: faker.lorem.paragraph(),
         fileUrl: faker.internet.url(),
+        content: faker.lorem.paragraphs(3), // Added content property
         category: { connect: { id: (await prisma.category.findFirst())?.id || '' } },
         author: { connect: { id: admin.id } },
         downloads: faker.number.int({ min: 0, max: 1000 }),

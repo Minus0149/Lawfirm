@@ -70,7 +70,7 @@ export default function SubmitArticlePage() {
 
           <div className="space-y-2">
             <Label htmlFor="file">Attachments (optional)</Label>
-            <Input id="file" name="file" type="file" accept=".pdf,.doc,.docx" />
+            <Input id="file" name="file" type="file" accept=".png,.jpeg,.jpeg" />
           </div>
 
           <Button type="submit" disabled={isSubmitting}>

@@ -22,7 +22,7 @@ export default async function LegalDraftsPage() {
           <Button>Add New Legal Draft</Button>
         </Link>
       </div>
-      <DataTable columns={columns} data={legalDrafts} />
+      <DataTable columns={columns} data={legalDrafts.map(draft => ({ ...draft, author: draft.author || { name: "Unknown" } }))} />
     </div>
   )
 }

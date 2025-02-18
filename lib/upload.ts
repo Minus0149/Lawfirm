@@ -1,9 +1,25 @@
-import { v4 as uuidv4 } from "uuid"
+import { put } from "@vercel/blob"
+import { del } from "@vercel/blob"
 
 export async function uploadFile(file: File): Promise<string> {
-  // This is a placeholder function. In a real application, you would upload the file to a storage service like AWS S3 or Azure Blob Storage.
-  // For this example, we'll just generate a fake URL.
-  const fileName = `${uuidv4()}-${file.name}`
-  return `https://example.com/uploads/${fileName}`
+  try {
+    const response = await put(file.name, file, {
+      access: "public",
+    })
+
+    return response.url
+  } catch (error) {
+    console.error("Error uploading file:", error)
+    throw new Error("Failed to upload file")
+  }
+}
+
+export async function deleteFile(url: string): Promise<void> {
+  try {
+    await del(url)
+  } catch (error) {
+    console.error("Error deleting file:", error)
+    throw new Error("Failed to delete file")
+  }
 }
 
