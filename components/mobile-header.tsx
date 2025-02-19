@@ -185,13 +185,32 @@ export function MobileHeader({ categories }: MobileHeaderProps) {
               >
                 Notes
               </Link>
+
+              <Link 
+              className="block py-3 px-4 border-b border-muted hover:bg-muted"
+              href="/" scroll={false} 
+              onClick={async(e) => {
+                e.preventDefault();
+                router.push('/#mentorship');
+                // const mentorshipSection = document.getElementById('mentorship');
+                // if (mentorshipSection) {
+                //   mentorshipSection.scrollIntoView({ behavior: 'smooth' });
+                // }
+                setIsMenuOpen(false)
+              }}>
+              
+              Mentorship
+            </Link>
+
               <Link
                 href="/experiences"
                 className="block py-3 px-4 border-b border-muted hover:bg-muted"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Experiences
+                Job Experiences
               </Link>
+
+
               {isAuthorized && (
                 <Link
                   href="/admin"
