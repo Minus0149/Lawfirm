@@ -168,6 +168,7 @@ model Experience {
   description String
   startDate   DateTime
   endDate     DateTime?
+  status      String   @default("PENDING")
   author      User     @relation(fields: [authorId], references: [id])
   authorId    String
   createdAt   DateTime @default(now())

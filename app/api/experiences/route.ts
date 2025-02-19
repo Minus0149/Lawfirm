@@ -33,6 +33,7 @@ export async function POST(request: Request) {
         startDate: new Date(startDate),
         endDate: endDate ? new Date(endDate) : null,
         authorId: session?.user.id?? user.id,
+        status: "PENDING",
       },
     })
 
@@ -46,6 +47,7 @@ export async function POST(request: Request) {
 export async function GET() {
   try {
     const experiences = await prisma.experience.findMany({
+      where: { status: "APPROVED" },
       include: {
         author: {
           select: { name: true },
