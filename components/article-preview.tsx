@@ -4,6 +4,7 @@ import { Article } from '@/types/article';
 import { formatDate } from '@/lib/formatDate';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { bufferToBase64 } from '@/lib/utils';
+import { StyledArticleContent } from './styled-article-content';
 
 interface ArticlePreviewProps {
   article: Article;
@@ -35,7 +36,7 @@ export function ArticlePreview({ article }: ArticlePreviewProps) {
         <p className="text-sm text-muted-foreground mb-4">
           By {article.author?.name ?? 'Unknown author'} | {formatDate(new Date(article.createdAt))} | Category: {article.category?.name ?? 'Unknown category'}
         </p>
-        <div className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: article.content }} />
+        <StyledArticleContent content={article.content} className="line-clamp-4" />
       </CardContent>
     </Card>
   );

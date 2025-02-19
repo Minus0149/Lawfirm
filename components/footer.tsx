@@ -86,7 +86,7 @@ legal professionals. We aim to create a space where aspiring legal minds can thr
           </div>
         </div>
         <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} TheHit.in. All rights reserved.
+          © {new Date().getFullYear()} LexInvictus.in. All rights reserved.
         </div>
       </div>
     </footer>

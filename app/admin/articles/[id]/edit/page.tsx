@@ -11,6 +11,7 @@ import { toast } from "@/components/ui/use-toast"
 import { Category as PrismaCategory } from '@prisma/client'
 import Image from 'next/image'
 import { urlToBase64 } from '@/lib/imageUtils'
+import { Editor } from '@/components/editor'
 
 interface Category extends PrismaCategory {
   children?: Category[]
@@ -211,7 +212,8 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
       )}
       <div>
         <Label htmlFor="content">Content</Label>
-        <WYSIWYGEditor initialValue={content} onChange={setContent} />
+        <Editor value={content} onChange={setContent} placeholder="Article content starts here..." />
+        {/* <WYSIWYGEditor initialValue={content} onChange={setContent} /> */}
       </div>
       <Button type="submit" disabled={isLoading}>
         {isLoading ? 'Updating...' : 'Update Article'}

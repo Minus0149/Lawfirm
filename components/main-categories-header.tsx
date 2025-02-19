@@ -12,7 +12,7 @@ export function MainCategoriesHeader({ categories }: MainCategoriesHeaderProps) 
   const mainCategories = categories.filter((category) => !category.parentId)
 
   return (
-    <nav className="bg-[#003875] text-white py-3">
+    <nav className="bg-[#2b447c] text-white py-3">
       <div className="container mx-auto px-4">
         <ul className="flex justify-center space-x-8">
           {mainCategories.map((category) => (

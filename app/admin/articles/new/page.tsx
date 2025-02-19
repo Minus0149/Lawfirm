@@ -15,6 +15,7 @@ interface Category extends PrismaCategory {
 }
 import Image from 'next/image'
 import { urlToBase64 } from '@/lib/imageUtils'
+import { Editor } from '@/components/editor'
 
 export default function CreateArticlePage() {
   const router = useRouter()
@@ -184,7 +185,8 @@ export default function CreateArticlePage() {
       )}
       <div>
         <Label htmlFor="content">Content</Label>
-        <WYSIWYGEditor initialValue="" onChange={setContent} />
+        <Editor value="" onChange={setContent} placeholder="Article content starts here..." />
+        {/* <WYSIWYGEditor initialValue="" onChange={setContent} /> */}
       </div>
       <Button type="submit" disabled={isLoading}>
         {isLoading ? 'Creating...' : 'Create Article'}
