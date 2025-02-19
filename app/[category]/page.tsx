@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma"
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Advertisement } from "@/components/advertisement"
 
 export async function generateStaticParams() {
   const categories = await prisma.category.findMany({
@@ -37,6 +38,7 @@ export default async function CategoryPage({ params }: { params: { category: str
 
   return (
     <div className="container mx-auto py-8 px-4">
+      <Advertisement position="TOP_BANNER" />
       <h1 className="text-3xl font-bold mb-6">{category.name}</h1>
       {/* {category.children.length > 0 && (
         <div className="mb-8">

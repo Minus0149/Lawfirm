@@ -11,7 +11,7 @@ import { Status, Role } from "@prisma/client"
 import { DatePickerWithRange } from "@/components/ui/date-range-picker"
 import { DateRange } from "react-day-picker"
 
-export function ArticleFilter() {
+export function ApprovalFilter() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [category, setCategory] = useState(searchParams.get('category') || 'all_categories')
@@ -64,14 +64,13 @@ export function ArticleFilter() {
   const handleFilter = () => {
     const params = new URLSearchParams()
     if (category && category !== 'all_categories') params.set('category', category)
-    if (status && status !== 'all_statuses') params.set('status', status)
     if (selectedUser && selectedUser !== 'all_users') params.set('userId', selectedUser)
     if (selectedRole && selectedRole !== 'all_roles') params.set('role', selectedRole)
     if (dateRange?.from) params.set('startDate', dateRange.from.toISOString().split('T')[0])
     if (dateRange?.to) params.set('endDate', dateRange.to.toISOString().split('T')[0])
     if (searchTerm) params.set('search', searchTerm)
     params.set('dateType', dateType)
-    router.push(`/admin/articles?${params.toString()}`)
+    router.push(`/admin/approvals?${params.toString()}`)
   }
 
   return (
@@ -91,20 +90,6 @@ export function ArticleFilter() {
                 <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
               ))}
               </ScrollArea>
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label htmlFor="status">Status</Label>
-          <Select value={status} onValueChange={setStatus}>
-            <SelectTrigger id="status">
-              <SelectValue placeholder="Select status" />
-            </SelectTrigger>
-            <SelectContent  className=' relative z-[70]'>
-              <SelectItem value="all_statuses">All Statuses</SelectItem>
-              {Object.values(Status).map((stat) => (
-                <SelectItem key={stat} value={stat}>{stat}</SelectItem>
-              ))}
             </SelectContent>
           </Select>
         </div>

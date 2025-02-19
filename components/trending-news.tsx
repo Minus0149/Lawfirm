@@ -88,7 +88,7 @@ export default function TrendingNews() {
 
   if (isLoading) {
     return (
-      <Card className="w-full max-w-md mx-auto">
+      <Card className="w-full max-w-md mx-auto md:mt-[4rem] md:pt-6">
         <CardHeader>
           <CardTitle>Trending</CardTitle>
         </CardHeader>
@@ -101,7 +101,7 @@ export default function TrendingNews() {
 
   if (error) {
     return (
-      <Card className="w-full max-w-md mx-auto">
+      <Card className="w-full max-w-md mx-auto md:mt-[3.6rem]">
         <CardHeader>
           <CardTitle>Trending</CardTitle>
         </CardHeader>
@@ -120,7 +120,7 @@ export default function TrendingNews() {
 
   return (
     <Card 
-      className="w-full max-w-md mx-auto"
+      className="w-full max-w-md mx-auto md:mt-[3.6rem]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

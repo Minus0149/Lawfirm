@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { DownloadButton } from "@/components/download-button"
+import { StyledLegalContent } from "@/components/styled-legal-content"
 
 async function incrementDownloads(noteId: string, session: any) {
   const key = `note_${noteId}_download`
@@ -61,13 +62,11 @@ export default async function NotePage({ params }: { params: { id: string } }) {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="prose dark:prose-invert max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: note.content }} />
-          </div>
+        <StyledLegalContent content={note.content} className="mb-6" />
           {note.description && (
-            <div className="mt-4">
+            <div className="mt-4 mb-6">
               <h2 className="text-xl font-semibold mb-2">Description</h2>
-              <p>{note.description}</p>
+              <p className="text-muted-foreground">{note.description}</p>
             </div>
           )}
           {note.fileUrl && (

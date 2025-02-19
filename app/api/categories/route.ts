@@ -59,7 +59,7 @@ export async function POST(request: Request) {
         name,
         slug,
         description,
-        parentId: parentId === "0" ? null : parentId,
+        parentId: parentId === "" ? null : parentId,
       },
       include: {
         parent: {

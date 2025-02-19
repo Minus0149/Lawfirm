@@ -62,7 +62,7 @@ export function Header({ categories }: HeaderProps) {
   }
 
   return (
-    <header>
+    <header className="bg-primary text-primary-foreground shadow-md">
       <TopHeader />
       <MainCategoriesHeader categories={categories} />
       <SubCategoriesHeader categories={categories} selectedParentSlug={selectedParentSlug} />

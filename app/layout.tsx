@@ -30,7 +30,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
-      <body className="min-h-screen bg-background text-foreground font-sans">
+      <body className="min-h-screen bg-background text-foreground font-sans scroll-smooth">
         <Providers>
           
             <Suspense fallback={<LoadingScreen />}>

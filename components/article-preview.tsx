@@ -18,13 +18,14 @@ export function ArticlePreview({ article }: ArticlePreviewProps) {
       </CardHeader>
       <CardContent>
         {article.imageUrl || article.imageFile ? (
-          <div className="relative h-48 w-full mb-4">
+          <div className="relative h-96 w-full mb-4">
             <Image
               src={article.imageUrl || `data:image/jpeg;base64,${article.imageFile instanceof Uint8Array ? bufferToBase64(article.imageFile) : article.imageFile}`}
               alt={article.title}
-              layout="fill"
-              objectFit="cover"
+              fill
+              style={{ objectFit: 'contain' }}
               loading="lazy"
+              className='h-full'
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>

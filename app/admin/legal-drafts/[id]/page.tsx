@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import { prisma } from "@/lib/prisma"
 import { Button } from "@/components/ui/button"
+import { StyledLegalContent } from "@/components/styled-legal-content"
 
 export default async function LegalDraftViewPage({ params }: { params: { id: string } }) {
   const legalDraft = await prisma.legalDraft.findUnique({
@@ -26,7 +27,7 @@ export default async function LegalDraftViewPage({ params }: { params: { id: str
         </p>
         <p className="text-muted-foreground">Created: {new Date(legalDraft.createdAt).toLocaleDateString()}</p>
       </div>
-      <div className="prose max-w-none mb-6" dangerouslySetInnerHTML={{ __html: legalDraft.content }} />
+      <StyledLegalContent content={legalDraft.content} className="mb-6" />
       {legalDraft.fileUrl && (
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Attachment</h2>

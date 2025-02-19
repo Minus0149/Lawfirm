@@ -12,6 +12,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { toast } from "@/components/ui/use-toast"
 
 export type Note = {
   id: string
@@ -57,7 +59,32 @@ export const columns: ColumnDef<Note>[] = [
     id: "actions",
     cell: ({ row }) => {
       const note = row.original
+      const router = useRouter()
 
+      const handleDelete = async () => {
+        if (confirm("Are you sure you want to delete this note?")) {
+          try {
+            const response = await fetch(`/api/notes/${note.id}`, {
+              method: "DELETE",
+            })
+
+            if (!response.ok) throw new Error("Failed to delete note")
+
+            toast({
+              title: "Note deleted successfully",
+              description: `The note "${note.title}" has been deleted.`,
+            })
+            router.refresh()
+          } catch (error) {
+            console.error("Error deleting note:", error)
+            toast({
+              title: "Error deleting note",
+              description: "There was a problem deleting the note. Please try again.",
+              variant: "destructive",
+            })
+          }
+        }
+      }
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -75,7 +102,7 @@ export const columns: ColumnDef<Note>[] = [
               <Link href={`/admin/notes/${note.id}/edit`}>Edit</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive" onClick={handleDelete}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

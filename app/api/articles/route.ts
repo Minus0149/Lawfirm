@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const page = parseInt(searchParams.get('page') || '1')
   const limit = parseInt(searchParams.get('limit') || '10')
-  const category = searchParams.get('category') as Category | undefined | 'all_categories'
+  const category = searchParams.get('category') as {name:string, id:string} | undefined | 'all_categories'
   const status = searchParams.get('status') as Status | undefined | 'all_statuses'
   const role = searchParams.get('role') as Role | undefined | 'all_roles'
   const userId = searchParams.get('userId')
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   const dateType = searchParams.get('dateType') || 'created'
 
   const where: any = {}
-  if (category && category !== 'all_categories') where.category = category
+  if (category && category !== 'all_categories') where.categoryId = category.id
   if (status && status !== 'all_statuses') where.status = status
   if (userId && userId !== 'all_users') where.authorId = userId
   if (role && role !== 'all_roles') where.author = { role: role }

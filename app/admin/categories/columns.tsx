@@ -23,8 +23,8 @@ export type Category = {
   createdAt: Date
 }
 
-const handleDeleteCategory = async (id: string) => {
-  if (confirm("Are you sure you want to delete this category?")) {
+const handleDeleteCategory = async (id: string, parent:{ name: string } | null) => {
+  if (parent === null ? confirm("This is a parent category if you delete this all the subcategories and all the articles will be deleted. Are you sure you want to delete this category? all the articles in the category will be deleted.") : confirm("All the articles in the category will be deleted. Are you sure you want to delete this category? ")) {
     try {
       const response = await fetch(`/api/categories/${id}`, {
         method: "DELETE",
@@ -95,7 +95,7 @@ export const columns: ColumnDef<Category>[] = [
               <Link href={`/admin/categories/${category.id}/edit`}>Edit</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={() => handleDeleteCategory(category.id)}>Delete</DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => handleDeleteCategory(category.id, category.parent)}  className="text-destructive">Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

@@ -52,7 +52,7 @@ export default async function Home({ searchParams }: PageProps) {
 
           <div className="md:col-span-1">
             <div className="sticky top-4 space-y-8">
-              <Advertisement position="SIDEBAR" />
+              {/* <Advertisement position="SIDEBAR" /> */}
               <Suspense fallback={<TrendingNewsSkeleton />}>
                 <TrendingNews />
               </Suspense>

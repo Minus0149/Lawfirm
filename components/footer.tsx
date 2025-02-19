@@ -15,7 +15,10 @@ export function Footer() {
               height={40}
               className="h-10 w-auto"
             />
-            <span className="text-xl font-bold text-primary">LexInvictus</span>
+            
+            <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-yellow-500 bg-clip-text text-transparent" style={{ backgroundSize: '50% 100%' }}>
+            Lex<span className="bg-gradient-to-r from-yellow-500 to-yellow-500 bg-clip-text text-transparent" style={{ backgroundSize: '100% 100%' }}>I</span><span className="bg-gradient-to-r from-yellow-500 to-gray-500 bg-clip-text text-transparent" style={{ backgroundSize: '100% 100%' }}>nvictus</span>
+            </span>
           </Link>
             <p className="text-sm text-muted-foreground">
               Your trusted source for the lawSuites.
@@ -36,11 +39,6 @@ legal professionals. We aim to create a space where aspiring legal minds can thr
               <li>
                 <Link href="/" className="text-sm text-muted-foreground hover:text-primary">
                   Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-sm text-muted-foreground hover:text-primary">
-                  About Us
                 </Link>
               </li>
               <li>

@@ -90,7 +90,7 @@ export const columns: ColumnDef<LegalDraft>[] = [
               <Link href={`/admin/legal-drafts/${legalDraft.id}/edit`}>Edit</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={() => handleDeleteLegalDraft(legalDraft.id)}>Delete</DropdownMenuItem>
+            <DropdownMenuItem  className="text-destructive" onSelect={() => handleDeleteLegalDraft(legalDraft.id)}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

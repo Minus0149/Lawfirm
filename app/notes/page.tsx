@@ -15,6 +15,10 @@ export default async function NotesPage() {
     orderBy: { createdAt: "desc" },
   })
 
+  if (!notes) {
+    return <div>No notes found</div>
+  }
+
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="flex justify-between items-center mb-6">
@@ -31,7 +35,7 @@ export default async function NotesPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground mb-4" dangerouslySetInnerHTML={{ __html: note.content.substring(0, 150) }}></p>
+              <div className="text-muted-foreground mb-4" dangerouslySetInnerHTML={{ __html: note.content.substring(0, 150) }}></div>
               <div className="flex justify-between items-center text-sm text-muted-foreground">
                 <span>By {note.author?.name || "Unknown"}</span>
                 <span>{note.category.name}</span>

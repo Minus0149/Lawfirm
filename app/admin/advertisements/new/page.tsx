@@ -139,10 +139,10 @@ export default function CreateAdvertisementPage() {
             <SelectValue placeholder="Select a placement" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="SIDEBAR">Sidebar</SelectItem>
+            {/* <SelectItem value="SIDEBAR">Sidebar</SelectItem> */}
             <SelectItem value="TOP_BANNER">Top Banner</SelectItem>
-            <SelectItem value="IN_ARTICLE">In Article</SelectItem>
-            <SelectItem value="FOOTER">Footer</SelectItem>
+            {/* <SelectItem value="IN_ARTICLE">In Article</SelectItem>
+            <SelectItem value="FOOTER">Footer</SelectItem> */}
           </SelectContent>
         </Select>
       </div>

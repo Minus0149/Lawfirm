@@ -50,14 +50,37 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   try {
+    // Delete articles associated with subcategories
+    const subcategories = await prisma.category.findMany({
+      where: { parentId: params.id },
+      select: { id: true },
+    })
+
+    const subcategoryIds = subcategories.map(subcategory => subcategory.id)
+
+    await prisma.article.deleteMany({
+      where: { categoryId: { in: subcategoryIds } },
+    })
+
+    // Delete subcategories
+    await prisma.category.deleteMany({
+      where: { parentId: params.id },
+    })
+
+    // Delete articles associated with the main category
+    await prisma.article.deleteMany({
+      where: { categoryId: params.id },
+    })
+
+    // Delete the main category
     await prisma.category.delete({
       where: { id: params.id },
     })
 
-    return NextResponse.json({ message: "Category deleted successfully" })
+    return NextResponse.json({ message: "Category, subcategories, and articles deleted successfully" })
   } catch (error) {
-    console.error("Error deleting category:", error)
-    return NextResponse.json({ error: "Failed to delete category" }, { status: 500 })
+    console.error("Error deleting category, subcategories, and articles:", error)
+    return NextResponse.json({ error: "Failed to delete category, subcategories, and articles" }, { status: 500 })
   }
 }
 

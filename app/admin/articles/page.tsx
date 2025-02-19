@@ -31,7 +31,7 @@ export default async function ArticleList({
   const sortField = dateType === 'updated' ? 'updatedAt' : 'createdAt'
 
   const where: any = {}
-  if (searchParams.category) where.category = { name: searchParams.category as string }
+  if (searchParams.category) where.categoryId =  searchParams.category as string 
   if (searchParams.status) where.status = searchParams.status as string
   if (searchParams.userId) where.authorId = searchParams.userId
   if (searchParams.role) where.author = { role: searchParams.role as string }
@@ -43,6 +43,12 @@ export default async function ArticleList({
       endDate.setHours(23, 59, 59, 999)
       where[sortField].lte = endDate
     }
+  }
+  if (searchParams.search) {
+    where.OR = [
+      { title: { contains: searchParams.search as string, mode: 'insensitive' } },
+      { content: { contains: searchParams.search as string, mode: 'insensitive' } }
+    ]
   }
 
   const [articles, totalArticles] = await Promise.all([

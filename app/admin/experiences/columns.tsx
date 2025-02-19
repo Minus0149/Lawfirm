@@ -41,7 +41,14 @@ export const columns: ColumnDef<Experience>[] = [
   },
   {
     accessorKey: "company",
-    header: "Company",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Company
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
     accessorKey: "author.name",
@@ -49,12 +56,26 @@ export const columns: ColumnDef<Experience>[] = [
   },
   {
     accessorKey: "startDate",
-    header: "Start Date",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Start Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => formatDate(row.getValue("startDate")),
   },
   {
     accessorKey: "endDate",
-    header: "End Date",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          End Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const endDate = row.getValue("endDate")
       return endDate ? formatDate(endDate instanceof Date ? endDate : new Date(String(endDate))) : "Present"
@@ -62,11 +83,25 @@ export const columns: ColumnDef<Experience>[] = [
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Status
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Created At
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => formatDate(row.getValue("createdAt")),
   },
   {
@@ -83,11 +118,18 @@ export const columns: ColumnDef<Experience>[] = [
             method: "DELETE",
           })
           if (!response.ok) throw new Error("Failed to delete experience")
-          toast({ title: "Experience deleted successfully" })
+          toast({
+            title: "Experience deleted successfully",
+            description: `The experience "${experience.title}" has been deleted.`,
+          })
           router.refresh()
         } catch (error) {
           console.error("Error deleting experience:", error)
-          toast({ title: "Error deleting experience", variant: "destructive" })
+          toast({
+            title: "Error deleting experience",
+            description: "There was a problem deleting the experience. Please try again.",
+            variant: "destructive",
+          })
         } finally {
           setIsLoading(false)
         }
@@ -109,7 +151,7 @@ export const columns: ColumnDef<Experience>[] = [
             <DropdownMenuItem asChild>
               <Link href={`/admin/experiences/${experience.id}/edit`}>Edit</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleDelete} disabled={isLoading}>
+            <DropdownMenuItem onClick={handleDelete} disabled={isLoading} className="text-destructive">
               {isLoading ? "Deleting..." : "Delete"}
             </DropdownMenuItem>
             {experience.status === "PENDING" && (
@@ -131,12 +173,19 @@ async function approveExperience(id: string) {
       method: "POST",
     })
     if (!response.ok) throw new Error("Failed to approve experience")
-    toast({ title: "Experience approved successfully" })
+    toast({
+      title: "Experience approved successfully",
+      description: "The experience has been approved.",
+    })
     // Refresh the data or update the UI as needed
     window.location.reload()
   } catch (error) {
     console.error("Error approving experience:", error)
-    toast({ title: "Error approving experience", variant: "destructive" })
+    toast({
+      title: "Error approving experience",
+      description: "There was a problem approving the experience. Please try again.",
+      variant: "destructive",
+    })
   }
 }
 
@@ -146,12 +195,19 @@ async function rejectExperience(id: string) {
       method: "POST",
     })
     if (!response.ok) throw new Error("Failed to reject experience")
-    toast({ title: "Experience rejected successfully" })
+    toast({
+      title: "Experience rejected successfully",
+      description: "The experience has been rejected.",
+    })
     // Refresh the data or update the UI as needed
     window.location.reload()
   } catch (error) {
     console.error("Error rejecting experience:", error)
-    toast({ title: "Error rejecting experience", variant: "destructive" })
+    toast({
+      title: "Error rejecting experience",
+      description: "There was a problem rejecting the experience. Please try again.",
+      variant: "destructive",
+    })
   }
 }
 

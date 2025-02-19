@@ -48,7 +48,8 @@ export default function ArticlePreviewPage({ params }: { params: { id: string } 
           throw new Error(`HTTP error! status: ${res.status}`)
         }
         const allArticlesData = await res.json()
-        setArticles(allArticlesData.articles)
+        const pendingArticles = allArticlesData.articles.filter((article: Article) => article.status === 'PENDING')
+        setArticles(pendingArticles)
         const index = allArticlesData.articles.findIndex((a: Article) => a.id === params.id)
         setCurrentIndex(index)
       } catch (error) {

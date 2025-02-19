@@ -6,8 +6,8 @@ import { ExternalLink } from "lucide-react"
 
 export function MentorshipCards() {
   return (
-    <section className="py-12 bg-muted/30">
-      <div className="container mx-auto px-4">
+    <section className="py-12 bg-muted/30" >
+      <div className="container mx-auto px-4" id="mentorship">
         <h2 className="text-3xl font-bold text-center mb-8">Our Legal Mentors</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {siteConfig.mentors.map((mentor) => (

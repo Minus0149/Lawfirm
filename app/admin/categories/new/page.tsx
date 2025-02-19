@@ -85,7 +85,7 @@ export default function NewCategoryPage() {
                         <SelectTrigger>
                             <SelectValue placeholder="Select parent category" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent defaultValue={"0"}>
                             <ScrollArea className="h-[200px]">
                                 <SelectItem value="0">None</SelectItem>
                                 {parentCategories.map((category) => (

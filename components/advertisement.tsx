@@ -63,7 +63,7 @@ export function Advertisement({ position }: AdvertisementProps) {
 
 
   const style = {
-    'TOP_BANNER': 'w-full h-48 bg-card flex items-center justify-center mb-8',
+    'TOP_BANNER': 'w-full h-24 md:h-48 bg-card flex items-center justify-center mb-8',
     // 'FOOTER': 'w-full h-24 bg-card flex items-center justify-center mt-8',
     'SIDEBAR': 'w-full h-64 bg-card flex items-center justify-center mb-8',
     // 'IN_ARTICLE': 'w-full h-64 bg-card flex items-center justify-center my-8'

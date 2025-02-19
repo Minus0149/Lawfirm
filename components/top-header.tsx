@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useSession } from "next-auth/react"
 import { useTheme } from "next-themes"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import { ClientOnlyIcon } from "./client-only-icon"
 
 export function TopHeader() {
@@ -44,17 +44,19 @@ export function TopHeader() {
   }, [closeSearch]) // Added closeSearch to dependencies
 
   return (
-    <div className="bg-[#002A5C] text-white py-2">
+    <div className="container mx-auto px-4 py-4 flex items-center justify-between">
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link href="/" className="flex items-center">
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo-rlqupY5CGQyQMC7oceFN8xWNALWirf.png"
+            src="/logo.png"
             alt="Logo"
-            width={40}
-            height={40}
+            width={100}
+            height={190}
             className="h-8 w-auto"
           />
-          <span className="text-xl font-bold text-primary">LexInvictus</span>
+            <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-yellow-500 bg-clip-text text-transparent" style={{ backgroundSize: '50% 100%' }}>
+            Lex<span className="bg-gradient-to-r from-yellow-500 to-yellow-500 bg-clip-text text-transparent" style={{ backgroundSize: '100% 100%' }}>I</span><span className="bg-gradient-to-r from-yellow-500 to-gray-500 bg-clip-text text-transparent" style={{ backgroundSize: '100% 100%' }}>nvictus</span>
+            </span>
 
         </Link>
 
@@ -66,12 +68,12 @@ export function TopHeader() {
                   type="search"
                   placeholder="Search..."
                   name="search"
-                  className="w-64 bg-white text-black pl-4 pr-10 py-2 rounded-none border-2 border-secondary"
+                  className="w-64 bg-primary-foreground text-primary pl-4 pr-10 py-2 rounded-full border-2 border-primary-foreground focus:border-primary focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={closeSearch}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-primary"
                 >
                   <ClientOnlyIcon icon={X} className="h-5 w-5" />
                 </button>
@@ -79,7 +81,7 @@ export function TopHeader() {
             ) : (
               <button
                 onClick={() => setIsSearchOpen(true)}
-                className="hover:text-gray-300 transition-colors"
+                className="hover:text-primary-foreground transition-colors"
                 aria-label="Search"
               >
                 <ClientOnlyIcon icon={Search} className="h-5 w-5 mt-1" />
@@ -115,6 +117,23 @@ export function TopHeader() {
               Legal Draft
             </Button>
           </Link>
+          
+            <Link href="/" scroll={false}>
+              <Button
+              variant="ghost"
+              size="sm"
+              onClick={async(e) => {
+                e.preventDefault();
+                router.push('/#mentorship');
+                // const mentorshipSection = document.getElementById('mentorship');
+                // if (mentorshipSection) {
+                //   mentorshipSection.scrollIntoView({ behavior: 'smooth' });
+                // }
+              }}
+              >
+              Mentorship
+              </Button>
+            </Link>
 
           <Link href="/experiences">
             <Button variant="ghost" size="sm">

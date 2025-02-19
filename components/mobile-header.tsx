@@ -113,7 +113,10 @@ export function MobileHeader({ categories }: MobileHeaderProps) {
               height={40}
               className="h-8 w-auto mt-2"
             />
-            <span className="text-xl font-bold text-primary">LexInvictus</span>
+            
+            <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-yellow-500 bg-clip-text text-transparent" style={{ backgroundSize: '50% 100%' }}>
+            Lex<span className="bg-gradient-to-r from-yellow-500 to-yellow-500 bg-clip-text text-transparent" style={{ backgroundSize: '100% 100%' }}>I</span><span className="bg-gradient-to-r from-yellow-500 to-gray-500 bg-clip-text text-transparent" style={{ backgroundSize: '100% 100%' }}>nvictus</span>
+            </span>
           </Link>
           <div className="flex items-center space-x-2">
             <Button

@@ -1,8 +1,8 @@
 export interface Advertisement {
   id: string
   title?: string
-  image?: string
-  imageFile?: Buffer
+  image?: string 
+  imageFile?: Buffer 
   link: string
   width?: number
   height?: number
