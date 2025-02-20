@@ -107,7 +107,7 @@ export function MobileHeader({ categories }: MobileHeaderProps) {
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center">
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo-rlqupY5CGQyQMC7oceFN8xWNALWirf.png"
+              src="/logo.PNG"
               alt="Logo"
               width={40}
               height={40}

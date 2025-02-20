@@ -48,7 +48,7 @@ export function TopHeader() {
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link href="/" className="flex items-center">
           <Image
-            src="/logo.png"
+            src="/logo.PNG"
             alt="Logo"
             width={100}
             height={190}
@@ -140,7 +140,7 @@ export function TopHeader() {
               Job Experiences
             </Button>
           </Link>
-          
+
           <Link href="/community">
             <Button variant="ghost" size="sm">
               Join Community

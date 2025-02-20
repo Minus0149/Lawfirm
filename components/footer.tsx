@@ -10,7 +10,7 @@ export function Footer() {
           <div>
           <Link href="/" className="flex items-center space-x-2">
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo-rlqupY5CGQyQMC7oceFN8xWNALWirf.png"
+              src="/logo.PNG"
               alt="Logo"
               width={40}
               height={40}
