@@ -8,6 +8,8 @@ import { LoadingScreen } from '@/components/loading-screen'
 import { ConditionalHeader } from '@/components/conditional-header'
 import { ConditionalFooter } from '@/components/conditional-footer'
 import { prisma } from '@/lib/prisma'
+import { HomeIcon } from "lucide-react"
+import Link from 'next/link'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -49,6 +51,11 @@ export default async function RootLayout({
 
         <Analytics />
         <SpeedInsights />
+        <Link href="/" passHref>
+          <button className="fixed bottom-4 right-4 p-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <HomeIcon className="w-6 h-6" />
+          </button>
+        </Link>
       </body>
     </html>
   )
