@@ -171,13 +171,13 @@ export function MobileHeader({ categories }: MobileHeaderProps) {
               >
                 Submit Article
               </Link>
-              <Link
+              {/* <Link
                 href="/legal-drafts/new"
                 className="block py-3 px-4 border-b border-muted hover:bg-muted"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Legal Draft
-              </Link>
+              </Link> */}
               <Link
                 href="/notes"
                 className="block py-3 px-4 border-b border-muted hover:bg-muted"
@@ -208,6 +208,14 @@ export function MobileHeader({ categories }: MobileHeaderProps) {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Job Experiences
+              </Link>
+
+              <Link
+                href="/community"
+                className="block py-3 px-4 border-b border-muted hover:bg-muted"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Join Community
               </Link>
 
 

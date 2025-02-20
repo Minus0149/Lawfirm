@@ -9,6 +9,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "@/components/ui/use-toast"
 import Image from 'next/image'
 import { urlToBase64 } from '@/lib/imageUtils'
+import { Category as PrismaCategory } from '@prisma/client'
+
+interface Category extends PrismaCategory {
+  children?: Category[]
+}
 
 export default function EditAdvertisementPage({ params }: { params: { id: string } }) {
  const router = useRouter()
@@ -46,6 +51,36 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
    }
    fetchAd()
  }, [params.id])
+
+  const [categories, setCategories] = useState<Category[]>([])
+  const [category, setCategory] = useState<Category | null>(null)
+
+  useEffect(() => {
+      // Helper function to flatten categories
+      function flattenCategories(categories: Category[]): Category[] {
+        return categories.reduce((acc: Category[], category: Category) => {
+          acc.push(category)
+          if (category.children && category.children.length > 0) {
+            acc.push(...flattenCategories(category.children))
+          }
+          return acc
+        }, [])
+      }
+  
+      // Fetch categories from your API or data source
+      async function fetchCategories() {
+        try {
+          const response = await fetch('/api/categories')
+          const data = await response.json()
+          const allCategories = flattenCategories(data)
+          setCategories(allCategories)
+        } catch (error) {
+          console.error('Error fetching categories:', error)
+        }
+      }
+      fetchCategories()
+    }, [])
+
 
  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
    const file = e.target.files?.[0]
@@ -176,6 +211,35 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
          </SelectContent>
        </Select>
      </div>
+     <div >
+      <Label htmlFor="location">Location</Label>
+      <Select name="location" required>
+        <SelectTrigger>
+          <SelectValue placeholder="Select location" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="HOME">Home Page</SelectItem>
+          <SelectItem value="CATEGORY">Category Pages</SelectItem>
+          <SelectItem value="ARTICLE">Article Pages</SelectItem>
+          <SelectItem value="ALL">All Pages</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+    <div>
+      <Label htmlFor="category">Category</Label>
+      <Select value={category?.id || undefined} onValueChange={(value) => setCategory({ id: value } as Category)}>
+        <SelectTrigger>
+          <SelectValue placeholder="Select a category" />
+        </SelectTrigger>
+          <SelectContent>
+          {categories.map((category) => (
+            <SelectItem key={category.id} value={category.id}>
+            {category.name}
+            </SelectItem>
+          ))}
+          </SelectContent>
+      </Select>
+    </div>
      <div>
        <Label htmlFor="startDate">Start Date</Label>
        <Input

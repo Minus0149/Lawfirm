@@ -112,11 +112,11 @@ export function TopHeader() {
             </Button>
           </Link>
 
-          <Link href="/legal-drafts/new">
+          {/* <Link href="/legal-drafts/new">
             <Button variant="ghost" size="sm">
               Legal Draft
             </Button>
-          </Link>
+          </Link> */}
           
             <Link href="/" scroll={false}>
               <Button
@@ -138,6 +138,12 @@ export function TopHeader() {
           <Link href="/experiences">
             <Button variant="ghost" size="sm">
               Job Experiences
+            </Button>
+          </Link>
+          
+          <Link href="/community">
+            <Button variant="ghost" size="sm">
+              Join Community
             </Button>
           </Link>
 

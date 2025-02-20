@@ -58,6 +58,8 @@ model Advertisement {
   imageFile String?
   link      String
   placement AdPlacement
+  category  String?  
+  location  String?  
   startDate DateTime
   endDate   DateTime
   views     Int      @default(0)
