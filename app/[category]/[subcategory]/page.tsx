@@ -49,7 +49,7 @@ export default async function SubcategoryPage({ params }: { params: { category: 
   return (
     <div className="container mx-auto py-8 px-4">
       
-      <Advertisement position="TOP_BANNER" />
+      <Advertisement position="TOP_BANNER"  category={subcategory.slug}/>
       <h1 className="text-3xl font-bold mb-6">{subcategory.name}</h1>
       <p className="mb-4">
         <Link href={`/${subcategory.parent?.slug}`} className="text-primary hover:underline">

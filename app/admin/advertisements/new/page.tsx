@@ -10,6 +10,7 @@ import { toast } from "@/components/ui/use-toast"
 import Image from 'next/image'
 import { urlToBase64 } from '@/lib/imageUtils'
 import { Category as PrismaCategory } from '@prisma/client'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 interface Category extends PrismaCategory {
   children?: Category[]
@@ -228,12 +229,15 @@ export default function CreateAdvertisementPage() {
           <SelectTrigger>
             <SelectValue placeholder="Select a category" />
           </SelectTrigger>
+          
             <SelectContent>
-            {categories.map((category) => (
-              <SelectItem key={category.id} value={category.id}>
-              {category.name}
-              </SelectItem>
-            ))}
+            <ScrollArea className="h-[200px]">
+              {categories.map((category) => (
+                <SelectItem key={category.id} value={category.id}>
+                {category.name}
+                </SelectItem>
+              ))}
+            </ScrollArea>
             </SelectContent>
         </Select>
       </div>

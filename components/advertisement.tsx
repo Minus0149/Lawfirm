@@ -1,23 +1,34 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState , useCallback} from "react"
 import Image from "next/image"
 import type { Advertisement as AdvertisementType } from "@/types/advertisement"
-import { AdPlacement } from "@prisma/client"
 import { bufferToBase64 } from "@/lib/utils"
+import { usePathname } from "next/navigation"
 
 interface AdvertisementProps {
   position: string
+  category?: string
 }
 
-export function Advertisement({ position }: AdvertisementProps) {
+export function Advertisement({ position, category }: AdvertisementProps) {
   const [ad, setAd] = useState<AdvertisementType | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const pathname = usePathname()
+
+  const getLocation = useCallback((path: string): "HOME" | "CATEGORY" | "ARTICLE" | "ALL" => {
+    if (path === "/") return "HOME"
+    if (path.startsWith("/article/")) return "ARTICLE"
+    if (path.split("/").length === 2) return "CATEGORY"
+    return "ALL"
+  }, [])
 
   useEffect(() => {
     const loadAd = async () => {
+      const location = getLocation(pathname)
+      
       try {
-        const response = await fetch(`/api/advertisements/get?position=${position}`)
+        const response = await fetch(`/api/advertisements/get?position=${position}&category=${category|| ""}&location=${location}`)
         if (!response.ok) {
           throw new Error(`Failed to load advertisement: ${response.statusText}`)
         }
@@ -39,13 +50,16 @@ export function Advertisement({ position }: AdvertisementProps) {
     }
 
     loadAd()
-  }, [position])
+  }, [position, category, pathname, getLocation])
 
-  if (error) {
-    return <div className="text-destructive">{error}</div>
-  }
+
 
   if (!ad) return null
+  // if (error) {
+  //   return <div className="text-destructive">{error}</div>
+  // }
+
+  
 
   const handleClick = async () => {
     try {

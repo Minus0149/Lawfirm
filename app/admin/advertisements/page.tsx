@@ -26,18 +26,24 @@ export default async function AdvertisementsPage({
   const placement = searchParams.placement as string | undefined
   const startDate = searchParams.startDate as string | undefined
   const endDate = searchParams.endDate as string | undefined
+  const location = searchParams.location || undefined as string | undefined
+  const category = searchParams.category || undefined as string | undefined
 
   const where: any = {}
-  if (placement) where.placement = placement
+  if (placement && placement !== 'all') where.placement = placement
+  if (location && location !== 'all') where.location = location
+  if (category && category !== 'all') where.category = category
   if (startDate) where.startDate = { gte: new Date(startDate) }
   if (endDate) where.endDate = { lte: new Date(endDate) }
+  
 
   const [ads, total] = await Promise.all([
     prisma.advertisement.findMany({
       where,
       skip: (page - 1) * limit,
       take: limit,
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      include: {category: true}
     }),
     prisma.advertisement.count({ where })
   ])

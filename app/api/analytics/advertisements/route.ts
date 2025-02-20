@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { AdPlacement } from "@prisma/client"
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const startDate = searchParams.get("startDate")
   const endDate = searchParams.get("endDate")
   const location = searchParams.get("location")=== "all" ? "" : searchParams.get("location")
-  const category = searchParams.get("category") === "all" ? "" : searchParams.get("category")
+  // const category = searchParams.get("category") === "all" ? "" : searchParams.get("category")
+  const placement = searchParams.get("placement") === "all" ? "" : searchParams.get("placement") as AdPlacement | undefined
   const search = searchParams.get("search")
   
   const page = Number(searchParams.get("page")) || 1;
@@ -43,10 +45,18 @@ export async function GET(request: Request) {
       : {}),
   }
 
-  const categoryFilter = {
-    ...(category
+  // const categoryFilter = {
+  //   ...(category
+  //     ? {
+  //         category,
+  //       }
+  //     : {}),
+  // }
+
+  const placementFilter = {
+    ...(placement
       ? {
-          category,
+          placement,
         }
       : {}),
   }
@@ -57,7 +67,8 @@ export async function GET(request: Request) {
         ...dateFilter,
         ...searchFilter,
         ...locationFilter,
-        ...categoryFilter,
+        // ...categoryFilter,
+        ...placementFilter
       },
       orderBy: {
         views: "desc",
@@ -75,13 +86,13 @@ export async function GET(request: Request) {
       },
       where: {
         ...dateFilter,
-        ...categoryFilter,
+        // ...categoryFilter,
       },
     })
 
     // Calculate performance metrics by category
     const performanceByCategory = await prisma.advertisement.groupBy({
-      by: ["category"],
+      by: ["categoryId"],
       _sum: {
         views: true,
         clicks: true,
@@ -89,7 +100,7 @@ export async function GET(request: Request) {
       where: {
         ...dateFilter,
         ...locationFilter,
-        category: { not: null },
+        categoryId: { not: null },
       },
     })
 
@@ -106,9 +117,9 @@ export async function GET(request: Request) {
     }))
 
     const transformedCategoryPerformance = performanceByCategory.map((cat) => ({
-      category: cat.category,
-      views: cat._sum.views || 0,
-      clicks: cat._sum.clicks || 0,
+      categoryId: cat.categoryId,
+      views: cat._sum?.views || 0,
+      clicks: cat._sum?.clicks || 0,
     }))
 
     const totalAds = await prisma.advertisement.count({
@@ -116,7 +127,8 @@ export async function GET(request: Request) {
         ...dateFilter,
         ...searchFilter,
         ...locationFilter,
-        ...categoryFilter,
+        // ...categoryFilter,
+        ...placementFilter
       },
     })
 

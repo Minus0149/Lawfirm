@@ -40,7 +40,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     const endDate = formData.get('endDate') as string
     const imageFile = formData.get('imageFile') as File | null
     const imageLink = formData.get("imageLink") as string | null
-
+    const location = formData.get('location') as string | null
+    const category = formData.get('category') as string | null
     let imageBuffer: Buffer | null = null
     if (imageFile) {
       const arrayBuffer = await imageFile.arrayBuffer()
@@ -56,7 +57,9 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         endDate: new Date(endDate),
         image: imageLink ? imageLink : '' ,
         ...(imageBuffer && { imageFile: imageBuffer.toString('base64') }),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        location,
+        categoryId: category
       }
     })
 

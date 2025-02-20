@@ -37,13 +37,10 @@ export async function GET(request: Request) {
   const categoryFilter = {
     ...(category
       ? {
-          category: {
-            name: category,
-          },
+          categoryId: category,
         }
       : {}),
   }
-
   try {
     const articles = await prisma.article.findMany({
       where: {

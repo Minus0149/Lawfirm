@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -9,6 +9,7 @@ import { DatePickerWithRange } from "@/components/ui/date-range-picker"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import type { DateRange } from "react-day-picker"
+import { ScrollArea } from "./ui/scroll-area"
 
 export function AnalyticsFilter() {
   const router = useRouter()
@@ -22,6 +23,26 @@ export function AnalyticsFilter() {
   const [category, setCategory] = useState(searchParams.get("category") || "")
   const [location, setLocation] = useState(searchParams.get("location") || "")
   const [placement, setPlacement] = useState(searchParams.get("placement") || "")
+  const [categories, setCategories] = useState<{ name: string; id: string }[]>([])
+
+  useEffect(() => {
+    const fetchCategories = async () => { 
+      const response = await fetch('/api/categories')
+      const data = await response.json()
+      const flattenCategories = (categories: any[]): {name:string,id: string}[] => {
+      return categories.reduce((acc: {name:string,id: string}[], category: any) => {
+        acc.push({ name: category.name, id: category.id })
+        if (category.children) {
+        acc.push(...flattenCategories(category.children))
+        }
+        return acc
+      }, [])
+      }
+      setCategories(flattenCategories(data))
+    }
+    
+    fetchCategories()
+  })
 
   const applyFilters = () => {
     const params = new URLSearchParams()
@@ -55,11 +76,13 @@ export function AnalyticsFilter() {
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
-                <SelectItem value="law-notes">Law Notes</SelectItem>
-                <SelectItem value="case-briefs">Case Briefs</SelectItem>
-                <SelectItem value="legal-articles">Legal Articles</SelectItem>
-                <SelectItem value="exam-materials">Exam Materials</SelectItem>
+              <ScrollArea className="h-[200px]">
+
+                <SelectItem value="all" className=' relative z-[70]'>All Categories</SelectItem>
+                {Object.values(categories).map((cat) => (
+                  <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+                ))}
+                </ScrollArea>
               </SelectContent>
             </Select>
           </div>
@@ -88,8 +111,8 @@ export function AnalyticsFilter() {
               <SelectContent>
                 <SelectItem value="all">All Placements</SelectItem>
                 <SelectItem value="TOP_BANNER">Top Banner</SelectItem>
-                <SelectItem value="IN_ARTICLE">In Article</SelectItem>
-                <SelectItem value="SIDEBAR">Sidebar</SelectItem>
+                {/* <SelectItem value="IN_ARTICLE">In Article</SelectItem> */}
+                {/* <SelectItem value="SIDEBAR">Sidebar</SelectItem> */}
                 <SelectItem value="CATEGORY_PAGE">Category Page</SelectItem>
               </SelectContent>
             </Select>

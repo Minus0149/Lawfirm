@@ -10,6 +10,8 @@ import { toast } from "@/components/ui/use-toast"
 import Image from 'next/image'
 import { urlToBase64 } from '@/lib/imageUtils'
 import { Category as PrismaCategory } from '@prisma/client'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { bufferToBase64 } from '@/lib/utils'
 
 interface Category extends PrismaCategory {
   children?: Category[]
@@ -17,7 +19,7 @@ interface Category extends PrismaCategory {
 
 export default function EditAdvertisementPage({ params }: { params: { id: string } }) {
  const router = useRouter()
- const [ad, setAd] = useState({ link: '', placement: '', startDate: '', endDate: '' })
+ const [ad, setAd] = useState({ link: '', placement: '', startDate: '', endDate: '', location:'', category:'' })
  const [imageFile, setImageFile] = useState<File | null>(null)
  const [imageLink, setImageLink] = useState('')
  const [imagePreview, setImagePreview] = useState<string | null>(null)
@@ -37,10 +39,8 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
          startDate: new Date(adData.startDate).toISOString().split('T')[0],
          endDate: new Date(adData.endDate).toISOString().split('T')[0],
        })
-       if (adData.image) {
-         setImagePreview(adData.image)
-       } else if (adData.imageFile) {
-         setImagePreview(`data:image/jpeg;base64,${Buffer.from(adData.imageFile).toString('base64')}`)
+       if (adData.image|| adData.imageFile) {
+         setImagePreview(adData.image || `data:image/jpeg;base64,${adData.imageFile instanceof Uint8Array ? bufferToBase64(adData.imageFile) : adData.imageFile}`)
        }
      } catch (error) {
        console.error('Error fetching advertisement:', error)
@@ -53,7 +53,6 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
  }, [params.id])
 
   const [categories, setCategories] = useState<Category[]>([])
-  const [category, setCategory] = useState<Category | null>(null)
 
   useEffect(() => {
       // Helper function to flatten categories
@@ -122,6 +121,8 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
      formData.append('placement', ad.placement)
      formData.append('startDate', ad.startDate)
      formData.append('endDate', ad.endDate)
+     formData.append('location', ad.location)
+     formData.append('category', ad.category)
      if (imageFile) {
       formData.append('imageFile', imageFile)
       formData.set('imageLink', '')
@@ -130,7 +131,7 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
       formData.append('imageLink', imageLink)
       formData.set('imageFile', '')
     }
-
+    console.log(formData)
      const response = await fetch(`/api/advertisements/${params.id}`, {
        method: 'PUT',
        body: formData,
@@ -213,7 +214,7 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
      </div>
      <div >
       <Label htmlFor="location">Location</Label>
-      <Select name="location" required>
+      <Select name="location" required value={ad.location} onValueChange={(value) => setAd({ ...ad, location: value })}>
         <SelectTrigger>
           <SelectValue placeholder="Select location" />
         </SelectTrigger>
@@ -227,16 +228,18 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
     </div>
     <div>
       <Label htmlFor="category">Category</Label>
-      <Select value={category?.id || undefined} onValueChange={(value) => setCategory({ id: value } as Category)}>
+      <Select value={ad.category} onValueChange={(value) => setAd({ ...ad, category: value })}>
         <SelectTrigger>
           <SelectValue placeholder="Select a category" />
         </SelectTrigger>
           <SelectContent>
-          {categories.map((category) => (
-            <SelectItem key={category.id} value={category.id}>
-            {category.name}
-            </SelectItem>
-          ))}
+          <ScrollArea className="h-[200px]">
+            {categories.map((category) => (
+              <SelectItem key={category.id} value={category.id}>
+              {category.name}
+              </SelectItem>
+            ))}
+          </ScrollArea>
           </SelectContent>
       </Select>
     </div>

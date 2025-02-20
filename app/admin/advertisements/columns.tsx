@@ -42,13 +42,21 @@ export const columns: ColumnDef<Advertisement>[] = [
     header: "Link",
     cell: ({ row }) => (
       <a href={row.original.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-        {row.original.link}
+        {`${row.original.link.substring(0, 25)}...`}
       </a>
     ),
   },
   {
     accessorKey: "placement",
     header: "Placement",
+  },
+  {
+    accessorKey: "location",
+    header: "Location",
+  },
+  {
+    accessorKey: "category.name",
+    header: "Category",
   },
   {
     accessorKey: "startDate",

@@ -58,7 +58,8 @@ model Advertisement {
   imageFile String?
   link      String
   placement AdPlacement
-  category  String?  
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
   location  String?  
   startDate DateTime
   endDate   DateTime
@@ -87,6 +88,7 @@ model Category {
   children    Category[] @relation("SubCategories")
   articles    Article[]
   notes       Note[]
+  advertisements Advertisement[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
@@ -110,6 +112,7 @@ enum Status {
 enum AdPlacement {
   SIDEBAR
   TOP_BANNER
+  CATEGORY_PAGE
   // IN_ARTICLE
   // FOOTER
 }

@@ -4,6 +4,8 @@ import { NextResponse } from "next/server"
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const position = searchParams.get("position")
+  const location = searchParams.get("location") || undefined
+  const category = searchParams.get("category") || undefined
 
   if (!position) {
     return NextResponse.json({ error: "Position is required" }, { status: 400 })
@@ -12,7 +14,11 @@ export async function GET(request: Request) {
   try {
     const ad = await prisma.advertisement.findFirst({
       where: {
-        placement: position as "TOP_BANNER" | "SIDEBAR",
+        placement: position as "TOP_BANNER" | "CATEGORY_PAGE",
+        location,
+        category: {
+          slug: category
+        },
         startDate: { lte: new Date() },
         endDate: { gte: new Date() },
       }, 

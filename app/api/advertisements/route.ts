@@ -17,11 +17,15 @@ export async function GET(req: NextRequest) {
   const placement = searchParams.get('placement') as AdPlacement | null
   const startDate = searchParams.get('startDate')
   const endDate = searchParams.get('endDate')
+  const location = searchParams.get("location") || undefined
+  const category = searchParams.get("category") || undefined
 
   const where: any = {}
   if (placement) where.placement = placement
   if (startDate) where.startDate = { gte: new Date(startDate) }
   if (endDate) where.endDate = { lte: new Date(endDate) }
+  if (location) where.location = location
+  if (category) where.category = category
 
   const [ads, total] = await Promise.all([
     prisma.advertisement.findMany({
@@ -56,6 +60,8 @@ export async function POST(req: NextRequest) {
     const startDate = formData.get('startDate') as string
     const endDate = formData.get('endDate') as string
     const imageFile = formData.get('imageFile') as File | null
+    const location = formData.get("location") as string
+    const category = formData.get("category") as string
 
     let imageBuffer: Buffer | null = null
     if (imageFile) {
@@ -70,6 +76,8 @@ export async function POST(req: NextRequest) {
         startDate: new Date(startDate),
         endDate: new Date(endDate),
         imageFile: imageBuffer ? imageBuffer.toString('base64') : null,
+        location,
+        categoryId: category
       }
     })
 

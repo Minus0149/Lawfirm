@@ -40,11 +40,11 @@ export function AdvertisementFilter() {
               <SelectValue placeholder="Select placement" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="ALL">All Placements</SelectItem>
-              <SelectItem value="SIDEBAR">Sidebar</SelectItem>
+              <SelectItem value="all">All Placements</SelectItem>
+              {/* <SelectItem value="SIDEBAR">Sidebar</SelectItem> */}
               <SelectItem value="TOP_BANNER">Top Banner</SelectItem>
-              <SelectItem value="IN_ARTICLE">In Article</SelectItem>
-              <SelectItem value="FOOTER">Footer</SelectItem>
+              {/* <SelectItem value="IN_ARTICLE">In Article</SelectItem> */}
+              <SelectItem value="CATEGORY_PAGE">Category Page</SelectItem>
             </SelectContent>
           </Select>
         </div>
