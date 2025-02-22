@@ -13,12 +13,12 @@ export function MentorshipCards() {
           {siteConfig.mentors.map((mentor) => (
             <Card key={mentor.name} className="flex flex-col">
               <CardHeader>
-                <div className="relative w-full h-48 mb-4">
+                <div className="relative w-full h-64 mb-4">
                   <Image
-                    src={mentor.photo || "/placeholder.svg"}
-                    alt={mentor.name}
-                    fill
-                    className="object-cover rounded-lg"
+                  src={mentor.photo || "/placeholder.svg"}
+                  alt={mentor.name}
+                  fill
+                  className="rounded-lg w-full h-full object-scale-down"
                   />
                 </div>
                 <CardTitle>{mentor.name}</CardTitle>
