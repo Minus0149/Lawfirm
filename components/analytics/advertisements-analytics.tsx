@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"
 import { useSearchParams } from "next/navigation"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts"
 import { Pagination } from "../pagination"
 
@@ -42,11 +42,7 @@ export function AdvertisementsAnalytics() {
         setTotalAds(result.totalAds)
       } catch (error) {
         console.error("Error fetching advertisement analytics:", error)
-        toast({
-          title: "Error",
-          description: "Failed to fetch advertisement analytics",
-          variant: "destructive",
-        })
+        toast.error("Failed to fetch analytics data")
       } finally {
         setLoading(false)
       }

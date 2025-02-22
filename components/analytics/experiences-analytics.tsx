@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { DataTable } from "@/components/ui/data-table"
 import { Pagination } from "@/components/pagination"
 import { useSearchParams } from "next/navigation"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import {
   LineChart,
   Line,
@@ -36,11 +36,7 @@ export function ExperiencesAnalytics() {
         setData(result)
       } catch (error) {
         console.error("Error fetching experiences analytics:", error)
-        toast({
-          title: "Error",
-          description: "Failed to fetch experiences analytics",
-          variant: "destructive",
-        })
+        toast.error("Failed to fetch analytics data")
       } finally {
         setLoading(false)
       }

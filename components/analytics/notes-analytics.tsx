@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { DataTable } from "@/components/ui/data-table"
 import { Pagination } from "@/components/pagination"
 import { useSearchParams } from "next/navigation"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts"
 
 export function NotesAnalytics() {
@@ -26,11 +26,7 @@ export function NotesAnalytics() {
         setData(result)
       } catch (error) {
         console.error("Error fetching notes analytics:", error)
-        toast({
-          title: "Error",
-          description: "Failed to fetch notes analytics",
-          variant: "destructive",
-        })
+        toast.error("Failed to fetch analytics data")
       } finally {
         setLoading(false)
       }

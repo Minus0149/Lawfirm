@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { setAuthCookie } from '@/lib/auth'
 
 export default function Login() {
@@ -56,16 +56,9 @@ export default function Login() {
       if (result?.error) {
         if (result.error === "Verification code required") {
           setRequiresVerification(true)
-          toast({
-            title: "Verification Required",
-            description: "Please check your email for a verification code.",
-          })
+          toast.error("Verification code required")
         } else {
-          toast({
-            title: "Login Failed",
-            description: result.error,
-            variant: "destructive",
-          })
+          toast.error("Invalid email or password")
           setPassword('') // Clears password on failed login attempt
         }
       } else if (result?.url) {
@@ -76,11 +69,7 @@ export default function Login() {
       }
     } catch (error) {
       console.error('Login error:', error)
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred. Please try again.",
-        variant: "destructive",
-      })
+      toast.error('Failed to sign in')
     } finally {
       setIsLoading(false)
     }

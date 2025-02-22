@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 
 export default function ResetPassword() {
  const [password, setPassword] = useState('')
@@ -19,11 +19,7 @@ export default function ResetPassword() {
  const handleSubmit = async (e: React.FormEvent) => {
    e.preventDefault()
    if (password !== confirmPassword) {
-     toast({
-       title: "Error",
-       description: "Passwords do not match",
-       variant: "destructive",
-     })
+     toast.error("Passwords do not match.")
      return
    }
    setIsLoading(true)
@@ -38,22 +34,15 @@ export default function ResetPassword() {
      })
 
      if (response.ok) {
-       toast({
-         title: "Success",
-         description: "Your password has been reset successfully.",
-       })
+       toast.success("Password reset successfully. Please login with your new password.")
        router.push('/login')
      } else {
        const data = await response.json()
        throw new Error(data.message || 'Failed to reset password')
      }
    } catch (error) {
-     console.error('Error resetting password:', error)
-     toast({
-       title: "Error",
-       description: error instanceof Error ? error.message : "An error occurred. Please try again.",
-       variant: "destructive",
-     })
+     console.error('Error resetting password:', error) 
+     toast.error(error instanceof Error ? error.message : 'Failed to reset password')
    } finally {
      setIsLoading(false)
    }

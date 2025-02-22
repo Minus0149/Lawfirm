@@ -60,8 +60,8 @@ export async function POST(req: NextRequest) {
     const startDate = formData.get('startDate') as string
     const endDate = formData.get('endDate') as string
     const imageFile = formData.get('imageFile') as File | null
-    const location = formData.get("location") as string
-    const category = formData.get("category") as string
+    const location = formData.get("location") as string | ''
+    const category = formData.get("category") as string | ''
 
     let imageBuffer: Buffer | null = null
     if (imageFile) {
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
         endDate: new Date(endDate),
         imageFile: imageBuffer ? imageBuffer.toString('base64') : null,
         location,
-        categoryId: category
+        categoryId: category === undefined ? null : category
       }
     })
 

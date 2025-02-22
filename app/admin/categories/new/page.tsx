@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
 export default function NewCategoryPage() {
@@ -26,7 +26,7 @@ export default function NewCategoryPage() {
                 setParentCategories(data)
             } catch (error) {
                 console.error("Error fetching categories:", error)
-                toast({ title: "Error fetching categories", variant: "destructive" })
+                toast.error("Error fetching categories")
             }
         }
 
@@ -53,11 +53,11 @@ export default function NewCategoryPage() {
 
             if (!response.ok) throw new Error("Failed to create category")
 
-            toast({ title: "Category created successfully" })
+            toast.success("Category created successfully")
             router.push("/admin/categories")
         } catch (error) {
             console.error("Error creating category:", error)
-            toast({ title: "Error creating category", variant: "destructive" })
+            toast.error("Failed to create category")
         } finally {
             setIsLoading(false)
         }

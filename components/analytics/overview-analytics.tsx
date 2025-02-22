@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useSearchParams } from "next/navigation"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import {
   LineChart,
   Line,
@@ -33,11 +33,7 @@ export function OverviewAnalytics() {
         setData(result)
       } catch (error) {
         console.error("Error fetching overview analytics:", error)
-        toast({
-          title: "Error",
-          description: "Failed to fetch overview analytics",
-          variant: "destructive",
-        })
+        toast.error("Failed to fetch analytics data")
       } finally {
         setLoading(false)
       }

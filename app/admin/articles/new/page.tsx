@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { Category as PrismaCategory } from '@prisma/client'
 
 interface Category extends PrismaCategory {
@@ -105,21 +105,14 @@ export default function CreateArticlePage() {
         body: formData,
       })
       if (response.ok) {
-        toast({
-          title: "Success",
-          description: "Article created successfully",
-        })
+        toast.success('Article created successfully')
         router.push('/admin/articles')
       } else {
         throw new Error('Failed to create article')
       }
     } catch (error) {
       console.error('Error creating article:', error)
-      toast({
-        title: "Error",
-        description: "Failed to create article",
-        variant: "destructive",
-      })
+      toast.error('Failed to create article')
     } finally {
       setIsLoading(false)
     }

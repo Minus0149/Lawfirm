@@ -33,7 +33,7 @@ export default async function CategoryPage({ params }: { params: { category: str
   })
 
   if (!category) {
-    redirect("/404")
+    notFound()
   }
 
   return (

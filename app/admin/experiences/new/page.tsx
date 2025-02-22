@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 
@@ -31,11 +31,11 @@ export default function NewExperiencePage() {
 
             if (!response.ok) throw new Error("Failed to create experience")
 
-            toast({ title: "Experience shared successfully" })
+            toast.success("Experience shared successfully")
             router.push("/admin/experiences")
         } catch (error) {
             console.error("Error creating experience:", error)
-            toast({ title: "Error sharing experience", variant: "destructive" })
+            toast.error("Failed to create experience")
         } finally {
             setIsLoading(false)
         }

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import Image from 'next/image'
 import { urlToBase64 } from '@/lib/imageUtils'
 import { Category as PrismaCategory } from '@prisma/client'
@@ -136,15 +136,12 @@ export default function CreateAdvertisementPage() {
       })
 
       if (!response.ok) throw new Error("Failed to create advertisement")
-
-      toast({ title: "Advertisement created successfully" })
+      toast.success("Advertisement created successfully")
       router.push("/admin/advertisements")
     } catch (error) {
       console.error("Error creating advertisement:", error)
-      toast({
-        title: "Error creating advertisement",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
+      toast.error("Failed to create the advertisement." , {
+        description: "Something went wrong. Please try again."
       })
     } finally {
       setIsLoading(false)

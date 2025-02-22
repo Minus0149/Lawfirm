@@ -27,7 +27,7 @@ export function Header({ categories }: HeaderProps) {
   useEffect(() => {
     setIsClient(true)
     const checkMobile = () => {
-      const isMobileView = window.innerWidth < 768 // Adjust this breakpoint as needed
+      const isMobileView = window.innerWidth < 1100 // Adjust this breakpoint as needed
       setIsMobile(isMobileView)
       localStorage.setItem("isMobileView", JSON.stringify(isMobileView))
     }

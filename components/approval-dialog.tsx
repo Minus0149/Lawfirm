@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { PendingArticle } from '@/types/article'
 import { useRouter } from 'next/navigation'
 
@@ -27,20 +27,13 @@ export function ApprovalDialog({ article }: { article: PendingArticle }) {
         throw new Error('Failed to update article status')
       }
 
-      toast({
-        title: approved ? "Article Approved" : "Article Rejected",
-        description: `The article "${article.title}" has been ${approved ? 'approved' : 'rejected'}.`,
-      })
+      toast.success('Article status updated successfully')
 
       setIsOpen(false)
       router.refresh()
     } catch (error) {
       console.error('Error updating article status:', error)
-      toast({
-        title: "Error",
-        description: "Failed to update article status. Please try again.",
-        variant: "destructive",
-      })
+      toast.error('Failed to update article status')
     } finally {
       setIsLoading(false)
     }

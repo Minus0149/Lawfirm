@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Advertisement } from '@prisma/client'
 import { formatDate } from '@/lib/formatDate'
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 
 export const columns: ColumnDef<Advertisement>[] = [
   {
@@ -88,10 +88,7 @@ export const columns: ColumnDef<Advertisement>[] = [
               method: 'DELETE',
             })
             if (response.ok) {
-              toast({
-                title: "Success",
-                description: "Advertisement deleted successfully",
-              })
+              toast.success("Advertisement deleted successfully")
               // Refresh the table
               window.location.reload()
             } else {
@@ -99,11 +96,7 @@ export const columns: ColumnDef<Advertisement>[] = [
             }
           } catch (error) {
             console.error('Error deleting advertisement:', error)
-            toast({
-              title: "Error",
-              description: "Failed to delete advertisement",
-              variant: "destructive",
-            })
+            toast.error("Failed to delete advertisement")
           }
         }
       }

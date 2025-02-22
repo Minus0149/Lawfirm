@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { Article } from '@/types/article'
 import { ArticlePreview } from "@/components/article-preview"
 import { ChevronLeft, ChevronRight } from 'lucide-react'
@@ -31,11 +31,7 @@ export default function ArticlePreviewPage({ params }: { params: { id: string } 
         setIsLoading(false) // Set loading to false after fetching data
       } catch (error) {
         console.error('Error fetching article data:', error)
-        toast({
-          title: "Error",
-          description: "Failed to load article data",
-          variant: "destructive",
-        })
+        toast.error('Failed to fetch article data')
         setIsLoading(false) // Set loading to false on error as well
       }
     }
@@ -72,19 +68,12 @@ export default function ArticlePreviewPage({ params }: { params: { id: string } 
         throw new Error('Failed to update article status')
       }
 
-      toast({
-        title: approved ? "Article Approved" : "Article Rejected",
-        description: `The article "${articleData?.title}" has been ${approved ? 'approved' : 'rejected'}.`,
-      })
+     toast.success('Article status updated successfully')
 
       router.push('/admin/approvals')
     } catch (error) {
       console.error('Error updating article status:', error)
-      toast({
-        title: "Error",
-        description: "Failed to update article status. Please try again.",
-        variant: "destructive",
-      })
+      toast.error('Failed to update article status')
     } finally {
       setIsLoading(false)
     }

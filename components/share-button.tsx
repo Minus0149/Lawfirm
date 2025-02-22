@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Share2 } from 'lucide-react'
 import { shareArticle } from '@/lib/article-utils'
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 
 export function ShareButton({ articleId, initialShares }: { articleId: string; initialShares: number }) {
   const [shares, setShares] = useState(initialShares)
@@ -22,23 +22,14 @@ export function ShareButton({ articleId, initialShares }: { articleId: string; i
       
       if (navigator.clipboard) {
         await navigator.clipboard.writeText(articleUrl)
-        toast({
-          title: "Link Copied!",
-          description: "The article link has been copied to your clipboard.",
-        })
+        toast.success("Article URL copied to clipboard")
       } else {
-        toast({
-          title: "Clipboard Not Supported",
+        toast.error("Clipboard Not Supported",{
           description: "Your browser does not support clipboard copying.",
-          variant: "destructive",
         })
       }
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to share the article. Please try again.",
-        variant: "destructive",
-      })
+      toast.error("Failed to share article. Please try again.")
     } finally {
       setIsSharing(false)
     }

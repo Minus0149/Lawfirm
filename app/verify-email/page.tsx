@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 
 export default function VerifyEmail() {
  const [isVerifying, setIsVerifying] = useState(false)
@@ -31,27 +31,16 @@ export default function VerifyEmail() {
 
      if (response.ok) {
        setVerificationStatus('success')
-       toast({
-         title: "Success",
-         description: "Your email has been successfully verified!",
-       })
+       toast.success("Your email has been successfully verified!")
        setTimeout(() => router.push('/login'), 3000)
      } else {
        setVerificationStatus('error')
-       toast({
-         title: "Error",
-         description: "Failed to verify your email. Please try again or contact support.",
-         variant: "destructive",
-       })
+       toast.error("Failed to verify your email. Please try again or contact support.")
      }
    } catch (error) {
      console.error('Error verifying email:', error)
      setVerificationStatus('error')
-     toast({
-       title: "Error",
-       description: "An error occurred while verifying your email. Please try again.",
-       variant: "destructive",
-     })
+     toast.error("Failed to verify your email. Please try again or contact support.")
    } finally {
      setIsVerifying(false)
    }

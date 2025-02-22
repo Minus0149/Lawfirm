@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 
 export type Category = {
   id: string
@@ -32,12 +32,12 @@ const handleDeleteCategory = async (id: string, parent:{ name: string } | null) 
 
       if (!response.ok) throw new Error("Failed to delete category")
 
-      toast({ title: "Category deleted successfully" })
+      toast.success("Category deleted successfully")
       // Refresh the data table
       window.location.reload()
     } catch (error) {
       console.error("Error deleting category:", error)
-      toast({ title: "Error deleting category", variant: "destructive" })
+      toast.error("Failed to delete category")
     }
   }
 }

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 
@@ -32,11 +32,11 @@ export default function NewExperiencePage() {
 
       if (!response.ok) throw new Error("Failed to create experience")
 
-      toast({ title: "Experience shared successfully" })
+      toast.success("Experience shared successfully")
       router.push("/experiences")
     } catch (error) {
       console.error("Error creating experience:", error)
-      toast({ title: "Error sharing experience", variant: "destructive" })
+      toast.error("Failed to create experience")
     } finally {
       setIsLoading(false)
     }
@@ -48,8 +48,8 @@ export default function NewExperiencePage() {
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Experiences
       </Link>
-      <h1 className="text-3xl font-bold mb-6">Share Your Experience</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-xl">
+      <h1 className="text-3xl font-bold mb-6 max-w-xl mx-auto">Share Your Experience</h1>
+      <form onSubmit={handleSubmit} className="space-y-4 max-w-xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="name">Full Name</Label>

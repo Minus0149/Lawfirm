@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 
 export type LegalDraft = {
   id: string
@@ -31,12 +31,12 @@ const handleDeleteLegalDraft = async (id: string) => {
 
       if (!response.ok) throw new Error("Failed to delete legal draft")
 
-      toast({ title: "Legal draft deleted successfully" })
+      toast.success("Legal draft deleted successfully")
       // Refresh the data table
       window.location.reload()
     } catch (error) {
       console.error("Error deleting legal draft:", error)
-      toast({ title: "Error deleting legal draft", variant: "destructive" })
+      toast.error("Failed to delete legal draft")
     }
   }
 }

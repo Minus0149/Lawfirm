@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import Image from 'next/image'
 import { Role } from '@prisma/client'
 
@@ -41,15 +41,11 @@ export default function EditUserPage({ params }: { params: { id: string } }) {
           role: userData.role,
         })
         if (userData.imageFile) {
-          setCurrentImage(`data:image/jpeg;base64,${Buffer.from(userData.imageFile).toString('base64')}`)
+          setCurrentImage(`data:image/jpeg;base64,${userData.imageFile.toString('base64')}`)
         }
       } catch (error) {
         console.error('Error fetching user:', error)
-        toast({
-          title: "Error",
-          description: "Failed to load user data",
-          variant: "destructive",
-        })
+        toast.error('Failed to fetch user data')
       } finally {
         setIsLoading(false)
       }
@@ -79,19 +75,12 @@ export default function EditUserPage({ params }: { params: { id: string } }) {
         throw new Error('Failed to update user')
       }
 
-      toast({
-        title: "Success",
-        description: "User updated successfully",
-      })
+      toast.success('User updated successfully')
       router.push('/admin/users')
       router.refresh()
     } catch (error) {
       console.error('Error updating user:', error)
-      toast({
-        title: "Error",
-        description: "Failed to update user",
-        variant: "destructive",
-      })
+      toast.error('Failed to update user')
     } finally {
       setIsLoading(false)
     }

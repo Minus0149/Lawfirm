@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import Image from 'next/image'
 import { urlToBase64 } from '@/lib/imageUtils'
 import { Category as PrismaCategory } from '@prisma/client'
@@ -32,6 +32,7 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
        const response = await fetch(`/api/advertisements/${params.id}`)
        if (!response.ok) {
          throw new Error('Failed to fetch advertisement data')
+
        }
        const adData = await response.json()
        setAd({
@@ -39,7 +40,7 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
          startDate: new Date(adData.startDate).toISOString().split('T')[0],
          endDate: new Date(adData.endDate).toISOString().split('T')[0],
        })
-       if (adData.image|| adData.imageFile) {
+       if (adData.image || adData.imageFile) {
          setImagePreview(adData.image || `data:image/jpeg;base64,${adData.imageFile instanceof Uint8Array ? bufferToBase64(adData.imageFile) : adData.imageFile}`)
        }
      } catch (error) {
@@ -122,12 +123,11 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
      formData.append('startDate', ad.startDate)
      formData.append('endDate', ad.endDate)
      formData.append('location', ad.location)
-     formData.append('category', ad.category)
+     formData.append('category', ad.category || '')
      if (imageFile) {
       formData.append('imageFile', imageFile)
       formData.set('imageLink', '')
-    }
-    if (imageLink) {
+    }else if (imageLink) {
       formData.append('imageLink', imageLink)
       formData.set('imageFile', '')
     }
@@ -139,10 +139,7 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
      if (!response.ok) {
        throw new Error('Failed to update advertisement')
      }
-     toast({
-       title: "Success",
-       description: "Advertisement updated successfully",
-     })
+     toast.success('Advertisement updated successfully')
      router.push('/admin/advertisements')
    } catch (error) {
      console.error('Error updating advertisement:', error)
@@ -218,7 +215,7 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
         <SelectTrigger>
           <SelectValue placeholder="Select location" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent  defaultValue={"ALL"}>
           <SelectItem value="HOME">Home Page</SelectItem>
           <SelectItem value="CATEGORY">Category Pages</SelectItem>
           <SelectItem value="ARTICLE">Article Pages</SelectItem>
@@ -228,7 +225,7 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
     </div>
     <div>
       <Label htmlFor="category">Category</Label>
-      <Select value={ad.category} onValueChange={(value) => setAd({ ...ad, category: value })}>
+      <Select value={ad.category} onValueChange={(value) => setAd({ ...ad, category: value })} >
         <SelectTrigger>
           <SelectValue placeholder="Select a category" />
         </SelectTrigger>

@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import WYSIWYGEditor from '@/components/wysiwyg-editor'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { Category as PrismaCategory } from '@prisma/client'
 import Image from 'next/image'
 import { urlToBase64 } from '@/lib/imageUtils'
@@ -135,14 +134,12 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
-      toast({
-        title: "Success",
-        description: "Article updated successfully and is pending approval.",
-      })
+      toast.success('Article updated successfully') 
       router.push('/admin/articles')
     } catch (error) {
       console.error('Error updating article:', error)
       setError('Failed to update article. Please try again.')
+      toast.error('Failed to update article. Please try again.')
     } finally {
       setIsLoading(false)
     }

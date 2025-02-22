@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { Role } from '@prisma/client'
 
 export default function CreateUserPage() {
@@ -49,19 +49,12 @@ export default function CreateUserPage() {
         throw new Error('Failed to create user')
       }
 
-      toast({
-        title: "Success",
-        description: "User created successfully",
-      })
+      toast.success('User created successfully')
       router.push('/admin/users')
       router.refresh()
     } catch (error) {
       console.error('Error creating user:', error)
-      toast({
-        title: "Error",
-        description: "Failed to create user",
-        variant: "destructive",
-      })
+      toast.error('Failed to create user')
     } finally {
       setIsLoading(false)
     }

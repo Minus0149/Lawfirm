@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Role } from '@prisma/client'
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 
 type User = {
   id: string;
@@ -69,10 +69,7 @@ export const columns: ColumnDef<User>[] = [
               method: 'DELETE',
             })
             if (response.ok) {
-              toast({
-                title: "Success",
-                description: "User deleted successfully",
-              })
+              toast.success('User deleted successfully')
               // Refresh the table
               window.location.reload()
             } else {
@@ -80,11 +77,7 @@ export const columns: ColumnDef<User>[] = [
             }
           } catch (error) {
             console.error('Error deleting user:', error)
-            toast({
-              title: "Error",
-              description: "Failed to delete user",
-              variant: "destructive",
-            })
+            toast.error('Failed to delete user')
           }
         }
       }

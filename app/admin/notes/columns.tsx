@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 
 export type Note = {
   id: string
@@ -70,18 +70,11 @@ export const columns: ColumnDef<Note>[] = [
 
             if (!response.ok) throw new Error("Failed to delete note")
 
-            toast({
-              title: "Note deleted successfully",
-              description: `The note "${note.title}" has been deleted.`,
-            })
+            toast.success("Note deleted successfully")
             router.refresh()
           } catch (error) {
             console.error("Error deleting note:", error)
-            toast({
-              title: "Error deleting note",
-              description: "There was a problem deleting the note. Please try again.",
-              variant: "destructive",
-            })
+            toast.error("Failed to delete note")
           }
         }
       }

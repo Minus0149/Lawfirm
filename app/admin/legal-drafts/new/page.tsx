@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Editor } from "@/components/editor"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 
 export default function NewLegalDraftPage() {
   const router = useRouter()
@@ -31,11 +31,11 @@ export default function NewLegalDraftPage() {
 
       if (!response.ok) throw new Error("Failed to create legal draft")
 
-      toast({ title: "Legal draft created successfully" })
+      toast.success("Legal draft created successfully")
       router.push("/admin/legal-drafts")
     } catch (error) {
       console.error("Error creating legal draft:", error)
-      toast({ title: "Error creating legal draft", variant: "destructive" })
+      toast.error("Failed to create legal draft")
     } finally {
       setIsLoading(false)
     }

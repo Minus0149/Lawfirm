@@ -14,7 +14,7 @@ import {
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { formatDate } from "@/lib/formatDate"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 
 export type Experience = {
   id: string
@@ -118,18 +118,11 @@ export const columns: ColumnDef<Experience>[] = [
             method: "DELETE",
           })
           if (!response.ok) throw new Error("Failed to delete experience")
-          toast({
-            title: "Experience deleted successfully",
-            description: `The experience "${experience.title}" has been deleted.`,
-          })
+          toast.success("Experience deleted successfully")
           router.refresh()
         } catch (error) {
           console.error("Error deleting experience:", error)
-          toast({
-            title: "Error deleting experience",
-            description: "There was a problem deleting the experience. Please try again.",
-            variant: "destructive",
-          })
+          toast.error("Failed to delete experience")
         } finally {
           setIsLoading(false)
         }
@@ -173,19 +166,12 @@ async function approveExperience(id: string) {
       method: "POST",
     })
     if (!response.ok) throw new Error("Failed to approve experience")
-    toast({
-      title: "Experience approved successfully",
-      description: "The experience has been approved.",
-    })
+    toast.success("Experience approved successfully")
     // Refresh the data or update the UI as needed
     window.location.reload()
   } catch (error) {
     console.error("Error approving experience:", error)
-    toast({
-      title: "Error approving experience",
-      description: "There was a problem approving the experience. Please try again.",
-      variant: "destructive",
-    })
+    toast.error("Failed to approve experience")
   }
 }
 
@@ -195,19 +181,12 @@ async function rejectExperience(id: string) {
       method: "POST",
     })
     if (!response.ok) throw new Error("Failed to reject experience")
-    toast({
-      title: "Experience rejected successfully",
-      description: "The experience has been rejected.",
-    })
+    toast.success("Experience rejected successfully")
     // Refresh the data or update the UI as needed
     window.location.reload()
   } catch (error) {
     console.error("Error rejecting experience:", error)
-    toast({
-      title: "Error rejecting experience",
-      description: "There was a problem rejecting the experience. Please try again.",
-      variant: "destructive",
-    })
+    toast.error("Failed to reject experience")
   }
 }
 

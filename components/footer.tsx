@@ -10,7 +10,7 @@ export function Footer() {
           <div>
           <Link href="/" className="flex items-center space-x-2">
             <Image
-              src="/logo.PNG"
+              src="https://i.ibb.co/FkdD21Vr/Logo.png"
               alt="Logo"
               width={40}
               height={40}

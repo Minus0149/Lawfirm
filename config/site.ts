@@ -21,15 +21,14 @@ export const siteConfig = {
       photo: "/mentors/ranjeet-saw.jpg",
       description: "Expert legal mentor with over 10 years of experience in corporate law and legal education.",
       website: "https://topmate.io/ranjeet_saw",
-    },
-    {
-      name: "Sarah Johnson",
-      role: "Constitutional Law Specialist",
-      photo: "/mentors/sarah-johnson.jpg",
-      description: "Specialized in constitutional law with extensive experience in Supreme Court cases.",
-      website: "https://topmate.io/sarah_johnson",
-    },
-  ],
+      }
+    ],
+    communityLinks: {
+      network: "https://facebook.com/lexinvictus",
+      discussions: "https://twitter.com/lexinvictus",
+      resources: "https://linkedin.com/company/lexinvictus",
+      mentorship: "https://instagram.com/lexinvictus",
+    }
   }
   
 export type SiteConfig = typeof siteConfig

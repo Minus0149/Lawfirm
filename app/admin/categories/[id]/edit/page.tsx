@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Editor } from "@/components/editor"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
 export default function EditCategoryPage({ params }: { params: { id: string } }) {
@@ -28,7 +28,7 @@ export default function EditCategoryPage({ params }: { params: { id: string } })
         setDescription(data.description || "")
       } catch (error) {
         console.error("Error fetching category:", error)
-        toast({ title: "Error fetching category", variant: "destructive" })
+        toast.error("Error fetching category")
       }
     }
 
@@ -40,7 +40,7 @@ export default function EditCategoryPage({ params }: { params: { id: string } })
         setParentCategories(data.filter((cat: any) => cat.id !== params.id))
       } catch (error) {
         console.error("Error fetching categories:", error)
-        toast({ title: "Error fetching categories", variant: "destructive" })
+        toast.error("Error fetching categories")
       }
     }
 
@@ -69,11 +69,11 @@ export default function EditCategoryPage({ params }: { params: { id: string } })
 
       if (!response.ok) throw new Error("Failed to update category")
 
-      toast({ title: "Category updated successfully" })
+      toast.success("Category updated successfully")
       router.push("/admin/categories")
     } catch (error) {
       console.error("Error updating category:", error)
-      toast({ title: "Error updating category", variant: "destructive" })
+      toast.error("Failed to update category")
     } finally {
       setIsLoading(false)
     }

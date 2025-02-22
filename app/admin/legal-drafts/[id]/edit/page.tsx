@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Editor } from "@/components/editor"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 
 export default function EditLegalDraftPage({ params }: { params: { id: string } }) {
   const router = useRouter()
@@ -27,7 +27,7 @@ export default function EditLegalDraftPage({ params }: { params: { id: string } 
         setContent(data.content)
       } catch (error) {
         console.error("Error fetching legal draft:", error)
-        toast({ title: "Error fetching legal draft", variant: "destructive" })
+        toast.error("Error fetching legal draft")
       }
     }
 
@@ -57,11 +57,11 @@ export default function EditLegalDraftPage({ params }: { params: { id: string } 
   
         if (!response.ok) throw new Error("Failed to update legal draft")
   
-        toast({ title: "Legal draft updated successfully" })
+        toast.success("Legal draft updated successfully")
         router.push("/admin/legal-drafts")
       } catch (error) {
         console.error("Error updating legal draft:", error)
-        toast({ title: "Error updating legal draft", variant: "destructive" })
+        toast.error("Failed to update legal draft")
       } finally {
         setIsLoading(false)
       }

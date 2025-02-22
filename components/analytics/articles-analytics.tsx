@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DataTable } from "@/components/ui/data-table"
 import { useSearchParams } from "next/navigation"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 import { Pagination } from "../pagination"
 import { formatDate } from "@/lib/formatDate"
@@ -40,11 +40,7 @@ export function ArticlesAnalytics() {
         setViewsOverTime(result.viewsOverTime)
       } catch (error) {
         console.error("Error fetching article analytics:", error)
-        toast({
-          title: "Error",
-          description: "Failed to fetch article analytics",
-          variant: "destructive",
-        })
+        toast.error("Failed to fetch analytics data")
       } finally {
         setLoading(false)
       }

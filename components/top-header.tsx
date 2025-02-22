@@ -15,40 +15,16 @@ import { ClientOnlyIcon } from "./client-only-icon"
 export function TopHeader() {
   const { data: session } = useSession()
   const { theme, setTheme } = useTheme()
-  const [searchQuery, setSearchQuery] = useState("")
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const searchRef = useRef<HTMLDivElement>(null)
   const router =  useRouter()
 
   const isAuthorized = session?.user?.role && ["SUPER_ADMIN", "ADMIN", "EDITOR", "MANAGER"].includes(session.user.role)
-
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const searchTerm = (e.currentTarget.elements.namedItem('search') as HTMLInputElement).value
-    router.push(`/search?q=${encodeURIComponent(searchTerm)}`)
-  }
-  const closeSearch = () => {
-    setIsSearchOpen(false)
-    setSearchQuery("")
-  }
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        closeSearch()
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [closeSearch]) // Added closeSearch to dependencies
 
   return (
     <div className="container mx-auto px-4 py-4 flex items-center justify-between">
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link href="/" className="flex items-center">
           <Image
-            src="/logo.PNG"
+            src="https://i.ibb.co/FkdD21Vr/Logo.png"
             alt="Logo"
             width={100}
             height={190}
@@ -61,34 +37,6 @@ export function TopHeader() {
         </Link>
 
         <div className="flex items-center space-x-4">
-          <div ref={searchRef} className="relative">
-            {isSearchOpen ? (
-              <form onSubmit={handleSearch} className="flex items-center">
-                <Input
-                  type="search"
-                  placeholder="Search..."
-                  name="search"
-                  className="w-64 bg-primary-foreground text-primary pl-4 pr-10 py-2 rounded-full border-2 border-primary-foreground focus:border-primary focus:outline-none"
-                />
-                <button
-                  type="button"
-                  onClick={closeSearch}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-primary"
-                >
-                  <ClientOnlyIcon icon={X} className="h-5 w-5" />
-                </button>
-              </form>
-            ) : (
-              <button
-                onClick={() => setIsSearchOpen(true)}
-                className="hover:text-primary-foreground transition-colors"
-                aria-label="Search"
-              >
-                <ClientOnlyIcon icon={Search} className="h-5 w-5 mt-1" />
-              </button>
-            )}
-          </div>
-
           <Button
             variant="ghost"
             size="icon"
@@ -137,7 +85,7 @@ export function TopHeader() {
 
           <Link href="/experiences">
             <Button variant="ghost" size="sm">
-              Job Experiences
+              Job / Internship Experiences
             </Button>
           </Link>
 

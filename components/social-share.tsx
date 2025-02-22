@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Facebook, Twitter, Linkedin, LinkIcon, Share2 } from "lucide-react"
 import { useState } from "react"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { ShareButton } from "./share-button"
 
 interface SocialShareProps {
@@ -49,25 +49,16 @@ export function SocialShare({ url, title, articleId, initialShares=0 }: SocialSh
     try {
       if (navigator.clipboard) {
         await navigator.clipboard.writeText(url)
-        toast({
-          title: "Link Copied!",
-          description: "The article link has been copied to your clipboard.",
-        })
+        toast.success("Link copied to clipboard")
       } else {
-        toast({
-          title: "Clipboard Not Supported",
+        toast.error("Clipboard Not Supported", {
           description: "Your browser does not support clipboard copying.",
-          variant: "destructive",
         })
       }
       incrementShareCount()
     } catch (err) {
       console.error("Failed to copy:", err)
-      toast({
-        title: "Error",
-        description: "Failed to copy the link. Please try again.",
-        variant: "destructive",
-      })
+      toast.error("Failed to copy link. Please try again.")
     } finally {
       setIsSharing(false)
     }

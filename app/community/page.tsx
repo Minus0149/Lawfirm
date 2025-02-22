@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Users, MessageCircle, BookOpen, Award } from "lucide-react"
 import Link from "next/link"
+import { siteConfig } from "@/config/site"
 
 export default function CommunityPage() {
   return (
@@ -27,7 +28,9 @@ export default function CommunityPage() {
               <p className="mb-4">
                 Build meaningful connections with lawyers, law students, and legal experts from around the world.
               </p>
-              <Button className="w-full">Join Network</Button>
+              <Link href={siteConfig.communityLinks.network} className="flex items-center space-x-2">
+                <Button className="w-full">Join Network</Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -43,7 +46,9 @@ export default function CommunityPage() {
               <p className="mb-4">
                 Participate in thought-provoking discussions about legal cases, developments, and challenges.
               </p>
-              <Button className="w-full">Join Discussions</Button>
+              <Link href={siteConfig.communityLinks.discussions} className="flex items-center space-x-2">
+                <Button className="w-full">Join Discussions</Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -57,7 +62,9 @@ export default function CommunityPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">Get access to premium legal resources, templates, and educational materials.</p>
-              <Button className="w-full">Browse Resources</Button>
+              <Link href={siteConfig.communityLinks.resources} className="flex items-center space-x-2">
+                <Button className="w-full">Browse Resources</Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -71,24 +78,12 @@ export default function CommunityPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">Connect with experienced mentors who can guide you through your legal career.</p>
-              <Button className="w-full">Find Mentor</Button>
+              <Link href={siteConfig.communityLinks.mentorship} className="flex items-center space-x-2">
+                <Button className="w-full" >Find Mentor</Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
-
-        <Card className="bg-primary text-primary-foreground">
-          <CardContent className="p-6">
-            <div className="text-center space-y-4">
-              <h2 className="text-2xl font-bold">Ready to Join?</h2>
-              <p>Join our community today and take advantage of all the benefits we offer to legal professionals.</p>
-              <Link href="/signup">
-                <Button variant="secondary" size="lg">
-                  Sign Up Now
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   )

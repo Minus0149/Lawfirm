@@ -15,7 +15,7 @@ import {
 import { Category, Status } from "@prisma/client"
 import { formatDate } from '@/lib/formatDate'
 import { stripHtmlAndTruncate } from '@/lib/textUtils'
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { useRouter } from 'next/navigation'
 
 interface ArticleData {
@@ -92,18 +92,11 @@ export const createColumns = (dateType: 'created' | 'updated', sortField: 'creat
 
           const result = await response.json()
 
-          toast({
-            title: "Article deleted successfully",
-            description: `The article "${article.title}" has been deleted.`,
-          })
+          toast.success('Article deleted successfully')
           router.refresh()
         } catch (error) {
           console.error('Error deleting article:', error)
-          toast({
-            title: "Error deleting article",
-            description: "There was a problem deleting the article. Please try again.",
-            variant: "destructive",
-          })
+          toast.error('Failed to delete article')
         }
       }
     }

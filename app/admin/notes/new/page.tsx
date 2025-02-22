@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Editor } from "@/components/editor"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { Category } from "@prisma/client"
 
 export default function NewNotePage() {
@@ -28,7 +28,7 @@ export default function NewNotePage() {
         setCategories(data.filter((category: Category) => category.name.toLocaleLowerCase().includes("note")))
       } catch (error) {
         console.error("Error fetching categories:", error)
-        toast({ title: "Error fetching categories", variant: "destructive" })
+        toast.error("Error fetching categories")
       }
     }
 
@@ -50,11 +50,11 @@ export default function NewNotePage() {
 
       if (!response.ok) throw new Error("Failed to create note")
 
-      toast({ title: "Note created successfully" })
+      toast.success("Note created successfully") 
       router.push("/admin/notes")
     } catch (error) {
       console.error("Error creating note:", error)
-      toast({ title: "Error creating note", variant: "destructive" })
+      toast.error("Failed to create note")
     } finally {
       setIsLoading(false)
     }

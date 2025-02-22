@@ -8,9 +8,8 @@ import { LoadingScreen } from '@/components/loading-screen'
 import { ConditionalHeader } from '@/components/conditional-header'
 import { ConditionalFooter } from '@/components/conditional-footer'
 import { prisma } from '@/lib/prisma'
-import { HomeIcon } from "lucide-react"
-import Link from 'next/link'
 import { FloatingOverlay } from '@/components/floating-overlay'
+import { Toaster } from "@/components/ui/sonner"
 
 const inter = Inter({
   subsets: ['latin'],
@@ -52,7 +51,7 @@ export default async function RootLayout({
 
         <Analytics />
         <SpeedInsights />
-        
+        <Toaster position="bottom-right" />
         <FloatingOverlay />
       </body>
     </html>

@@ -107,7 +107,7 @@ export function MobileHeader({ categories }: MobileHeaderProps) {
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center">
             <Image
-              src="/logo.PNG"
+              src="https://i.ibb.co/FkdD21Vr/Logo.png"
               alt="Logo"
               width={40}
               height={40}
@@ -207,7 +207,7 @@ export function MobileHeader({ categories }: MobileHeaderProps) {
                 className="block py-3 px-4 border-b border-muted hover:bg-muted"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Job Experiences
+                Job / Internship Experiences
               </Link>
 
               <Link

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { Category as PrismaCategory } from '@prisma/client'
 
 interface Category extends PrismaCategory {
@@ -79,21 +79,14 @@ export default function CreateArticlePage() {
         body: formData,
       })
       if (response.ok) {
-        toast({
-          title: "Success",
-          description: "Article created successfully",
-        })
+        toast.success('Article submitted successfully')
         router.push('/')
       } else {
         throw new Error('Failed to create article')
       }
     } catch (error) {
       console.error('Error creating article:', error)
-      toast({
-        title: "Error",
-        description: "Failed to create article",
-        variant: "destructive",
-      })
+      toast.error('Failed to create article')
     } finally {
       setIsLoading(false)
     }
@@ -157,7 +150,7 @@ export default function CreateArticlePage() {
       )}
       <div>
         <Label htmlFor="content">Content</Label>
-        <Editor value="" onChange={setContent} placeholder="Article content starts here..." />
+        <Editor value={content} onChange={setContent} placeholder="Article content starts here..." />
         {/* <WYSIWYGEditor initialValue="" onChange={setContent} /> */}
       </div>
       <Button type="submit" disabled={isLoading}>

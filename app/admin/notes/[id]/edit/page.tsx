@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Editor } from "@/components/editor"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 import { Category } from "@prisma/client"
 
 export default function EditNotePage({ params }: { params: { id: string } }) {
@@ -29,7 +29,7 @@ export default function EditNotePage({ params }: { params: { id: string } }) {
         setContent(data.content)
       } catch (error) {
         console.error("Error fetching note:", error)
-        toast({ title: "Error fetching note", variant: "destructive" })
+        toast.error("Error fetching note")
       }
     }
 
@@ -42,7 +42,7 @@ export default function EditNotePage({ params }: { params: { id: string } }) {
         
       } catch (error) {
         console.error("Error fetching categories:", error)
-        toast({ title: "Error fetching categories", variant: "destructive" })
+        toast.error("Error fetching categories")
       }
     }
 
@@ -73,11 +73,11 @@ export default function EditNotePage({ params }: { params: { id: string } }) {
 
       if (!response.ok) throw new Error("Failed to update note")
 
-      toast({ title: "Note updated successfully" })
+      toast.success("Note updated successfully")
       router.push("/admin/notes")
     } catch (error) {
       console.error("Error updating note:", error)
-      toast({ title: "Error updating note", variant: "destructive" })
+      toast.error("Failed to update note")
     } finally {
       setIsLoading(false)
     }

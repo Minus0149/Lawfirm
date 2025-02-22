@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
+import { toast } from "sonner"
 
 export default function EditExperiencePage({ params }: { params: { id: string } }) {
   const router = useRouter()
@@ -23,7 +23,7 @@ export default function EditExperiencePage({ params }: { params: { id: string } 
         setExperience(data)
       } catch (error) {
         console.error("Error fetching experience:", error)
-        toast({ title: "Error fetching experience", variant: "destructive" })
+        toast.error("Error fetching experience")
       }
     }
 
@@ -46,11 +46,11 @@ export default function EditExperiencePage({ params }: { params: { id: string } 
 
       if (!response.ok) throw new Error("Failed to update experience")
 
-      toast({ title: "Experience updated successfully" })
+      toast.success("Experience updated successfully")
       router.push("/admin/experiences")
     } catch (error) {
       console.error("Error updating experience:", error)
-      toast({ title: "Error updating experience", variant: "destructive" })
+      toast.error("Failed to update experience")
     } finally {
       setIsLoading(false)
     }
