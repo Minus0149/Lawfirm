@@ -94,6 +94,7 @@ export function MainCategoriesHeader({ categories }: MainCategoriesHeaderProps) 
                   after:transform after:scale-x-0 after:transition-transform after:duration-300
                   ${pathname === `/${category.slug}` ? "after:scale-x-100" : ""}
                 `}
+                onClick={() => setIsExtraCategoriesOpen(false)}
               >
                 {category.name.toUpperCase()}
               </Link>
