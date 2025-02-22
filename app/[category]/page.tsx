@@ -38,7 +38,7 @@ export default async function CategoryPage({ params }: { params: { category: str
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <Advertisement position="TOP_BANNER" category={category.slug}/>
+      <Advertisement position="TOP_BANNER" category={category.id}/>
       <h1 className="text-3xl font-bold mb-6">{category.name}</h1>
       {/* {category.children.length > 0 && (
         <div className="mb-8">

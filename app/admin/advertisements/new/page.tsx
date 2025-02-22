@@ -18,13 +18,12 @@ interface Category extends PrismaCategory {
 
 export default function CreateAdvertisementPage() {
   const router = useRouter()
-  const [ad, setAd] = useState({ link: '', placement: '', startDate: '', endDate: '' })
+  const [ad, setAd] = useState({ link: '', placement: '', startDate: '', endDate: '',location:'', category:'' })
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imageLink, setImageLink] = useState('')
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [categories, setCategories] = useState<Category[]>([])
-  const [category, setCategory] = useState<Category | null>(null)
 
   useEffect(() => {
       // Helper function to flatten categories
@@ -82,71 +81,64 @@ export default function CreateAdvertisementPage() {
     }
   }
 
-  // const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    try {
+      const formData = new FormData()
+      formData.append('link', ad.link)
+      formData.append('placement', ad.placement)
+      formData.append('startDate', ad.startDate)
+      formData.append('endDate', ad.endDate)
+      formData.append('location', ad.location)
+      formData.append('category', ad.category || '')
+      if (imageFile) {
+       formData.append('imageFile', imageFile)
+     }else if (imageLink) {
+       formData.append('imageLink', imageLink)
+     }
+     console.log(formData)
+      const response = await fetch(`/api/advertisements`, {
+        method: 'POST',
+        body: formData,
+      })
+      if (!response.ok) {
+        throw new Error('Failed to create advertisement')
+      }
+      toast.success('Advertisement created successfully')
+      router.push('/admin/advertisements')
+    } catch (error) {
+      console.error('Error updating advertisement:', error)
+      toast.error('Failed to create advertisement. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+    
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   //   e.preventDefault()
   //   setIsLoading(true)
-  //   try {
-  //     const formData = new FormData()
-  //     formData.append('link', ad.link)
-  //     formData.append('placement', ad.placement)
-  //     formData.append('startDate', ad.startDate)
-  //     formData.append('endDate', ad.endDate)
-  //     if (imageFile) {
-  //       formData.append('imageFile', imageFile)
-  //     }
-  //     if (imageLink) {
-  //       formData.append('imageLink', imageLink)
-  //     }
 
-  //     const response = await fetch('/api/advertisements', {
-  //       method: 'POST',
+  //   const formData = new FormData(e.currentTarget)
+
+  //   try {
+  //     const response = await fetch("/api/advertisements", {
+  //       method: "POST",
   //       body: formData,
   //     })
-  //     if (response.ok) {
-  //       toast({
-  //         title: "Success",
-  //         description: "Advertisement created successfully",
-  //       })
-  //       router.push('/admin/advertisements')
-  //     } else {
-  //       throw new Error('Failed to create advertisement')
-  //     }
+
+  //     if (!response.ok) throw new Error("Failed to create advertisement")
+  //     toast.success("Advertisement created successfully")
+  //     router.push("/admin/advertisements")
   //   } catch (error) {
-  //     console.error('Error creating advertisement:', error)
-  //     toast({
-  //       title: "Error",
-  //       description: "Failed to create advertisement",
-  //       variant: "destructive",
+  //     console.error("Error creating advertisement:", error)
+  //     toast.error("Failed to create the advertisement." , {
+  //       description: "Something went wrong. Please try again."
   //     })
   //   } finally {
   //     setIsLoading(false)
   //   }
   // }
-    
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setIsLoading(true)
-
-    const formData = new FormData(e.currentTarget)
-
-    try {
-      const response = await fetch("/api/advertisements", {
-        method: "POST",
-        body: formData,
-      })
-
-      if (!response.ok) throw new Error("Failed to create advertisement")
-      toast.success("Advertisement created successfully")
-      router.push("/admin/advertisements")
-    } catch (error) {
-      console.error("Error creating advertisement:", error)
-      toast.error("Failed to create the advertisement." , {
-        description: "Something went wrong. Please try again."
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
   
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -208,7 +200,7 @@ export default function CreateAdvertisementPage() {
       </div>
       <div >
         <Label htmlFor="location">Location</Label>
-        <Select name="location" required>
+        <Select name="location" required value={ad.location} onValueChange={(value) => setAd({ ...ad, location: value })}>
           <SelectTrigger>
             <SelectValue placeholder="Select location" />
           </SelectTrigger>
@@ -222,7 +214,7 @@ export default function CreateAdvertisementPage() {
       </div>
       <div>
         <Label htmlFor="category">Category</Label>
-        <Select value={category?.id || undefined} onValueChange={(value) => setCategory({ id: value } as Category)}>
+        <Select value={ad.category} onValueChange={(value) => setAd({ ...ad, category: value })}>
           <SelectTrigger>
             <SelectValue placeholder="Select a category" />
           </SelectTrigger>

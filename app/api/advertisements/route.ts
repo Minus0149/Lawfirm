@@ -60,9 +60,9 @@ export async function POST(req: NextRequest) {
     const startDate = formData.get('startDate') as string
     const endDate = formData.get('endDate') as string
     const imageFile = formData.get('imageFile') as File | null
-    const location = formData.get("location") as string | ''
-    const category = formData.get("category") as string | ''
-
+    const imageLink = formData.get("imageLink") as string | null
+    const location = formData.get('location') as string | ''
+    const category = formData.get('category') as string | ''
     let imageBuffer: Buffer | null = null
     if (imageFile) {
       const arrayBuffer = await imageFile.arrayBuffer()
@@ -75,9 +75,10 @@ export async function POST(req: NextRequest) {
         placement,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
-        imageFile: imageBuffer ? imageBuffer.toString('base64') : null,
+        image: imageLink ? imageLink : '' ,
+        ...(imageBuffer && { imageFile: imageBuffer.toString('base64') }),
         location,
-        categoryId: category === undefined ? null : category
+        categoryId: category === "" ? null : category
       }
     })
 
@@ -111,7 +112,9 @@ export async function PUT(req: NextRequest) {
     const startDate = formData.get('startDate') as string
     const endDate = formData.get('endDate') as string
     const imageFile = formData.get('imageFile') as File | null
-
+    const imageLink = formData.get("imageLink") as string | null
+    const location = formData.get('location') as string | ''
+    const category = formData.get('category') as string | ''
     let imageBuffer: Buffer | null = null
     if (imageFile) {
       const arrayBuffer = await imageFile.arrayBuffer()
@@ -125,15 +128,20 @@ export async function PUT(req: NextRequest) {
         placement,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
+        image: imageLink ? imageLink : '' ,
         ...(imageBuffer && { imageFile: imageBuffer.toString('base64') }),
+        updatedAt: new Date(),
+        location,
+        categoryId: category === "" ? null : category
       }
     })
 
     await prisma.activityLog.create({
       data: {
+        userId: session.user.id,
         action: 'UPDATE_ADVERTISEMENT',
         details: `Updated advertisement: ${updatedAd.id}`,
-        userId: session.user.id
+        
       }
     })
 

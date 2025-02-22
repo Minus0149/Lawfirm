@@ -41,7 +41,6 @@ export default async function SubcategoryPage({ params }: { params: { category: 
       },
     },
   })
-
   if (!subcategory) {
     notFound()
   }
@@ -49,7 +48,7 @@ export default async function SubcategoryPage({ params }: { params: { category: 
   return (
     <div className="container mx-auto py-8 px-4">
       
-      <Advertisement position="TOP_BANNER"  category={subcategory.slug}/>
+      <Advertisement position="TOP_BANNER"  category={subcategory.id}/>
       <h1 className="text-3xl font-bold mb-6">{subcategory.name}</h1>
       <p className="mb-4">
         <Link href={`/${subcategory.parent?.slug}`} className="text-primary hover:underline">

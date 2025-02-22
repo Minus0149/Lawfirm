@@ -126,10 +126,8 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
      formData.append('category', ad.category || '')
      if (imageFile) {
       formData.append('imageFile', imageFile)
-      formData.set('imageLink', '')
     }else if (imageLink) {
       formData.append('imageLink', imageLink)
-      formData.set('imageFile', '')
     }
     console.log(formData)
      const response = await fetch(`/api/advertisements/${params.id}`, {
@@ -143,6 +141,7 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
      router.push('/admin/advertisements')
    } catch (error) {
      console.error('Error updating advertisement:', error)
+     toast.error('Failed to update advertisement. Please try again.')
      setError('Failed to update advertisement. Please try again.')
    } finally {
      setIsLoading(false)

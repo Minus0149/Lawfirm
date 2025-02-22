@@ -28,13 +28,12 @@ export function Advertisement({ position, category }: AdvertisementProps) {
       const location = getLocation(pathname)
       
       try {
-        const response = await fetch(`/api/advertisements/get?position=${position}&category=${category|| ""}&location=${location}`)
+        const response = await fetch(`/api/advertisements/get?position=${position}&category=${category|| null }&location=${location}`)
         if (!response.ok) {
           throw new Error(`Failed to load advertisement: ${response.statusText}`)
         }
         const data = await response.json()
         setAd(data)
-
         // Record view
         if (data?.id) {
           await fetch(`/api/advertisements/view`, {

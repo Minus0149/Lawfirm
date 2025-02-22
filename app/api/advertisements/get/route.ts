@@ -4,8 +4,8 @@ import { NextResponse } from "next/server"
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const position = searchParams.get("position")
-  const location = searchParams.get("location") || undefined
-  const category = searchParams.get("category") || undefined
+  const location = searchParams.get("location") || null
+  const category = searchParams.get("category") || null
 
   if (!position) {
     return NextResponse.json({ error: "Position is required" }, { status: 400 })
@@ -16,9 +16,7 @@ export async function GET(request: Request) {
       where: {
         placement: position as "TOP_BANNER" | "CATEGORY_PAGE",
         location,
-        category: {
-          slug: category
-        },
+        categoryId: category ? category : null,
         startDate: { lte: new Date() },
         endDate: { gte: new Date() },
       }, 
