@@ -41,7 +41,6 @@ export function ArticleFilter() {
     const fetchCategories = async () => { 
       const response = await fetch('/api/categories')
       const data = await response.json()
-      console.log(data)
       const flattenCategories = (categories: any[]): {name:string,id: string}[] => {
       return categories.reduce((acc: {name:string,id: string}[], category: any) => {
         acc.push({ name: category.name, id: category.id })

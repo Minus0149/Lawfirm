@@ -178,7 +178,7 @@ export default function CreateArticlePage() {
       )}
       <div>
         <Label htmlFor="content">Content</Label>
-        <Editor value="" onChange={setContent} placeholder="Article content starts here..." />
+        <Editor value={content} onChange={setContent} placeholder="Article content starts here..." />
         {/* <WYSIWYGEditor initialValue="" onChange={setContent} /> */}
       </div>
       <Button type="submit" disabled={isLoading}>

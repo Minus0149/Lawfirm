@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal, Pencil, Trash } from 'lucide-react'
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import {
@@ -49,11 +50,12 @@ export const createColumns = (dateType: 'created' | 'updated', sortField: 'creat
  {
    accessorKey: "status",
    header: "Status",
-   cell: ({ row }) => (
-     <span className={row.original.status === 'PUBLISHED' ? "text-green-600" : "text-yellow-600"}>
-       {row.original.status}
-     </span>
-   ),
+   cell: ({ row }) => {
+    const status = row.getValue("status") as string
+    console.log(status)
+    const variant = status === "SCHEDULED" || status === "PENDING" ? "default" : status === "PUBLISHED" ? "success" : "destructive"
+    return <Badge variant={variant}>{status}</Badge>
+  },
  },
  {
    accessorKey: sortField,
