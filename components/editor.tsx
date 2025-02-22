@@ -45,7 +45,7 @@ export function Editor({ value, onChange, placeholder }: EditorProps) {
         onChange={onChange}
         modules={modules}
         placeholder={placeholder}
-        className="h-[89%] rounded-md"
+        className="h-[82%] sm:h-[89%] rounded-md"
       />
     </div>
   )
