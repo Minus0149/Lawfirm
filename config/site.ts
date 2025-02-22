@@ -18,10 +18,17 @@ export const siteConfig = {
     {
       name: "Ranjeet Saw",
       role: "Legal Expert & Mentor",
-      photo: "/mentors/ranjeet-saw.jpg",
+      photo: "/placeholder.jpg",
       description: "Expert legal mentor with over 10 years of experience in corporate law and legal education.",
       website: "https://topmate.io/ranjeet_saw",
-      }
+      },
+    {
+      name: "Satakshi Yadav",
+      role: "Legal Expert & Mentor",
+      photo: "/placeholder.jpg",
+      description: "Expert legal mentor with over 10 years of experience in corporate law and legal education.",
+      website: "https://topmate.io/satakshi_yadav",
+      },
     ],
     communityLinks: {
       network: "https://facebook.com/lexinvictus",
