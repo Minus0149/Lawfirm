@@ -21,6 +21,7 @@ export function MainCategoriesHeader({ categories }: MainCategoriesHeaderProps) 
   const router =  useRouter()
   const [isExtraCategoriesOpen, setIsExtraCategoriesOpen] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
+  const extraCategoriesRef = useRef<HTMLDivElement>(null)
 
   const closeSearch = () => {
     setIsSearchOpen(false)
@@ -31,6 +32,9 @@ export function MainCategoriesHeader({ categories }: MainCategoriesHeaderProps) 
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         closeSearch()
+      }
+      if (extraCategoriesRef.current && !extraCategoriesRef.current.contains(event.target as Node)) {
+        setIsExtraCategoriesOpen(false)
       }
     }
 
@@ -65,7 +69,7 @@ export function MainCategoriesHeader({ categories }: MainCategoriesHeaderProps) 
           ))}
           {mainCategories.length > 6 && (
             <li>
-              <div className="relative z-50">
+              <div className="relative z-50" ref={extraCategoriesRef}>
           <button
             onClick={(e) => {
               e.preventDefault()
