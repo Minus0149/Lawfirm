@@ -55,6 +55,11 @@ export default async function CategoryPage({ params }: { params: { category: str
         </div>
       )} */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {category.articles.length === 0 &&(
+          <div className="text-xl text-muted-foreground">
+            No articles found in this category.
+          </div>
+        )}
         {category.articles.map((article) => (
           <Card key={article.id}>
             <div className="relative w-full h-48 mb-4">

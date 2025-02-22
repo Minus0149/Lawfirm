@@ -56,6 +56,11 @@ export default async function SubcategoryPage({ params }: { params: { category: 
         </Link>
       </p>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {subcategory.articles.length === 0 &&(
+          <div className="text-xl text-muted-foreground">
+            No articles found in this category.
+          </div>
+        )}
         {subcategory.articles.map((article) => (
           <Card key={article.id}>
             <div className="relative w-full h-48 mb-4">
