@@ -88,10 +88,10 @@ export const columns: ColumnDef<Category>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>
+            <DropdownMenuItem asChild>
               <Link href={`/admin/categories/${category.id}`}>View Details</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem asChild>
               <Link href={`/admin/categories/${category.id}/edit`}>Edit</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />

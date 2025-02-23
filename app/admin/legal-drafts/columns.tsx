@@ -83,10 +83,10 @@ export const columns: ColumnDef<LegalDraft>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>
+            <DropdownMenuItem asChild>
               <Link href={`/admin/legal-drafts/${legalDraft.id}`}>View Details</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem asChild>
               <Link href={`/admin/legal-drafts/${legalDraft.id}/edit`}>Edit</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />

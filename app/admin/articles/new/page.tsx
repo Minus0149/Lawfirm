@@ -106,7 +106,7 @@ export default function CreateArticlePage() {
       })
       if (response.ok) {
         toast.success('Article created successfully')
-        router.push('/admin/articles')
+        router.push('/admin/articles?refresh=true')
       } else {
         throw new Error('Failed to create article')
       }

@@ -50,7 +50,7 @@ export default function CreateUserPage() {
       }
 
       toast.success('User created successfully')
-      router.push('/admin/users')
+      router.push('/admin/users?refresh=true')
       router.refresh()
     } catch (error) {
       console.error('Error creating user:', error)

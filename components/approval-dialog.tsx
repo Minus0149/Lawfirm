@@ -30,7 +30,7 @@ export function ApprovalDialog({ article }: { article: PendingArticle }) {
       toast.success('Article status updated successfully')
 
       setIsOpen(false)
-      router.refresh()
+      window.location.reload()
     } catch (error) {
       console.error('Error updating article status:', error)
       toast.error('Failed to update article status')

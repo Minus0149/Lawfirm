@@ -71,7 +71,7 @@ export const columns: ColumnDef<Note>[] = [
             if (!response.ok) throw new Error("Failed to delete note")
 
             toast.success("Note deleted successfully")
-            router.refresh()
+            window.location.reload()
           } catch (error) {
             console.error("Error deleting note:", error)
             toast.error("Failed to delete note")
@@ -88,10 +88,10 @@ export const columns: ColumnDef<Note>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>
+            <DropdownMenuItem asChild>
               <Link href={`/admin/notes/${note.id}`}>View Details</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem asChild>
               <Link href={`/admin/notes/${note.id}/edit`}>Edit</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />

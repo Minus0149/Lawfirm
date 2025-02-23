@@ -135,7 +135,7 @@ export default function EditArticlePage({ params }: { params: { id: string } }) 
         throw new Error(`HTTP error! status: ${response.status}`)
       }
       toast.success('Article updated successfully') 
-      router.push('/admin/articles')
+      router.push('/admin/articles?refresh=true')
     } catch (error) {
       console.error('Error updating article:', error)
       setError('Failed to update article. Please try again.')

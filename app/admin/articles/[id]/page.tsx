@@ -70,7 +70,7 @@ export default function ArticlePreviewPage({ params }: { params: { id: string } 
       }
 
       toast.success('Article status updated successfully')
-      router.push('/admin/approvals')
+      router.push('/admin/approvals?refresh=true')
     } catch (error) {
       console.error('Error updating article status:', error)
       toast.error('Failed to update article status')
@@ -83,14 +83,14 @@ export default function ArticlePreviewPage({ params }: { params: { id: string } 
     const newIndex = (currentIndex - 1 + articles.length) % articles.length
     setCurrentIndex(newIndex)
     fetchArticleData(articles[newIndex].id)
-    router.push(`/admin/articles/${articles[newIndex].id}`, { scroll: false })
+    router.push(`/admin/articles/${articles[newIndex].id}?refresh=true`, { scroll: false })
   }
 
   const handleNext = () => {
     const newIndex = (currentIndex + 1) % articles.length
     setCurrentIndex(newIndex)
     fetchArticleData(articles[newIndex].id)
-    router.push(`/admin/articles/${articles[newIndex].id}`, { scroll: false })
+    router.push(`/admin/articles/${articles[newIndex].id}?refresh=true`, { scroll: false })
   }
 
   if (!articleData) {

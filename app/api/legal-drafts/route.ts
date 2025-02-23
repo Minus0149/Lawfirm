@@ -51,15 +51,18 @@ export async function POST(request: Request) {
     const title = formData.get("title") as string
     const content = formData.get("content") as string
     const category = formData.get("category") as string
-    const authorId = formData.get("authorId") as string
-    const file = formData.get("file") as File | null
-
+    // const authorId = formData.get("authorId") as string
+    const file = formData.get("file") as File | null 
+    console.log(file)
     let fileUrl = null
-    if (file) {
-      fileUrl = await uploadFile(file)
+    if (file && file.size > 0) {
+      try {
+        fileUrl = await uploadFile(file)
+      } catch (error) {
+        console.error("Error uploading file:", error)
+        return NextResponse.json({ error: "Failed to upload file" }, { status: 500 })
+      }
     }
-
-    
 
     const user = await prisma.user.findUnique({
       where: { email: 'user@lexinvictus.com' },

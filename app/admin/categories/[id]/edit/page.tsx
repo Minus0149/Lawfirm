@@ -70,7 +70,7 @@ export default function EditCategoryPage({ params }: { params: { id: string } })
       if (!response.ok) throw new Error("Failed to update category")
 
       toast.success("Category updated successfully")
-      router.push("/admin/categories")
+      router.push("/admin/categories?refresh=true")
     } catch (error) {
       console.error("Error updating category:", error)
       toast.error("Failed to update category")

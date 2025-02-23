@@ -47,7 +47,7 @@ export default function EditExperiencePage({ params }: { params: { id: string } 
       if (!response.ok) throw new Error("Failed to update experience")
 
       toast.success("Experience updated successfully")
-      router.push("/admin/experiences")
+      router.push("/admin/experiences?refresh=true")
     } catch (error) {
       console.error("Error updating experience:", error)
       toast.error("Failed to update experience")

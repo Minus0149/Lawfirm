@@ -54,7 +54,7 @@ export default function NewCategoryPage() {
             if (!response.ok) throw new Error("Failed to create category")
 
             toast.success("Category created successfully")
-            router.push("/admin/categories")
+            router.push("/admin/categories?refresh=true")
         } catch (error) {
             console.error("Error creating category:", error)
             toast.error("Failed to create category")

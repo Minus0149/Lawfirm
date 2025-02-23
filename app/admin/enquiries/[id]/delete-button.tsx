@@ -31,8 +31,8 @@ export function DeleteEnquiryButton({ id }: { id: string }) {
       if (!response.ok) throw new Error("Failed to delete enquiry")
 
       toast.success("Enquiry deleted successfully")
-      router.push("/admin/enquiries")
-      router.refresh()
+      router.push("/admin/enquiries?refresh=true")
+      window.location.reload()
     } catch (error) {
       console.error("Error deleting enquiry:", error)
       toast.error("Error deleting enquiry", {

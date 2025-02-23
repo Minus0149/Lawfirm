@@ -74,7 +74,7 @@ export default function EditNotePage({ params }: { params: { id: string } }) {
       if (!response.ok) throw new Error("Failed to update note")
 
       toast.success("Note updated successfully")
-      router.push("/admin/notes")
+      router.push("/admin/notes?refresh=true")
     } catch (error) {
       console.error("Error updating note:", error)
       toast.error("Failed to update note")
@@ -86,7 +86,7 @@ export default function EditNotePage({ params }: { params: { id: string } }) {
   if (!note) return <div>Loading...</div>
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="mx-auto max-w-3xl py-8 px-4">
       <h1 className="text-3xl font-bold mb-6">Edit Note</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>

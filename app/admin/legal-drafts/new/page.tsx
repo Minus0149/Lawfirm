@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -32,7 +32,7 @@ export default function NewLegalDraftPage() {
       if (!response.ok) throw new Error("Failed to create legal draft")
 
       toast.success("Legal draft created successfully")
-      router.push("/admin/legal-drafts")
+      router.push("/admin/legal-drafts?refresh=true")
     } catch (error) {
       console.error("Error creating legal draft:", error)
       toast.error("Failed to create legal draft")

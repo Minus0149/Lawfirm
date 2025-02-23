@@ -76,7 +76,7 @@ export default function EditUserPage({ params }: { params: { id: string } }) {
       }
 
       toast.success('User updated successfully')
-      router.push('/admin/users')
+      router.push('/admin/users?refresh=true')
       router.refresh()
     } catch (error) {
       console.error('Error updating user:', error)

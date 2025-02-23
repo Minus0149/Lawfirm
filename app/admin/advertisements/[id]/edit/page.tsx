@@ -138,7 +138,7 @@ export default function EditAdvertisementPage({ params }: { params: { id: string
        throw new Error('Failed to update advertisement')
      }
      toast.success('Advertisement updated successfully')
-     router.push('/admin/advertisements')
+     router.push('/admin/advertisements?refresh=true')
    } catch (error) {
      console.error('Error updating advertisement:', error)
      toast.error('Failed to update advertisement. Please try again.')

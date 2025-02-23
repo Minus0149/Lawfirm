@@ -51,7 +51,7 @@ export default function NewNotePage() {
       if (!response.ok) throw new Error("Failed to create note")
 
       toast.success("Note created successfully") 
-      router.push("/admin/notes")
+      router.push("/admin/notes?refresh=true")
     } catch (error) {
       console.error("Error creating note:", error)
       toast.error("Failed to create note")
@@ -61,7 +61,7 @@ export default function NewNotePage() {
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Create New Note</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>

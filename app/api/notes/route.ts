@@ -55,8 +55,13 @@ export async function POST(request: Request) {
     const file = formData.get("file") as File | null
 
     let fileUrl: string | null = null
-    if (file) {
-      fileUrl = await uploadFile(file)
+    if (file && file.size > 0) {
+      try {
+        fileUrl = await uploadFile(file)
+      } catch (error) {
+        console.error("Error uploading file:", error)
+        return NextResponse.json({ error: "Failed to upload file" }, { status: 500 })
+      }
     }
 
     const note = await prisma.note.create({

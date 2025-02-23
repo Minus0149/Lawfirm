@@ -32,7 +32,7 @@ export default function NewExperiencePage() {
             if (!response.ok) throw new Error("Failed to create experience")
 
             toast.success("Experience shared successfully")
-            router.push("/admin/experiences")
+            router.push("/admin/experiences?refresh=true")
         } catch (error) {
             console.error("Error creating experience:", error)
             toast.error("Failed to create experience")

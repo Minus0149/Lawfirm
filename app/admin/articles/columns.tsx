@@ -95,7 +95,7 @@ export const createColumns = (dateType: 'created' | 'updated', sortField: 'creat
           const result = await response.json()
 
           toast.success('Article deleted successfully')
-          router.refresh()
+          window.location.reload()
         } catch (error) {
           console.error('Error deleting article:', error)
           toast.error('Failed to delete article')

@@ -58,7 +58,7 @@ export default function EditLegalDraftPage({ params }: { params: { id: string } 
         if (!response.ok) throw new Error("Failed to update legal draft")
   
         toast.success("Legal draft updated successfully")
-        router.push("/admin/legal-drafts")
+        router.push("/admin/legal-drafts?refresh=true")
       } catch (error) {
         console.error("Error updating legal draft:", error)
         toast.error("Failed to update legal draft")

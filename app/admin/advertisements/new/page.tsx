@@ -106,7 +106,7 @@ export default function CreateAdvertisementPage() {
         throw new Error('Failed to create advertisement')
       }
       toast.success('Advertisement created successfully')
-      router.push('/admin/advertisements')
+      router.push('/admin/advertisements?refresh=true')
     } catch (error) {
       console.error('Error updating advertisement:', error)
       toast.error('Failed to create advertisement. Please try again.')

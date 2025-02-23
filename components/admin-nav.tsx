@@ -26,12 +26,12 @@ export function AdminNav({ navItems, toggleSidebar }: AdminNavProps) {
             <Link
               href={item.href}
               className={`block px-4 py-2 text-sm font-medium ${
-                pathname === item.href
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-foreground hover:bg-accent hover:text-accent-foreground'
+              (item.href === '/admin' && pathname === '/admin') || (item.href !== '/admin' && pathname.startsWith(item.href))
+              ? 'bg-primary text-primary-foreground'
+              : 'text-foreground hover:bg-accent hover:text-accent-foreground'
               }`}
               onClick={() => {
-                toggleSidebar()
+              toggleSidebar()
               }}
             >
               {item.label}
