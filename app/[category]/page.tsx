@@ -25,7 +25,7 @@ export default async function CategoryPage({ params }: { params: { category: str
         where: { status: "PUBLISHED" },
         include: {
           author: {
-            select: { id: true, name: true, role: true },
+            select: { id: true, name: true, role: true, image: true, imageFile: true },
           },
           category: {
             select: { id: true, name: true, slug: true, description: true, parentId: true, createdAt: true, updatedAt: true },

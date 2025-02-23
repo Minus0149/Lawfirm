@@ -35,7 +35,7 @@ export default async function SubcategoryPage({ params }: { params: { category: 
         where: { status: "PUBLISHED" },
         include: {
           author: {
-            select: { id: true, name: true, role: true },
+            select: { id: true, name: true, role: true, image: true, imageFile: true },
           },
           category: {
             select: { id: true, name: true, slug: true, description: true, parentId: true, createdAt: true, updatedAt: true },
