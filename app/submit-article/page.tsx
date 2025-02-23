@@ -154,7 +154,7 @@ export default function CreateArticlePage() {
         {/* <WYSIWYGEditor initialValue="" onChange={setContent} /> */}
       </div>
       <Button type="submit" disabled={isLoading}>
-        {isLoading ? 'Creating...' : 'Create Article'}
+        {isLoading ? 'Submiting...' : 'Submit Article'}
       </Button>
     </form>
   )
