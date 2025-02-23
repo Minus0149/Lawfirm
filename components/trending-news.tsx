@@ -7,13 +7,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Article } from '@/types/article'
+import { formatDate } from '@/lib/formatDate'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
 interface TrendingArticle {
   id: string
   title: string
   imageUrl: string | null
   imageFile: Buffer | Uint8Array | null
+  createdAt: Date 
+  author: {
+    name: string
+    image: string | null
+    imageFile: Buffer | null
+  }
 }
 
 export default function TrendingNews() {
@@ -116,61 +123,48 @@ export default function TrendingNews() {
     return null
   }
 
-  const currentArticle = trendingArticles[currentIndex]
-
   return (
-    <Card 
-      className="w-full max-w-md mx-auto md:mt-[3.6rem]"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      <CardHeader>
-        <CardTitle>Trending</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentArticle.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="space-y-2"
-            >
-              <div className="relative h-48 w-full rounded-md overflow-hidden">
-                {currentArticle.imageUrl || currentArticle.imageFile ? (
-                  <Image
-                    src={currentArticle.imageUrl || `data:image/jpeg;base64,${currentArticle.imageFile ? Buffer.from(new Uint8Array(currentArticle.imageFile)).toString('base64') : ''}`}
-                    alt={currentArticle.title}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
-                    No image available
-                  </div>
-                )}
-              </div>
-              <Link href={`/article/${currentArticle.id}`} className="block hover:text-primary transition-colors duration-200">
-                <h3 className="text-base font-semibold line-clamp-2">{currentArticle.title}</h3>
-              </Link>
-            </motion.div>
-          </AnimatePresence>
-          <div className="flex justify-between items-center">
-            <Button variant="outline" size="sm" onClick={handlePrevious} aria-label="Previous article">
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <span className="text-xs text-muted-foreground">
-              {currentIndex + 1} of {trendingArticles.length}
-            </span>
-            <Button variant="outline" size="sm" onClick={handleNext} aria-label="Next article">
-              <ChevronRight className="h-4 w-4" />
-            </Button>
+    <div className="container mx-auto py-8 px-4 rounded-none mt-6">
+    <h2 className="text-xl font-semibold mb-6 rounded-none">Trending Post</h2>
+    <div className="space-y-6 rounded-none">
+      {trendingArticles.map((post) => (
+        <article key={post.id} className="flex gap-4 items-center">
+          <Link href={`/article/${post.id}`} className="shrink-0 rounded-none">
+            <Image
+              src={post.imageUrl || `data:image/jpeg;base64,${post.imageFile ? Buffer.from(new Uint8Array(post.imageFile)).toString('base64') : ''}`}
+              alt={post.title}
+              width={140}
+              height={140}
+              className="object-cover w-[140px] h-[140px] rounded-none"
+            />
+          </Link>
+          <div className="flex flex-col min-w-0">
+            <span className="text-sm mb-1">{formatDate(post.createdAt)}</span>
+            <Link href={`/article/${post.id}`} className="font-semibold leading-snug text-lg hover:underline line-clamp-2">
+              {post.title}
+            </Link>
+            <div className="flex items-center gap-2 mt-2">
+              <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                      {post.author.imageFile ? (
+                        <Image
+                          src={`data:image/jpeg;base64,${typeof post.author.imageFile === 'string' ? post.author.imageFile : Buffer.from(new Uint8Array(post.author.imageFile)).toString('base64')}`}
+                          alt={post.author.name || "User avatar"}
+                          layout="fill"
+                          objectFit="cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                          <span className="text-gray-500 text-xl">{post.author.name?.[0]?.toUpperCase()}</span>
+                        </div>
+                      )}
+                    </div>
+              <span className="text-sm text-gray-600 dark:text-gray-300">{post.author.name}</span>
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </article>
+      ))}
+    </div>
+  </div>
   )
 }
 

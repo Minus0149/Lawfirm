@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
         skip: (page - 1) * limit,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        include: { author: { select: { name: true, role: true } }, category: true }
+        include: { author: { select: { name: true, role: true , imageFile:true} }, category: true }
       }),
       prisma.article.count({ where })
     ])

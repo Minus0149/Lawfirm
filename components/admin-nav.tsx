@@ -24,7 +24,7 @@ export function AdminNav({ navItems, toggleSidebar }: AdminNavProps) {
         {navItems.map((item) => (
           <li key={item.href}>
             <Link
-              href={item.href}
+              href={`${item.href}?refresh=true`}
               className={`block px-4 py-2 text-sm font-medium ${
               (item.href === '/admin' && pathname === '/admin') || (item.href !== '/admin' && pathname.startsWith(item.href))
               ? 'bg-primary text-primary-foreground'

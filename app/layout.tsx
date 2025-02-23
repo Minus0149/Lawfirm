@@ -1,5 +1,5 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Montserrat } from 'next/font/google'
 import { Providers } from './providers'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/react'
@@ -10,16 +10,17 @@ import { ConditionalFooter } from '@/components/conditional-footer'
 import { prisma } from '@/lib/prisma'
 import { FloatingOverlay } from '@/components/floating-overlay'
 import { Toaster } from "@/components/ui/sonner"
+import { Metadata } from 'next'
 
-const inter = Inter({
+const montserrat = Montserrat({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-montserrat',
 })
 
-export const metadata = {
-  title: 'LexInvictus - the lawfirm you can trust',
-  description: 'LexInvictus is a law firm that provides legal services to clients in the areas of corporate and commercial law, real estate, intellectual property, and litigation.',
+export const metadata: Metadata = {
+  title: "LexInvictus - Legal Education Platform",
+  description: "Professional Legal Education and Resources",
 }
 
 export default async function RootLayout({
@@ -31,7 +32,7 @@ export default async function RootLayout({
   const categories = await prisma.category.findMany()
 
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
+    <html lang="en" suppressHydrationWarning className={montserrat.variable}>
       <body className="min-h-screen bg-background text-foreground font-sans scroll-smooth">
         <Providers>
           

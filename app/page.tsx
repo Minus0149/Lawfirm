@@ -5,7 +5,7 @@ import { Advertisement } from '@/components/advertisement'
 import { ArticleListSkeleton, TrendingNewsSkeleton } from '@/components/skeletons'
 import { fetchArticles } from '@/lib/api'
 import { LoadingScreen } from '@/components/loading-screen'
-import { MentorshipCards } from '@/components/mentorship-card'
+import { MentorshipSection } from '@/components/mentorship-card'
 
 const ArticleList = dynamic(() => import('@/components/article-list'), {
   loading: () => <ArticleListSkeleton />
@@ -38,7 +38,7 @@ export default async function Home({ searchParams }: PageProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-4">
           <div className="md:col-span-2">
-            <h1 className="text-3xl font-bold mb-6">Latest Articles</h1>
+            <h1 className="text-3xl font-bold mb-6">Exploring New Articles</h1>
             <Suspense fallback={<ArticleListSkeleton />}>
               <ArticleList
                 initialArticles={articles}
@@ -59,7 +59,7 @@ export default async function Home({ searchParams }: PageProps) {
             </div>
           </div>
         </div>
-        <MentorshipCards />
+        <MentorshipSection />
       </div>
     </Suspense>
   )

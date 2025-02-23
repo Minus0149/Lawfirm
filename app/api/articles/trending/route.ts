@@ -7,11 +7,8 @@ export async function GET() {
       where: { status: 'PUBLISHED' },
       orderBy: { views: 'desc' },
       take: 3,
-      select: {
-        id: true,
-        title: true,
-        imageUrl: true,
-        imageFile: true,
+      include: {
+        author: true,
       }
     })
 

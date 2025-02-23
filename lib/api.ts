@@ -34,7 +34,7 @@ export async function fetchArticles(
         orderBy: { createdAt: 'desc' },
         skip: (page - 1) * pageSize,
         take: pageSize,
-        include: { author: { select: { id: true, name: true, role: true } }, category: true },
+        include: { author: { select: { id: true, name: true, role: true,imageFile:true } }, category: true },
       }),
       prisma.article.count({ where })
     ])
@@ -44,7 +44,12 @@ export async function fetchArticles(
       imageFile: article.imageFile && typeof article.imageFile === 'object' && (article.imageFile as any) instanceof Buffer 
         ? (article.imageFile as Buffer).toString('base64')
         : article.imageFile,
-      author: article.author || null,
+      author: article.author ? {
+        ...article.author,
+        image: article.author.imageFile && typeof article.author.imageFile === 'object' && (article.author.imageFile as any) instanceof Buffer 
+          ? (article.author.imageFile as Buffer).toString('base64')
+          : article.author.imageFile,
+      } : null,
     }))
 
     const result = { articles: formattedArticles, totalArticles }
@@ -73,7 +78,7 @@ export async function fetchTrendingArticles(): Promise<Article[]> {
         views: 'desc'
       },
       take: 3,
-      include: { author: { select: { name: true, id: true, role: true } } , category: true },
+      include: { author: { select: { name: true, id: true, role: true,imageFile:true } } , category: true },
     })
 
     const formattedArticles: Article[] = articles.map((article) => ({
@@ -81,7 +86,12 @@ export async function fetchTrendingArticles(): Promise<Article[]> {
       imageFile: article.imageFile && typeof article.imageFile === 'object' && (article.imageFile as any) instanceof Buffer 
         ? (article.imageFile as Buffer).toString('base64')
         : article.imageFile,
-      author: article.author || null,
+      author: article.author ? {
+        ...article.author,
+        image: article.author.imageFile && typeof article.author.imageFile === 'object' && (article.author.imageFile as any) instanceof Buffer 
+          ? (article.author.imageFile as Buffer).toString('base64')
+          : article.author.imageFile,
+      } : null,
     }))
 
     articleCache.set(cacheKey, { articles: formattedArticles, totalArticles: formattedArticles.length })
@@ -117,7 +127,7 @@ export async function fetchSearchedArticles(
         orderBy: { createdAt: 'desc' },
         skip: (page - 1) * pageSize,
         take: pageSize,
-        include: { author: { select: { id: true, name: true, role: true } }, category: true },
+        include: { author: { select: { id: true, name: true, role: true , imageFile:true } }, category: true },
       }),
       prisma.article.count({
         where: {
@@ -135,7 +145,12 @@ export async function fetchSearchedArticles(
       imageFile: article.imageFile && typeof article.imageFile === 'object' && (article.imageFile as any) instanceof Buffer 
       ? (article.imageFile as Buffer).toString('base64')
       : article.imageFile,
-      author: article.author || null,
+      author: article.author ? {
+        ...article.author,
+        image: article.author.imageFile && typeof article.author.imageFile === 'object' && (article.author.imageFile as any) instanceof Buffer 
+          ? (article.author.imageFile as Buffer).toString('base64')
+          : article.author.imageFile,
+      } : null,
     }))
 
     const result = { articles: formattedArticles, totalArticles }

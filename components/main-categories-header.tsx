@@ -46,7 +46,7 @@ export function MainCategoriesHeader({ categories }: MainCategoriesHeaderProps) 
     router.push(`/search?q=${encodeURIComponent(searchTerm)}`)
   }
   return (
-    <nav className="bg-[#2b447c] text-white py-3 ">
+    <nav className="bg-[#2B447C] text-white py-3 ">
       <div className="container mx-auto self-center px-4 h-8 flex align-center justify-center">
         <ul className="flex justify-center items-center space-x-8">
           {mainCategories.slice(0, 6).map((category) => (

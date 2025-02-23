@@ -41,10 +41,10 @@ export default async function ArticlePage({ params }: { params: { id: string } }
               src={article.imageUrl || `data:image/jpeg;base64,${Array.isArray(article.imageFile) ? Buffer.from(article.imageFile).toString('base64') : article.imageFile}`}
               alt={article.title}
               fill
-              className="object-cover rounded-lg"
+              className="object-cover rounded-none"
             />
           ) : (
-            <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 rounded-lg">
+            <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 rounded-none">
               No image available
             </div>
           )}
@@ -58,7 +58,7 @@ export default async function ArticlePage({ params }: { params: { id: string } }
               }),
             }}
           /> */}
-          <StyledArticleContent content={article.content} />
+          <StyledArticleContent content={article.content}/>
         <div className="flex justify-between items-center mt-8">
           <LikeButton articleId={article.id} initialLikes={article.likes} />
           <SocialShare url={`${process.env.NEXT_PUBLIC_APP_URL}/article/${article.id}`} title={article.title} articleId={article.id} initialShares={article.shares} />

@@ -12,7 +12,7 @@ export function StyledArticleContent({ content, className }: StyledArticleConten
         "prose dark:prose-invert max-w-none",
         "prose-headings:font-bold prose-headings:text-primary",
         "prose-p:text-muted-foreground prose-p:leading-relaxed",
-        "prose-a:text-primary prose-a:no-underline hover:prose-a:underline",
+        "prose-a:text-primary dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline",
         "prose-strong:text-foreground",
         "prose-ul:list-disc prose-ul:pl-5",
         "prose-ol:list-decimal prose-ol:pl-5",

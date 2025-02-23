@@ -60,7 +60,11 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
               href={`#${heading.id}`}
               onClick={(e) => {
                 e.preventDefault()
-                document.getElementById(heading.id)?.scrollIntoView({ behavior: "smooth" })
+                const element = document.getElementById(heading.id)
+                if (element) {
+                  console.log(`Scrolling to: ${heading.id}`)
+                  element.scrollIntoView({ behavior: "smooth" })
+                }
               }}
               className="flex items-center hover:text-primary transition-colors"
             >
@@ -73,4 +77,3 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
     </nav>
   )
 }
-

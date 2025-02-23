@@ -13,6 +13,8 @@ export interface Article {
     id: string
     name: string | null
     role: Role | null
+    image: string | Buffer | null
+    imageFile: string | Buffer | null
   } | null
   authorId: string | null
   scheduledPublishDate: Date | null
