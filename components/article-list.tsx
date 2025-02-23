@@ -78,8 +78,7 @@ export default function ArticleList({
                     <p className="text-muted-foreground mb-2 text-sm">
                       By {article?.author?.name || 'Unknown'} | {formatDate(new Date(article.createdAt))}
                     </p>
-                    <p className="text-foreground line-clamp-3">
-                      {stripHtmlAndTruncate(article.content, 150)}
+                    <p className="text-foreground line-clamp-3" dangerouslySetInnerHTML={{ __html: stripHtmlAndTruncate(article.content, 150) }}>
                     </p>
                   </div>
                 </Link>

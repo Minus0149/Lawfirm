@@ -13,16 +13,14 @@ interface MainCategoriesHeaderProps {
 
 export function MainCategoriesHeader({ categories }: MainCategoriesHeaderProps) {
   const pathname = usePathname()
-  const mainCategories = categories.filter((category) => !category.parentId)
-  
   const [searchQuery, setSearchQuery] = useState("")
   const [isSearchOpen, setIsSearchOpen] = useState(false)
-  
   const router =  useRouter()
   const [isExtraCategoriesOpen, setIsExtraCategoriesOpen] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
   const extraCategoriesRef = useRef<HTMLDivElement>(null)
-
+  const mainCategories = categories.filter((category) => !category.parentId)
+  
   const closeSearch = () => {
     setIsSearchOpen(false)
     setSearchQuery("")

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { Article } from '@/types/article'
@@ -15,43 +15,44 @@ export default function ArticlePreviewPage({ params }: { params: { id: string } 
   const searchParams = useSearchParams()
   const [articleData, setArticleData] = useState<Article | null>(null)
   const [comment, setComment] = useState('')
-  const [isLoading, setIsLoading] = useState(true) // Set initial loading state to true
+  const [isLoading, setIsLoading] = useState(true)
   const [articles, setArticles] = useState<Article[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  useEffect(() => {
-    const fetchArticleData = async () => {
-      try {
-        const response = await fetch(`/api/articles/${params.id}?${searchParams}`) // Fetch single article
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-        const data = await response.json()
-        setArticleData(data)
-        setIsLoading(false) // Set loading to false after fetching data
-      } catch (error) {
-        console.error('Error fetching article data:', error)
-        toast.error('Failed to fetch article data')
-        setIsLoading(false) // Set loading to false on error as well
+  const fetchArticleData = async (id: string) => {
+    try {
+      const response = await fetch(`/api/articles/${id}?${searchParams}`)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
+      const data = await response.json()
+      setArticleData(data)
+      setIsLoading(false)
+    } catch (error) {
+      console.error('Error fetching article data:', error)
+      toast.error('Failed to fetch article data')
+      setIsLoading(false)
     }
-    fetchArticleData()
+  }
 
-    const fetchAllArticles = async () => { // Fetch all articles for navigation
-      try {
-        const res = await fetch(`/api/articles?${searchParams}`)
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`)
-        }
-        const allArticlesData = await res.json()
-        const pendingArticles = allArticlesData.articles.filter((article: Article) => article.status === 'PENDING')
-        setArticles(pendingArticles)
-        const index = allArticlesData.articles.findIndex((a: Article) => a.id === params.id)
-        setCurrentIndex(index)
-      } catch (error) {
-        console.error('Error fetching all articles:', error)
+  const fetchAllArticles = async () => {
+    try {
+      const res = await fetch(`/api/articles?${searchParams}`)
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
       }
+      const allArticlesData = await res.json()
+      const pendingArticles = allArticlesData.articles.filter((article: Article) => article.status === 'PENDING')
+      setArticles(pendingArticles)
+      const index = allArticlesData.articles.findIndex((a: Article) => a.id === params.id)
+      setCurrentIndex(index)
+    } catch (error) {
+      console.error('Error fetching all articles:', error)
     }
+  }
+
+  useEffect(() => {
+    fetchArticleData(params.id)
     fetchAllArticles()
   }, [params.id, searchParams])
 
@@ -68,8 +69,7 @@ export default function ArticlePreviewPage({ params }: { params: { id: string } 
         throw new Error('Failed to update article status')
       }
 
-     toast.success('Article status updated successfully')
-
+      toast.success('Article status updated successfully')
       router.push('/admin/approvals')
     } catch (error) {
       console.error('Error updating article status:', error)
@@ -82,14 +82,14 @@ export default function ArticlePreviewPage({ params }: { params: { id: string } 
   const handlePrevious = () => {
     const newIndex = (currentIndex - 1 + articles.length) % articles.length
     setCurrentIndex(newIndex)
-    setArticleData(articles[newIndex])
+    fetchArticleData(articles[newIndex].id)
     router.push(`/admin/articles/${articles[newIndex].id}`, { scroll: false })
   }
 
   const handleNext = () => {
     const newIndex = (currentIndex + 1) % articles.length
     setCurrentIndex(newIndex)
-    setArticleData(articles[newIndex])
+    fetchArticleData(articles[newIndex].id)
     router.push(`/admin/articles/${articles[newIndex].id}`, { scroll: false })
   }
 
@@ -137,4 +137,3 @@ export default function ArticlePreviewPage({ params }: { params: { id: string } 
     </div>
   )
 }
-

@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Advertisement } from "@/components/advertisement"
+import ArticleList from "@/components/article-list"
 
 export async function generateStaticParams() {
   const categories = await prisma.category.findMany({
@@ -36,6 +37,9 @@ export default async function SubcategoryPage({ params }: { params: { category: 
           author: {
             select: { name: true },
           },
+          category: {
+            select: { id: true, name: true, slug: true },
+          },
         },
         orderBy: { createdAt: "desc" },
       },
@@ -55,36 +59,13 @@ export default async function SubcategoryPage({ params }: { params: { category: 
           Back to {subcategory.parent?.name}
         </Link>
       </p>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {subcategory.articles.length === 0 &&(
-          <div className="text-xl text-muted-foreground">
-            No articles found in this category.
-          </div>
-        )}
-        {subcategory.articles.map((article) => (
-          <Card key={article.id}>
-            <div className="relative w-full h-48 mb-4">
-              <Image
-                src={article.imageUrl || "/placeholder.svg"}
-                alt={article.title}
-                fill
-                className="object-cover rounded-t-lg"
-              />
-            </div>
-            <CardHeader>
-              <CardTitle>
-                <Link href={`/article/${article.id}`} className="hover:text-primary">
-                  {article.title}
-                </Link>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-4">{article.content.substring(0, 150)}...</p>
-              <p className="text-sm text-muted-foreground">By {article.author?.name || "Unknown"}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <ArticleList
+        initialArticles={subcategory.articles}
+        totalArticles={subcategory.articles.length}
+        currentPage={1}
+        pageSize={10}
+        category={subcategory}
+      />
     </div>
   )
 }

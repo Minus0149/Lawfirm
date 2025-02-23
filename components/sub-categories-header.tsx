@@ -20,8 +20,6 @@ export function SubCategoriesHeader({ categories, selectedParentSlug }: SubCateg
   
   const [isExtraCategoriesOpen, setIsExtraCategoriesOpen] = useState(false)
   
-  if (subCategories.length === 0) return null
-  
   const extraCategoriesRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -33,6 +31,9 @@ export function SubCategoriesHeader({ categories, selectedParentSlug }: SubCateg
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
+
+  if (subCategories.length === 0) return null
+
   return (
     <nav className="bg-[#004C99] text-white py-2">
       <div className="container mx-auto px-4">
