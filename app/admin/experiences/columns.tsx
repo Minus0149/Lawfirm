@@ -119,7 +119,7 @@ export const columns: ColumnDef<Experience>[] = [
           })
           if (!response.ok) throw new Error("Failed to delete experience")
           toast.success("Experience deleted successfully")
-          window.location.reload()
+          router.refresh()
         } catch (error) {
           console.error("Error deleting experience:", error)
           toast.error("Failed to delete experience")

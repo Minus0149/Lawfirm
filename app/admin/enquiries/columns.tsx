@@ -92,7 +92,7 @@ export const columns: ColumnDef<Enquiry>[] = [
           toast.success("Status updated successfully", {
             description: `Enquiry status has been updated to ${status}.`,
           })
-          window.location.reload()
+          router.refresh()
         } catch (error) {
           console.error("Error updating status:", error)
           toast.error("Error updating status", {
@@ -118,7 +118,7 @@ export const columns: ColumnDef<Enquiry>[] = [
             description: "Your response has been saved.",
           })
           setShowResponseDialog(false)
-          window.location.reload()
+          router.refresh()
         } catch (error) {
           console.error("Error saving response:", error)
           toast.error("Error saving response", {

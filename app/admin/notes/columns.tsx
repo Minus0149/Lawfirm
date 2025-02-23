@@ -71,7 +71,7 @@ export const columns: ColumnDef<Note>[] = [
             if (!response.ok) throw new Error("Failed to delete note")
 
             toast.success("Note deleted successfully")
-            window.location.reload()
+            router.refresh()
           } catch (error) {
             console.error("Error deleting note:", error)
             toast.error("Failed to delete note")
