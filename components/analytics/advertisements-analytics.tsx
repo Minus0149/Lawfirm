@@ -7,10 +7,10 @@ import { useSearchParams } from "next/navigation"
 import { toast } from "sonner"
 import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts"
 import { Pagination } from "../pagination"
+import Image from "next/image"
 
 interface AdAnalytics {
   id: string
-  title: string
   placement: string
   location: string
   category: string
@@ -19,6 +19,9 @@ interface AdAnalytics {
   ctr: number
   startDate: string
   endDate: string
+  link: string
+  image?: string
+  imageFile?: string | ArrayBuffer
 }
 
 export function AdvertisementsAnalytics() {
@@ -53,8 +56,32 @@ export function AdvertisementsAnalytics() {
 
   const columns = [
     {
-      accessorKey: "title",
-      header: "Title",
+       accessorKey: "image",
+          header: "Image",
+          cell: ({ row }: { row: { original: AdAnalytics } }) => (
+            row.original.image || row.original.imageFile ? (
+              <div className="relative w-16 h-16">
+                <Image
+                  src={row.original.image || `data:image/jpeg;base64,${Array.isArray(row.original.imageFile) ? Buffer.from(row.original.imageFile).toString('base64') : row.original.imageFile}`}
+                  alt="Ad"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded"
+                />
+              </div>
+            ) : (
+              <span>No image</span>
+            )
+          ),
+    },
+    {
+      accessorKey: "link",
+      header: "Link",
+      cell: ({ row }: { row: { original: AdAnalytics } }) => (
+        <a href={`/admin/advertisements/${row.original.link}`} className="text-blue-600 underline">
+          {row.original.link.slice(0,30)}
+        </a>
+      ),
     },
     {
       accessorKey: "placement",
