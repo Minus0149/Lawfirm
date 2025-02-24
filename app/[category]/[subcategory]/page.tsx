@@ -55,7 +55,7 @@ export default async function SubcategoryPage({ params }: { params: { category: 
       <Advertisement position="TOP_BANNER"  category={subcategory.id}/>
       <h1 className="text-3xl font-bold mb-6">{subcategory.name}</h1>
       <p className="mb-4">
-        <Link href={`/${subcategory.parent?.slug}`} className="text-primary hover:underline">
+        <Link href={`/${subcategory.parent?.slug}`} className="text-primary dark:text-blue-500 hover:underline">
           Back to {subcategory.parent?.name}
         </Link>
       </p>

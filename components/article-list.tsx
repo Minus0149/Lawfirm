@@ -82,7 +82,7 @@ export default function ArticleList({
                 </h2>
               </Link>
 
-              <p className="text-muted-foreground line-clamp-2">{stripHtmlAndTruncate(article.content, 150)}</p>
+              <p className="text-muted-foreground line-clamp-2" dangerouslySetInnerHTML={{__html:stripHtmlAndTruncate(article.content, 150)}}></p>
 
               <Link
                 href={`/article/${article.id}`}
