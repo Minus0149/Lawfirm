@@ -53,7 +53,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
           <li
             key={heading.id}
             className={`pl-${(heading.level - 1) * 4} ${
-              activeId === heading.id ? "text-primary font-medium" : "text-muted-foreground"
+              activeId === heading.id ? "text-primary font-medium dark:text-blue-600" : "text-muted-foreground"
             }`}
           >
             <a
@@ -66,7 +66,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
                   element.scrollIntoView({ behavior: "smooth" })
                 }
               }}
-              className="flex items-center hover:text-primary transition-colors"
+              className="flex items-center hover:text-primary dark:hover:text-blue-500 transition-colors text-xl"
             >
               <Link className="w-4 h-4 mr-2" />
               {heading.text}

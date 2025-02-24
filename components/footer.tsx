@@ -69,9 +69,9 @@ legal professionals. We aim to create a space where aspiring legal minds can thr
             </ul>
           </div>
         </div>
-        <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground flex justify-between">
+        <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground flex justify-between flex-col sm:flex-row">
           © {new Date().getFullYear()} LexInvictus.in. All rights reserved.
-          <ul className='flex space-x-6'>
+          <ul className='flex space-x-6 flex-col sm:flex-row space-y-4 mt-4 sm:mt-0 sm:space-y-0'>
             <li>
               <Link href="/privacy-policy" className="text-sm text-muted-foreground hover:text-primary">
                   Privacy Policy

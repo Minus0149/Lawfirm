@@ -58,7 +58,7 @@ export default async function ArticlePage({ params }: { params: { id: string } }
               }),
             }}
           /> */}
-          <StyledArticleContent content={article.content}/>
+        <StyledArticleContent content={article.content}/>
         <div className="flex justify-between items-center mt-8">
           <LikeButton articleId={article.id} initialLikes={article.likes} />
           <SocialShare url={`${process.env.NEXT_PUBLIC_APP_URL}/article/${article.id}`} title={article.title} articleId={article.id} initialShares={article.shares} />
