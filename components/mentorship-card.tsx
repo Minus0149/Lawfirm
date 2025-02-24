@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 
 export function MentorshipSection() {
   return (
-    <section className="pt-16 rounded-none">
+    <section className="pt-16 rounded-none" id="mentorship">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">Our Legal Mentors</h2>
