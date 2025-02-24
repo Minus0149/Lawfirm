@@ -66,8 +66,8 @@ export default function ArticleList({
             </Link>
 
             <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <Avatar className="h-7 w-7">
+              <div className="flex items-center gap-2 my-3">
+                <Avatar className="h-8 w-8">
                   <AvatarImage src={`data:image/jpeg;base64,${typeof article.author?.imageFile === 'string' ? article.author.imageFile : Buffer.from(new Uint8Array(article.author?.imageFile || new Uint8Array())).toString('base64')}`} alt={article.author?.name || "Author"} />
                   <AvatarFallback>{article.author?.name?.[0] || "A"}</AvatarFallback>
                 </Avatar>
@@ -86,7 +86,7 @@ export default function ArticleList({
 
               <Link
                 href={`/article/${article.id}`}
-                className="inline-flex items-center text-sm font-medium transition-colors tracking-wider bg-[#F4F4F4] dark:bg-slate-400 py-[10px] px-[16px]"
+                className="inline-flex items-center text-sm font-medium transition-colors tracking-wider bg-[#F4F4F4] dark:bg-zinc-800 py-[10px] px-[16px]"
               >
                 READ MORE
                 <ChevronRight className="ml-2 mb-0.5 h-4 w-4" />

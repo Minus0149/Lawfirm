@@ -95,7 +95,7 @@ export default function TrendingNews() {
 
   if (isLoading) {
     return (
-      <Card className="w-full max-w-md mx-auto md:mt-[4rem] md:pt-6">
+      <Card className="w-full max-w-md mx-auto">
         <CardHeader>
           <CardTitle>Trending</CardTitle>
         </CardHeader>
@@ -108,7 +108,7 @@ export default function TrendingNews() {
 
   if (error) {
     return (
-      <Card className="w-full max-w-md mx-auto md:mt-[3.6rem]">
+      <Card className="w-full max-w-md mx-auto">
         <CardHeader>
           <CardTitle>Trending</CardTitle>
         </CardHeader>
@@ -124,9 +124,9 @@ export default function TrendingNews() {
   }
 
   return (
-    <div className="container mx-auto py-8 px-4 rounded-none mt-6">
+    <div className="container mx-auto py-0 px-4 rounded-none">
     <h2 className="text-xl font-semibold mb-6 rounded-none">Trending Post</h2>
-    <div className="space-y-6 rounded-none">
+    <div className="space-y-6 rounded-none space-y-1">
       {trendingArticles.map((post) => (
         <article key={post.id} className="flex gap-4 items-center">
           <Link href={`/article/${post.id}`} className="shrink-0 rounded-none">
@@ -139,12 +139,12 @@ export default function TrendingNews() {
             />
           </Link>
           <div className="flex flex-col min-w-0">
-            <span className="text-sm mb-1">{formatDate(post.createdAt)}</span>
-            <Link href={`/article/${post.id}`} className="font-semibold leading-snug text-lg hover:underline line-clamp-2">
+            <span className="text-xs mb-1">{formatDate(post.createdAt)}</span>
+            <Link href={`/article/${post.id}`} className="font-semibold leading-snug text-lg hover:underline line-clamp-2 mt-0.5">
               {post.title}
             </Link>
-            <div className="flex items-center gap-2 mt-2">
-              <div className="relative w-10 h-10 rounded-full overflow-hidden">
+            <div className="flex items-center gap-2 mt-3">
+              <div className="relative w-8 h-8 rounded-full overflow-hidden">
                       {post.author.imageFile ? (
                         <Image
                           src={`data:image/jpeg;base64,${typeof post.author.imageFile === 'string' ? post.author.imageFile : Buffer.from(new Uint8Array(post.author.imageFile)).toString('base64')}`}

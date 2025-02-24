@@ -18,7 +18,7 @@ export function AdminHeader({ toggleSidebar,isOpen }: AdminHeaderProps) {
     <header className="bg-card text-card-foreground shadow-md fixed top-0 left-0 right-0 z-40">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link href="/admin" className="text-2xl font-bold text-primary shrink-0">
+          <Link href="/admin" className="text-2xl font-bold text-primary dark:text-blue-500 shrink-0">
             Admin Panel
           </Link>
           <div className="flex items-center space-x-4">

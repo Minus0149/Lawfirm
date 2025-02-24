@@ -13,9 +13,10 @@ import { Toaster } from "@/components/ui/sonner"
 import { Metadata } from 'next'
 
 const montserrat = Montserrat({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-montserrat',
+  subsets: ["latin"],
+  preload: true,
+  display: "block",
+  variable: "--font-montserrat",
 })
 
 export const metadata: Metadata = {
@@ -33,7 +34,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning className={montserrat.variable}>
-      <body className="min-h-screen bg-background text-foreground font-sans scroll-smooth">
+      <body className={`min-h-screen bg-background text-foreground font-sans scroll-smooth ${montserrat.variable}`}>
         <Providers>
           
             <Suspense fallback={<LoadingScreen />}>

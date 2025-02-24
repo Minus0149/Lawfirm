@@ -35,10 +35,12 @@ export default async function Home({ searchParams }: PageProps) {
         <div className="max-w-7xl mx-auto">
           <Advertisement position="TOP_BANNER" />
         </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 mt-5">
+        <h1 className="text-5xl font-bold leading-[64px] md:col-span-2">Exploring New <br/>Articles</h1>
+        <p className='w-96 my-auto leading-8 text-lg'>Dive into a world of insights, ideas, and inspiration. Stay updated with the latest trends shaping our present and future.</p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-4">
           <div className="md:col-span-2">
-            <h1 className="text-3xl font-bold mb-6">Exploring New Articles</h1>
             <Suspense fallback={<ArticleListSkeleton />}>
               <ArticleList
                 initialArticles={articles}
@@ -51,8 +53,7 @@ export default async function Home({ searchParams }: PageProps) {
           </div>
 
           <div className="md:col-span-1">
-            <div className="sticky top-4 space-y-8">
-              {/* <Advertisement position="SIDEBAR" /> */}
+            <div className="sticky">
               <Suspense fallback={<TrendingNewsSkeleton />}>
                 <TrendingNews />
               </Suspense>
