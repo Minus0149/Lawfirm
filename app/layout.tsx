@@ -88,6 +88,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={montserrat.variable}>
       <Head>
+      <meta name="google-site-verification" content="P-JC1LpMI31989c2hqCwvPJpdxsXrDwfohFUsIzLHFI" />
         <CanonicalUrl />
       </Head>
       <body className={`min-h-screen bg-background text-foreground font-sans scroll-smooth ${montserrat.variable}`}>
