@@ -27,7 +27,9 @@ export default async function ExperiencesPage() {
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {experiences.map((experience) => (
-          <ExperienceCard key={experience.id} experience={experience} />
+          <Link href={`/experiences/${experience.id}`} key={experience.id}>
+            <ExperienceCard key={experience.id} experience={experience} />
+          </Link>
         ))}
       </div>
     </div>

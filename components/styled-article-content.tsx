@@ -35,12 +35,12 @@ export function StyledArticleContent({ content, className }: StyledArticleConten
 
             // Tailwind Font Sizes for Different Headings
             const headingSizeClasses: Record<string, string> = {
-              "1": "text-4xl font-bold",  // h1
-              "2": "text-3xl font-semibold",  // h2
-              "3": "text-2xl font-semibold",  // h3
-              "4": "text-xl font-medium",  // h4
-              "5": "text-lg font-medium",  // h5
-              "6": "text-base font-medium",  // h6
+              // "1": "text-4xl font-bold",  // h1
+              "2": "text-4xl font-semibold",  // h2
+              "3": "text-3xl font-semibold",  // h3
+              "4": "text-2xl font-medium",  // h4
+              "5": "text-xl font-medium",  // h5
+              "6": "text-lg font-medium",  // h6
             }
 
             const headingClass = headingSizeClasses[level] || "text-lg"

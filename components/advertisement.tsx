@@ -203,7 +203,7 @@ export function Advertisement({ position, category }: AdvertisementProps) {
         alt={ad.title || "Advertisement"}
         width={300}
         height={250}
-        className="object-cover w-full h-full"
+        className="object-contain w-full h-full"
         unoptimized
       />
       {ad.title && (
