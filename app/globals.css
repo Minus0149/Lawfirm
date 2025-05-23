@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,8 +12,8 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
@@ -22,19 +24,29 @@
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --ring: 0 0% 0%;
     --radius: 0.5rem;
+    --slide-ease: cubic-bezier(0.4, -0.3, 0.6, 1.3);
+    --easing: var(--slide-ease);
+    --speed: 0.5s;
+    --width: clamp(50px, 20vmin, 100px);
+    --ar: 8 / 3;
+    --ray: hsl(0 0% 100% / 0.5);
+    --sun: hsl(47, 91%, 58%);
+    --moon: hsl(212, 13%, 82%);
+    --crater: hsl(221, 16%, 68%);
+    --bear-speed: 10s;
   }
 
   .dark {
     --background: 0, 0%, 7%;
     --foreground: 210 40% 98%;
-    --card:  0, 0%, 7%;
+    --card: 0, 0%, 7%;
     --card-foreground: 210 40% 98%;
-    --popover:  0, 0%, 7%;
+    --popover: 0, 0%, 7%;
     --popover-foreground: 210 40% 98%;
-    --primary: 217, 91%, 60%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
@@ -45,7 +57,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --ring: 0 0% 100%;
   }
 }
 
@@ -62,7 +74,11 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply text-foreground font-sans;
+    background-color: white;
+  }
+
+  .dark body {
+    background-color: black;
   }
 }
-

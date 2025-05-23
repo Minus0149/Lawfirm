@@ -18,7 +18,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-montserrat)", "system-ui", "sans-serif"],
+        sans: ["var(--font-lufga)", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -27,7 +27,7 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#1a237e",
+          DEFAULT: "#000000",
           foreground: "#ffffff",
         },
         secondary: {
@@ -63,5 +63,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
-}
-
+};

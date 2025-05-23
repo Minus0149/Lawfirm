@@ -1,24 +1,26 @@
-export const dynamic = "force-dynamic"
-
-import { notFound, redirect } from "next/navigation"
-import { prisma } from "@/lib/prisma"
-import Link from "next/link"
-import Image from "next/image"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Advertisement } from "@/components/advertisement"
-import ArticleList from "@/components/article-list"
+import { notFound, redirect } from "next/navigation";
+import { prisma } from "@/lib/prisma";
+import Link from "next/link";
+import Image from "next/image";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Advertisement } from "@/components/advertisement";
+import ArticleList from "@/components/article-list";
 
 export async function generateStaticParams() {
   const categories = await prisma.category.findMany({
     select: { slug: true },
-  })
+  });
 
   return categories.map((category) => ({
     category: category.slug,
-  }))
+  }));
 }
 
-export default async function CategoryPage({ params }: { params: { category: string } }) {
+export default async function CategoryPage({
+  params,
+}: {
+  params: { category: string };
+}) {
   const category = await prisma.category.findFirst({
     where: { slug: params.category },
     include: {
@@ -27,24 +29,38 @@ export default async function CategoryPage({ params }: { params: { category: str
         where: { status: "PUBLISHED" },
         include: {
           author: {
-            select: { id: true, name: true, role: true, image: true, imageFile: true },
+            select: {
+              id: true,
+              name: true,
+              role: true,
+              image: true,
+              imageFile: true,
+            },
           },
           category: {
-            select: { id: true, name: true, slug: true, description: true, parentId: true, createdAt: true, updatedAt: true },
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+              description: true,
+              parentId: true,
+              createdAt: true,
+              updatedAt: true,
+            },
           },
         },
         orderBy: { createdAt: "desc" },
       },
     },
-  })
+  });
 
   if (!category) {
-    notFound()
+    notFound();
   }
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <Advertisement position="CATEGORY_PAGE" category={category.id}/>
+      <Advertisement position="CATEGORY_PAGE" category={category.id} />
       <h1 className="text-3xl font-bold mb-6">{category.name}</h1>
       {/* {category.children.length > 0 && (
         <div className="mb-8">
@@ -68,6 +84,5 @@ export default async function CategoryPage({ params }: { params: { category: str
         category={category}
       />
     </div>
-  )
+  );
 }
-
