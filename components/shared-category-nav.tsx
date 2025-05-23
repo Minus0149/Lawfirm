@@ -56,7 +56,7 @@ export default function SharedCategoryNav({
         className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
           selectedCategory === null
             ? "bg-black text-white dark:bg-white dark:text-black"
-            : "bg-white text-gray-700 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600"
+            : "bg-white text-gray-700 hover:bg-gray-100 dark:bg-black dark:text-gray-300 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600"
         }`}
       >
         All
@@ -68,7 +68,7 @@ export default function SharedCategoryNav({
           className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
             selectedCategory === category.id
               ? "bg-black text-white dark:bg-white dark:text-black"
-              : "bg-white text-gray-700 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600"
+              : "bg-white text-gray-700 hover:bg-gray-100 dark:bg-black dark:text-gray-300 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600"
           }`}
         >
           {category.name}

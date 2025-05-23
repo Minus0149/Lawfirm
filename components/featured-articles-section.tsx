@@ -106,7 +106,7 @@ export default function FeaturedArticlesSection({
 
   if (isLoading) {
     return (
-      <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 bg-white dark:bg-gray-800">
+      <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 bg-white dark:bg-black">
         <div className="space-y-4">
           <div className="h-8 bg-gray-300 dark:bg-gray-700 rounded w-48 animate-pulse"></div>
           <div className="grid grid-cols-4 gap-6">
@@ -127,7 +127,7 @@ export default function FeaturedArticlesSection({
 
   if (articles.length === 0) {
     return (
-      <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 bg-white dark:bg-gray-800">
+      <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 bg-white dark:bg-black">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
           Latest Articles
         </h2>
@@ -139,7 +139,7 @@ export default function FeaturedArticlesSection({
   const [featuredArticle, ...smallerArticles] = articles;
 
   return (
-    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 bg-white dark:bg-gray-800">
+    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 bg-white dark:bg-black">
       <div className="space-y-6">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           Latest Articles
@@ -149,7 +149,7 @@ export default function FeaturedArticlesSection({
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Large Featured Article - Takes 3 columns - Article Card Style */}
           <div className="col-span-1 md:col-span-3">
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div className="bg-white dark:bg-black border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
               {/* Image Section */}
               <div className="relative h-48 overflow-hidden">
                 {featuredArticle.imageUrl || featuredArticle.imageFile ? (
