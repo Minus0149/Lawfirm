@@ -233,11 +233,11 @@ function ArticleCard({ article }: { article: Article }) {
           <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
             <div className="flex items-center gap-1">
               <Eye className="h-4 w-4" />
-              <span>{Math.floor(Math.random() * 2000) + 500}</span>
+              <span>{article.views}</span>
             </div>
             <div className="flex items-center gap-1">
               <Share2 className="h-4 w-4" />
-              <span>{Math.floor(Math.random() * 100) + 10}</span>
+              <span>{article.shares}</span>
             </div>
           </div>
         </div>

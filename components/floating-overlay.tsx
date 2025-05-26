@@ -1,23 +1,27 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Home, LucideMousePointer2, Users, X } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import { usePathname } from "next/navigation"
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Home, LucideMousePointer2, Users, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 export function FloatingOverlay() {
-  const [isVisible, setIsVisible] = useState(false)
-  const pathname = usePathname()
-  if (pathname.includes("admin")) return null
+  const [isVisible, setIsVisible] = useState(false);
+  const pathname = usePathname();
+  if (pathname.includes("admin")) return null;
   return (
-    <Link href="/enquiry">
-    <Button variant="outline" className="fixed bottom-4 right-4 p-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 h-12" onClick={() => setIsVisible(true)}>
-        <LucideMousePointer2/>
-    </Button>
+    <Link href="/contact">
+      <Button
+        variant="outline"
+        className="fixed bottom-4 right-4 p-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 h-12"
+        onClick={() => setIsVisible(true)}
+      >
+        <LucideMousePointer2 />
+      </Button>
     </Link>
-  )
+  );
 
   // return (
   //   <AnimatePresence>
@@ -53,4 +57,3 @@ export function FloatingOverlay() {
   //   </AnimatePresence>
   // )
 }
-
