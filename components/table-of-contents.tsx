@@ -87,16 +87,15 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
                       .
                     </span>
                   )}
-                  <span className="bg-[#E9ECEF] text-[#4A5158] px-2 rounded-full">
+                  {/* <span className="bg-[#E9ECEF] text-[#4A5158] px-2 rounded-full">
                     {index + 1}
-                  </span>
+                  </span> */}
                   <span
                     className={`font-medium ${
                       heading.level === 2 ? "" : "ml-2"
                     }`}
-                  >
-                    {heading.text}
-                  </span>
+                    dangerouslySetInnerHTML={{ __html: heading.text }}
+                  ></span>
                 </a>
               </li>
             );

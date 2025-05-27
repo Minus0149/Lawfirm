@@ -77,25 +77,27 @@ export function ArticleSocialShare({
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4 py-6">
+    <div className="flex flex-col items-center space-y-4 py-4 lg:py-6">
       {/* Share Count */}
       <div className="text-center">
-        <div className="text-2xl font-bold text-gray-900 dark:text-white">
+        <div className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
           {shareCount}
         </div>
-        <div className="text-sm text-gray-600 dark:text-gray-400">Shares</div>
+        <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+          Shares
+        </div>
       </div>
 
       {/* Social Share Icons */}
-      <div className="flex flex-col space-y-3">
+      <div className="flex flex-row md:flex-col gap-2 sm:gap-3">
         <Button
           variant="outline"
           size="icon"
           onClick={() => handleShare("facebook")}
           aria-label="Share on Facebook"
-          className="rounded-full hover:bg-gray-100 hover:border-gray-300 dark:hover:bg-gray-700 dark:hover:border-gray-600"
+          className="rounded-full hover:bg-gray-100 hover:border-gray-300 dark:hover:bg-gray-700 dark:hover:border-gray-600 h-8 w-8 sm:h-10 sm:w-10"
         >
-          <Facebook className="h-5 w-5 text-gray-900 dark:text-white" />
+          <Facebook className="h-4 w-4 sm:h-5 sm:w-5 text-gray-900 dark:text-white" />
         </Button>
 
         <Button
@@ -103,9 +105,9 @@ export function ArticleSocialShare({
           size="icon"
           onClick={() => handleShare("twitter")}
           aria-label="Share on Twitter"
-          className="rounded-full hover:bg-gray-100 hover:border-gray-300 dark:hover:bg-gray-700 dark:hover:border-gray-600"
+          className="rounded-full hover:bg-gray-100 hover:border-gray-300 dark:hover:bg-gray-700 dark:hover:border-gray-600 h-8 w-8 sm:h-10 sm:w-10"
         >
-          <Twitter className="h-5 w-5 text-gray-900 dark:text-white" />
+          <Twitter className="h-4 w-4 sm:h-5 sm:w-5 text-gray-900 dark:text-white" />
         </Button>
 
         <Button
@@ -113,9 +115,9 @@ export function ArticleSocialShare({
           size="icon"
           onClick={() => handleShare("linkedin")}
           aria-label="Share on LinkedIn"
-          className="rounded-full hover:bg-gray-100 hover:border-gray-300 dark:hover:bg-gray-700 dark:hover:border-gray-600"
+          className="rounded-full hover:bg-gray-100 hover:border-gray-300 dark:hover:bg-gray-700 dark:hover:border-gray-600 h-8 w-8 sm:h-10 sm:w-10"
         >
-          <Linkedin className="h-5 w-5 text-gray-900 dark:text-white" />
+          <Linkedin className="h-4 w-4 sm:h-5 sm:w-5 text-gray-900 dark:text-white" />
         </Button>
 
         <Button
@@ -123,19 +125,19 @@ export function ArticleSocialShare({
           size="icon"
           onClick={copyToClipboard}
           aria-label="Copy link"
-          className="rounded-full hover:bg-gray-100 hover:border-gray-300 dark:hover:bg-gray-700 dark:hover:border-gray-600"
+          className="rounded-full hover:bg-gray-100 hover:border-gray-300 dark:hover:bg-gray-700 dark:hover:border-gray-600 h-8 w-8 sm:h-10 sm:w-10"
           disabled={isSharing}
         >
-          <LinkIcon className="h-5 w-5 text-gray-900 dark:text-white" />
+          <LinkIcon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-900 dark:text-white" />
         </Button>
 
         <Button
           variant="outline"
           size="icon"
           aria-label="Comment"
-          className="rounded-full hover:bg-gray-100 hover:border-gray-300 dark:hover:bg-gray-700 dark:hover:border-gray-600"
+          className="rounded-full hover:bg-gray-100 hover:border-gray-300 dark:hover:bg-gray-700 dark:hover:border-gray-600 h-8 w-8 sm:h-10 sm:w-10"
         >
-          <MessageCircle className="h-5 w-5 text-gray-900 dark:text-white" />
+          <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5 text-gray-900 dark:text-white" />
         </Button>
       </div>
     </div>

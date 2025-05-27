@@ -147,9 +147,9 @@ export default async function ArticlePage({
         <Advertisement position="TOP_BANNER" />
 
         {/* New layout: Social share on left, main content in middle, sidebar on right */}
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Social Share Sidebar - Left */}
-          <aside className="hidden lg:block lg:w-20 xl:w-24 flex-shrink-0">
+          <aside className="hidden lg:block lg:w-16 xl:w-20 flex-shrink-0">
             <div className="sticky top-8">
               <ArticleSocialShare
                 url={`${process.env.NEXT_PUBLIC_APP_URL}/article/${article.id}`}
@@ -161,10 +161,10 @@ export default async function ArticlePage({
           </aside>
 
           {/* Main Content Area */}
-          <div className="lg:w-2/3 xl:w-3/4 flex-1">
+          <div className="lg:w-2/3 xl:w-3/4 flex-1 min-w-0">
             <article className="max-w-none">
               {/* Article Image with Overlay */}
-              <div className="relative h-64 w-full rounded-lg overflow-hidden group mb-8">
+              <div className="relative h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 w-full rounded-lg overflow-hidden group mb-6 lg:mb-8">
                 {article.imageUrl || article.imageFile ? (
                   <Image
                     src={
@@ -236,17 +236,19 @@ export default async function ArticlePage({
                 </div>
               </div>
 
-              {/* Table of Contents */}
-              <TableOfContents headings={headings} />
+              {/* Table of Contents - Only render if there are headings */}
+              {headings.length > 0 && <TableOfContents headings={headings} />}
 
               {/* Mobile Social Share - Only visible on mobile */}
-              <div className="lg:hidden mb-8">
-                <ArticleSocialShare
-                  url={`${process.env.NEXT_PUBLIC_APP_URL}/article/${article.id}`}
-                  title={article.title}
-                  articleId={article.id}
-                  shares={article.shares}
-                />
+              <div className="lg:hidden mb-6">
+                <div className="flex justify-center">
+                  <ArticleSocialShare
+                    url={`${process.env.NEXT_PUBLIC_APP_URL}/article/${article.id}`}
+                    title={article.title}
+                    articleId={article.id}
+                    shares={article.shares}
+                  />
+                </div>
               </div>
 
               <StyledArticleContent content={article.content} />
@@ -267,7 +269,7 @@ export default async function ArticlePage({
           </div>
 
           {/* Right Sidebar */}
-          <aside className="lg:w-80 xl:w-96 flex-shrink-0">
+          <aside className="lg:w-72 xl:w-80 flex-shrink-0">
             <div className="sticky top-8">
               <ArticleSidebar
                 article={{
